@@ -21,16 +21,17 @@ public class Cube : MonoBehaviour {
 	private Vector3 mousePos3D;
 	private Vector3 cubePos;
 	private float maxMagnitude;
+	private GameObject tempLauncher;
 
+	public GameObject launcher;
 	public float velocityMulti = 4f; //Multiplyer for velocity
 
 
 	// Use this for initialization
 	void Start () {
 		playState = PlayState.Idle; 
-		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.GetComponent<Collider>().bounds.center);
+		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
 		//cubePos = this.gameObject.GetComponent<Collider>().bounds.center;
-		cubePos = this.gameObject.transform.position;
 		mousePos2D = Input.mousePosition;
 		mousePos3D = Vector3.zero;
 		//maxMagnitude = this.gameObject.GetComponent<Collider> ().bounds.size.x * 3f;
@@ -38,7 +39,9 @@ public class Cube : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+			print ("cur" + this.gameObject.transform.position);
+
 		switch (playState) {
 		case PlayState.Idle:
 			break;
@@ -50,17 +53,23 @@ public class Cube : MonoBehaviour {
 			}
 			break;
 		case PlayState.Launch:
-			print (velocity);
-			if (this.gameObject.GetComponent<Rigidbody> ().velocity == Vector3.zero) {
-				cubePos = this.gameObject.transform.position;
-				print (this.gameObject.GetComponent<Rigidbody> ().velocity);
+			print ("launched 1" + this.gameObject.GetComponent<Rigidbody> ().velocity.magnitude);
+			if (this.gameObject.GetComponent<Rigidbody> ().velocity.magnitude <= 0.01) {
+				this.gameObject.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+				print ("launched 2" + this.gameObject.GetComponent<Rigidbody> ().velocity.magnitude);
+				//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
+				print ("velo" + this.gameObject.GetComponent<Rigidbody> ().velocity);
 				this.gameObject.transform.rotation = Quaternion.Euler (0, 0, 0);
 				velocity = Vector3.zero;
+				cubePos = this.gameObject.transform.position;
+				print ("pos at endLnch"  + cubePos + "......" + this.gameObject.transform.position);
 				playState = PlayState.Idle;
 			}
 			break;
 		}
 	}
+
+
 
 	void OnMouseDown(){
 		if (playState == PlayState.Idle) {
@@ -72,15 +81,19 @@ public class Cube : MonoBehaviour {
 
 	private void UpdateLaunchVelocity(){
 		mousePos2D = Input.mousePosition;
-		//mousePos2D.z = -Camera.main.transform.position.y;
+		mousePos2D.z = Camera.main.transform.position.y;
 		//mousePos2D.z = cubePos.y;
-		mousePos2D.z = 5f;
+		//mousePos2D.z = 1f;
 		mousePos3D = Camera.main.ScreenToWorldPoint (mousePos2D);
-		print (mousePos3D);
-		velocity = mousePos3D - cubePos;
+		GameObject.Destroy (tempLauncher);
+		mousePos3D.y = 0f;
+		tempLauncher = (GameObject)Instantiate (launcher, mousePos3D, Quaternion.Euler (0, 0, 0));
+		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
+		velocity = mousePos3D - this.gameObject.transform.position;
 		//do something about the y later
-		velocity.y = 10f;
-		//print (velocity);
+		velocity.y = 0f; 
+		//GameObject.Destroy (tempLauncher);
+		//print ("" + mousePos3D + ", " + velocity);
 		//since the camera has been rotated, we need to change the vector values
 		/*float z = velocity.z;
 		velocity.z = velocity.y;
