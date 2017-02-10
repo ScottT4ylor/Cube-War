@@ -52,7 +52,7 @@ public class CameraControl : MonoBehaviour {
     public void Update()
     {
         //on middle mouse click, makes the mouse invisible, locks it in place, and calls to rotate the camera
-		if (Input.GetAxis("Mouse ScrollWheel") == 1)
+		if (Input.GetAxis("MiddleClick") == 1)
         {
             if (setLockPos)
             {
