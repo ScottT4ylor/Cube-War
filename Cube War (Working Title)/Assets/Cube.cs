@@ -27,6 +27,7 @@ public class Cube : MonoBehaviour {
 	private GameObject ground;
 	private RaycastHit hit;
 	private Ray ray;
+	private Vector3 hitPos;
 
 	public GameObject launcher;
 	public float velocityMulti = 4f; //Multiplyer for velocity
@@ -41,6 +42,7 @@ public class Cube : MonoBehaviour {
 		//mousePos3D = Vector3.zero;
 		//maxMagnitude = this.gameObject.GetComponent<Collider> ().bounds.size.x * 3f;
 		velocity = Vector3.zero; //The player only controls X and Z velocity
+		hitPos = this.gameObject.GetComponent<BoxCollider>().center;
 		//cubeBody = this.gameObject.GetComponent<Rigidbody>();
 	}
 	
@@ -54,7 +56,7 @@ public class Cube : MonoBehaviour {
 		case PlayState.Aiming:
 			UpdateLaunchVelocity ();
 			if (Input.GetMouseButtonDown(0)) {
-				this.gameObject.GetComponent<Rigidbody> ().AddForce (-velocity * velocityMulti);
+				this.gameObject.GetComponent<Rigidbody> ().AddForceAtPosition (-velocity * velocityMulti,hitPos);
 				playState = PlayState.Launch;
 			}
 			break;
