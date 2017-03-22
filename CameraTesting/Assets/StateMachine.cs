@@ -17,11 +17,18 @@ public enum GameState
     inactive
 }
 
+public enum GamePhase
+{
+    setup,
+    battle
+}
+
 public class StateMachine : MonoBehaviour {
 
     public static GameState state;
     public static Turn turnState;
     public static Turn holdTurn;
+    public static GamePhase gamePhase;
 
 	public static void initiateTurns()
     {
@@ -45,6 +52,22 @@ public class StateMachine : MonoBehaviour {
                     print("Game paused, can't pass turn now!");
                     break;
             }
+        }
+    }
+
+    public static void setupPhase()
+    {
+        if (state == GameState.active)
+        {
+            gamePhase = GamePhase.setup;
+        }
+    }
+
+    public static void battlePhase()
+    {
+        if (state == GameState.active)
+        {
+            gamePhase = GamePhase.battle;
         }
     }
 
