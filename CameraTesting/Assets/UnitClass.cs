@@ -24,7 +24,29 @@ public class UnitClass : MonoBehaviour
     public classType uT;
     public float att;
     public float def;
+    public int owningPlayer;
+    public int pointCost;
 
+
+    public void unitSetup(className cn, classType ct, float a, float d, int pl, int p)
+    {
+        uC = cn;
+        uT = ct;
+        att = a;
+        def = d;
+        owningPlayer = pl;
+        pointCost = p;
+    }
+
+    public void unitSetup(UnitClass copy)
+    {
+        uC = copy.unitClass;
+        uT = copy.unitType;
+        att = copy.attack;
+        def = copy.defense;
+        owningPlayer = copy.owner;
+        pointCost = copy.cost;
+    }
 
     public className unitClass
     {
@@ -71,6 +93,30 @@ public class UnitClass : MonoBehaviour
         set
         {
             def = value;
+        }
+    }
+
+    public int owner
+    {
+        get
+        {
+            return owningPlayer;
+        }
+        set
+        {
+            owningPlayer = value;
+        }
+    }
+
+    public int cost
+    {
+        get
+        {
+            return pointCost;
+        }
+        set
+        {
+            pointCost = value;
         }
     }
 

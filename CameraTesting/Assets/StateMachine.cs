@@ -29,10 +29,11 @@ public class StateMachine : MonoBehaviour {
     public static Turn turnState;
     public static Turn holdTurn;
     public static GamePhase gamePhase;
+    public static bool cubePlace;
 
-	public static void initiateTurns()
+    public static void initiateTurns()
     {
-        if(state == GameState.active) turnState = Turn.player1;
+        if (state == GameState.active) turnState = Turn.player1;
     }
 
     public static void passTurn()
@@ -52,6 +53,19 @@ public class StateMachine : MonoBehaviour {
                     print("Game paused, can't pass turn now!");
                     break;
             }
+        }
+    }
+
+    public static int currentTurn()
+    {
+        if (turnState == Turn.player1) return 1;
+        else if (turnState == Turn.player2) return 2;
+        else if (turnState == Turn.pause && holdTurn == Turn.player1) return 1;
+        else if (turnState == Turn.pause && holdTurn == Turn.player2) return 2;
+        else
+        {
+            print("Asked for current turn, but it broke!");
+            return 0;
         }
     }
 
@@ -94,6 +108,18 @@ public class StateMachine : MonoBehaviour {
         else
         {
             print("Game isn't paused, you can't unpause it!");
+        }
+    }
+
+    public static bool isPlacingCube
+    {
+        get
+        {
+            return cubePlace;
+        }
+        set
+        {
+            cubePlace = value;
         }
     }
 

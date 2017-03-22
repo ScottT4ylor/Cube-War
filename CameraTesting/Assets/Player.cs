@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     {
         playerNum = pN;
         maxPoints = mP;
+        currentPoints = 0;
     }
 
     public int num()
