@@ -30,6 +30,8 @@ public class StateMachine : MonoBehaviour {
     public static Turn holdTurn;
     public static GamePhase gamePhase;
     public static bool cubePlace;
+    public static bool p1Setup = false;
+    public static bool p2Setup = false;
 
     public static void initiateTurns()
     {
@@ -45,9 +47,15 @@ public class StateMachine : MonoBehaviour {
                 case Turn.idle:
                 case Turn.player1:
                     turnState = Turn.player2;
-                    break;
+                    if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
+                    if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
+                    if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.startBattle();
+                        break;
                 case Turn.player2:
                     turnState = Turn.player1;
+                    if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
+                    if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
+                    if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.startBattle();
                     break;
                 case Turn.pause:
                     print("Game paused, can't pass turn now!");
@@ -74,6 +82,8 @@ public class StateMachine : MonoBehaviour {
         if (state == GameState.active)
         {
             gamePhase = GamePhase.setup;
+            p1Setup = true;
+            p2Setup = true;
         }
     }
 
@@ -97,6 +107,11 @@ public class StateMachine : MonoBehaviour {
             print("Can't pause, game is already paused!");
         }
     }
+    
+    public static GamePhase getPhase()
+    {
+        return gamePhase;
+    }
 
     public static void unPause()
     {
@@ -109,6 +124,21 @@ public class StateMachine : MonoBehaviour {
         {
             print("Game isn't paused, you can't unpause it!");
         }
+    }
+
+    public static void endP1Setup()
+    {
+        p1Setup = false;
+    }
+
+    public static void endP2Setup()
+    {
+        p2Setup = false;
+    }
+
+    public static void endSetup()
+    {
+        GameDriver.startBattle();
     }
 
     public static bool isPlacingCube

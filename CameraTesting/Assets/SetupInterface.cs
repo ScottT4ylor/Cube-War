@@ -27,4 +27,19 @@ public class SetupInterface : MonoBehaviour {
             driver.placingCube(newUnit);
         }
     }
+
+    public void endPlayerSetup()
+    {
+        if (StateMachine.currentTurn() == 1)
+        {
+            StateMachine.endP1Setup();
+            StateMachine.passTurn();
+        }
+        else if (StateMachine.currentTurn() == 2)
+        {
+            StateMachine.endP2Setup();
+            StateMachine.passTurn();
+        }
+
+    }
 }

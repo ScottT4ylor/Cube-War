@@ -11,17 +11,33 @@ public class ClassLookup : MonoBehaviour {
     //
 
     public static UnitClass unitClassLookup = new UnitClass();
+    public static className cName;
+    public static classType type;
+    public static float attack;
+    public static float defense;
+    public static int cost;
 
 
-    public static UnitClass unitLookup(string name)
+    public static UnitClass unitLookup(string n)
     {
-        switch (name)
+        switch (n)
         {
             case "attacker":
-                unitClassLookup.unitSetup(className.className1, classType.classType1, 2, 1, StateMachine.currentTurn(), 50);
+                cName = className.className1;
+                type =
+                    classType.classType1;
+                attack = 2;
+                defense = 1;
+                cost = 50;
+                unitClassLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost);
                 return unitClassLookup;
             case "defender":
-                unitClassLookup.unitSetup(className.className2, classType.classType2, 1, 2, StateMachine.currentTurn(), 25);
+                cName = className.className2;
+                type = classType.classType2;
+                attack = 1;
+                defense = 2;
+                cost = 25;
+                unitClassLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost);
                 return unitClassLookup;
             default:
                 return null;

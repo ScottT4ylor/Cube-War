@@ -8,6 +8,7 @@ public class GameDriver : MonoBehaviour {
     public Player p2;
     public int playerPointsTesting = 100; // Change how this is done later once we know how to determine this.
     public GameObject cubeSelected;
+    public List<GameObject> cubesInPlay;
 
     public void Awake()
     {
@@ -45,6 +46,12 @@ public class GameDriver : MonoBehaviour {
         //cubeSelected.GetComponent<Cube>().cubePlayState = PlayState.placing; Leaving this commented out because I don't have the cube script available.
     }
 
+    public static void startBattle()
+    {
+        StateMachine.battlePhase();
+        StateMachine.initiateTurns();
+    }
+
 
 
 
@@ -62,6 +69,7 @@ public class GameDriver : MonoBehaviour {
     {
         if (gameDriver.addPlayerPoints(StateMachine.currentTurn(),gameDriver.cubeSelected.GetComponent<UnitClass>().cost) == -1)
             print("Something went wrong with the player point counts!");
+        gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
         StateMachine.passTurn();
     }
@@ -76,7 +84,28 @@ public class GameDriver : MonoBehaviour {
         GameObject.Destroy(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
     }
-    
+
+    //
+    //Call this on turn change to clear the flick count of cubes for the next turn
+    //
+    public static void clearFlicks()
+    {
+        foreach (GameObject c in gameDriver.cubesInPlay)
+        {
+            /*if (StateMachine.getPhase() == GamePhase.battle)
+            {
+                if (c.GetComponent<Cube>().stunned == false)
+                {
+                    c.GetComponent<Cube>().flicked = false;
+                }
+                else
+                {
+                    c.GetComponent<Cube>().stunned = false;
+                }
+            }*/ //Currently commented out because I don't have the cubes in this project. Uncomment this when they're integrated.
+        }
+    }
+
 
 
     //
@@ -86,4 +115,6 @@ public class GameDriver : MonoBehaviour {
     {
         return gameDriver;
     }
+
+    
 }
