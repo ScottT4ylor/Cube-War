@@ -40,6 +40,57 @@ public class GameDriver : MonoBehaviour {
         }
     }
 
+    public int getPlayerPoints()
+    {
+        if (StateMachine.currentTurn() == 1)
+        {
+            return p1.points;
+        }
+        else if (StateMachine.currentTurn() == 2)
+        {
+            return p2.points;
+        }
+        else
+        {
+            print("Tried to get player's points, it didn't work.");
+            return -1;
+        }
+    }
+
+    public int getMaxPlayerPoints()
+    {
+        if (StateMachine.currentTurn() == 1)
+        {
+            return p1.pointsAvailable;
+        }
+        else if (StateMachine.currentTurn() == 2)
+        {
+            return p2.pointsAvailable;
+        }
+        else
+        {
+            print("Tried to get player's points, it didn't work.");
+            return -1;
+        }
+    }
+
+    public int getPlayerPointsRemaining()
+    {
+        if (StateMachine.currentTurn() == 1)
+        {
+            return (p1.pointsAvailable - p1.points);
+        }
+        else if (StateMachine.currentTurn() == 2)
+        {
+            return (p2.pointsAvailable - p2.points);
+        }
+        else
+        {
+            print("Tried to get player's points, it didn't work.");
+            return -1;
+        }
+    }
+
     public void placingCube(GameObject toPlace)
     {
         cubeSelected = toPlace;

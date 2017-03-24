@@ -10,7 +10,7 @@ public class SetupInterface : MonoBehaviour {
     
 	public void instantiateNewUnit()
     {
-        if (!StateMachine.isPlacingCube)
+        if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < ClassLookup.unitLookup(targetClass).cost)
         {
             newUnit = Instantiate(cubePrefab) as GameObject;
             newUnit.GetComponent<UnitClass>().unitSetup(ClassLookup.unitLookup(targetClass));
@@ -20,7 +20,7 @@ public class SetupInterface : MonoBehaviour {
 
     public void instantiateNewUnit(string target)      //An overload in case the interface calls it this way
     {
-        if (!StateMachine.isPlacingCube)
+        if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < ClassLookup.unitLookup(targetClass).cost)
         {
             newUnit = Instantiate(cubePrefab) as GameObject;
             newUnit.GetComponent<UnitClass>().unitSetup(ClassLookup.unitLookup(target));
