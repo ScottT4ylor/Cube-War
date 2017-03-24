@@ -30,15 +30,18 @@ public class SetupInterface : MonoBehaviour {
 
     public void endPlayerSetup()
     {
-        if (StateMachine.currentTurn() == 1)
+        if (StateMachine.isPlacingCube == false)
         {
-            StateMachine.endP1Setup();
-            StateMachine.passTurn();
-        }
-        else if (StateMachine.currentTurn() == 2)
-        {
-            StateMachine.endP2Setup();
-            StateMachine.passTurn();
+            if (StateMachine.currentTurn() == 1)
+            {
+                StateMachine.endP1Setup();
+                StateMachine.passTurn();
+            }
+            else if (StateMachine.currentTurn() == 2)
+            {
+                StateMachine.endP2Setup();
+                StateMachine.passTurn();
+            }
         }
 
     }
