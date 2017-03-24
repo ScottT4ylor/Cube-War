@@ -18,9 +18,9 @@ public enum GameState
 }
 
 public enum PlayState{
-	Idle, //The player is idle
-	Aiming, //The player has selected a cude and is currently aiming
-	Launch};
+	idle, //The player is idle
+	aiming, //The player has selected a cude and is currently aiming
+	launch};
 
 public class StateMachine : MonoBehaviour {
 
@@ -56,11 +56,11 @@ public class StateMachine : MonoBehaviour {
 
 	void Update(){
 		switch (playState) {
-		case PlayState.Idle:
+		case PlayState.idle:
 			break;
-		case PlayState.Aiming:
+		case PlayState.aiming:
 			break;
-		case PlayState.Launch:
+		case PlayState.launch:
 			//TODO put code to turn all cubes kinematic off
 			break;
 		}
