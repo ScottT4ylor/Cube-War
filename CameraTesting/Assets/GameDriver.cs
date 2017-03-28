@@ -7,13 +7,26 @@ public class GameDriver : MonoBehaviour {
     public Player p1;
     public Player p2;
     public int playerPointsTesting = 100; // Change how this is done later once we know how to determine this.
+    public bool checkingCubeMovement = false;
     public GameObject cubeSelected;
     public List<GameObject> cubesInPlay;
+    public List<GameObject> menuObjects;
+    public List<GameObject> setupInterfaceObjects;
+    public List<GameObject> gameOverInterfaceObjects;
+    public List<GameObject> turnInterfaceObjects;
 
     public void Awake()
     {
         gameDriver = this;
         beginGameSetup();
+    }
+
+    public void FixedUpdate()
+    {
+        if(checkingCubeMovement)
+        {
+            checkCubeMovement();
+        }
     }
 
     public void beginGameSetup()
@@ -23,6 +36,10 @@ public class GameDriver : MonoBehaviour {
         StateMachine.activate();
         StateMachine.setupPhase();
         StateMachine.initiateTurns();
+        foreach(GameObject obj in setupInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
     }
 
     public int addPlayerPoints(int player, int points)
@@ -97,6 +114,23 @@ public class GameDriver : MonoBehaviour {
         //cubeSelected.GetComponent<Cube>().cubePlayState = PlayState.placing; Leaving this commented out because I don't have the cube script available.
     }
 
+    public static void activateTurnInterface()
+    {
+        foreach(GameObject obj in gameDriver.turnInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    public static void endSetup()
+    {
+        foreach(GameObject obj in gameDriver.setupInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+        GameDriver.startBattle();
+    }
+
     public static void startBattle()
     {
         StateMachine.battlePhase();
@@ -158,6 +192,68 @@ public class GameDriver : MonoBehaviour {
         }
     }
 
+    public static bool checkCubeMovement()
+    {
+        gameDriver.checkingCubeMovement = true;
+        bool allStopped = true;
+        foreach(GameObject c in gameDriver.cubesInPlay)
+        {
+            //if(c is not stopped) then allStopped = false;
+        }
+        /*if (allStopped == true)
+        {
+            gameDriver.checkingCubeMovement = false;
+            return true; //All are stopped, it can call for next turn.
+        }*/
+        return true; //just so it doesn't yell at me. Changing it later.
+    }
+
+    public static void removeCubeFromPlay(GameObject obj)
+    {
+        gameDriver.cubesInPlay.Remove(obj);
+        GameObject.Destroy(obj);
+    }
+
+
+    public static void showMenu()
+    {
+        foreach(GameObject obj in gameDriver.menuObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    public static void hideMenu()
+    {
+        foreach(GameObject obj in gameDriver.menuObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+    public static void hideTurnInterface()
+    {
+        foreach (GameObject obj in gameDriver.turnInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+    public static void showGameOverInterface()
+    {
+        foreach (GameObject obj in gameDriver.gameOverInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+
+    public static void hideGameoverInterface()
+    {
+        foreach (GameObject obj in gameDriver.gameOverInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
 
 
     //

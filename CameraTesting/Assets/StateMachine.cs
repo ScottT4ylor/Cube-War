@@ -35,7 +35,11 @@ public class StateMachine : MonoBehaviour {
 
     public static void initiateTurns()
     {
-        if (state == GameState.active) turnState = Turn.player1;
+        if (state == GameState.active)
+        {
+            turnState = Turn.player1;
+
+        }
     }
 
     public static void passTurn()
@@ -49,13 +53,13 @@ public class StateMachine : MonoBehaviour {
                     turnState = Turn.player2;
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
-                    if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.startBattle();
+                    if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                         break;
                 case Turn.player2:
                     turnState = Turn.player1;
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
-                    if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.startBattle();
+                    if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                     break;
                 case Turn.pause:
                     print("Game paused, can't pass turn now!");
@@ -101,17 +105,16 @@ public class StateMachine : MonoBehaviour {
         {
             holdTurn = turnState;
             turnState = Turn.pause;
+            Time.timeScale = 0;
+            Time.fixedDeltaTime = 0;
+            GameDriver.showMenu();
         }
         else
         {
             print("Can't pause, game is already paused!");
         }
     }
-    
-    public static GamePhase getPhase()
-    {
-        return gamePhase;
-    }
+
 
     public static void unPause()
     {
@@ -119,12 +122,21 @@ public class StateMachine : MonoBehaviour {
         {
             turnState = holdTurn;
             holdTurn = Turn.idle;
+            Time.timeScale = 1;
+            Time.fixedDeltaTime = 0.02f * Time.timeScale;
+            GameDriver.hideMenu();
         }
         else
         {
             print("Game isn't paused, you can't unpause it!");
         }
     }
+
+    public static GamePhase getPhase()
+    {
+        return gamePhase;
+    }
+
 
     public static void endP1Setup()
     {

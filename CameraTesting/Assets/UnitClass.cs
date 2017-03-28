@@ -2,21 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum className
-{
-    className1,
-    className2,
-    className3
-}
-
-public enum classType
-{
-    classType1,
-    classType2,
-    classType3
-}
-
-
 public class UnitClass : MonoBehaviour
 {
 
@@ -26,9 +11,20 @@ public class UnitClass : MonoBehaviour
     public float def;
     public int owningPlayer;
     public int pointCost;
+    public Texture unitTexture;
 
+    public UnitClass()
+    {
+        uC = className.className1;
+        uT = classType.classType1;
+        att = 0;
+        def = 0;
+        owningPlayer = 0;
+        pointCost = 0;
+        unitTexture = null;
+    }
 
-    public void unitSetup(className cn, classType ct, float a, float d, int pl, int p)
+    public void unitSetup(className cn, classType ct, float a, float d, int pl, int p, Texture tex)
     {
         uC = cn;
         uT = ct;
@@ -36,6 +32,8 @@ public class UnitClass : MonoBehaviour
         def = d;
         owningPlayer = pl;
         pointCost = p;
+        texture = tex;
+        TextureManager.applyTexture(this.gameObject, texture);
     }
 
     public void unitSetup(UnitClass copy)
@@ -46,6 +44,8 @@ public class UnitClass : MonoBehaviour
         def = copy.defense;
         owningPlayer = copy.owner;
         pointCost = copy.cost;
+        texture = copy.texture;
+        TextureManager.applyTexture(this.gameObject, texture);
     }
 
     public className unitClass
@@ -120,6 +120,18 @@ public class UnitClass : MonoBehaviour
         }
     }
 
+    public Texture texture
+    {
+        get
+        {
+            return unitTexture;
+        }
+        set
+        {
+            unitTexture = value;
+        }
+    }
+
     public void startAttack()
     {
         //do stuff for attack
@@ -129,8 +141,4 @@ public class UnitClass : MonoBehaviour
     {
         //do stuff for defense
     }
-
-
-    //To Do: Add unit cost variable&property
-
 }
