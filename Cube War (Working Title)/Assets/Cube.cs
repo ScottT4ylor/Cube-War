@@ -7,16 +7,16 @@ using UnityEngine;
  */
 
 //Enum for the current play state
-/*
-public enum CubeState{
+
+public enum PlayState{
 	idle, //The player is idle
 	aiming, //The player has selected a cude and is currently aiming
-	launch}; //The player has launched the cube, and the cube is in motion
-	*/
+	launch,
+	placing}; //The player has launched the cube, and the cube is in motion
 
 public class Cube : MonoBehaviour {
 
-	private PlayState playState;  //The current play state
+	public PlayState playState;  //The current play state
 	private Vector3 velocity; //The cube's velocity
 	//private Rigidbody cubeBody;
 
@@ -35,9 +35,13 @@ public class Cube : MonoBehaviour {
 	private float minHitPosY;
 	private float maxlauncherY;
 	private float minlauncherY;
+	private Collider[] colliders;
+
 
 	private bool flick;
 	private bool stun;
+
+
 
 	public GameObject launcher;
 	public GameObject hitPosMarker;
@@ -47,11 +51,11 @@ public class Cube : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		playState = StateMachine.playState; 
+		//playState = StateMachine.playState;  BRING BACK LATER
 		flick = false;
-		stun = false;
+		stun = false; 
 		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
-		//cubePos = this.gameObject.GetComponent<Collider>().bounds.center;
+		cubePos = this.gameObject.transform.position;
 		//mousePos2D = Input.mousePosition;
 		//mousePos3D = Vector3.zero;
 		//maxMagnitude = this.gameObject.GetComponent<Collider> ().bounds.size.x * 3f;
@@ -62,7 +66,10 @@ public class Cube : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 			
-		StateMachine.playState = playState;
+		//StateMachine.playState = playState; //TODO: have the state machine called later
+		//TODO: change Kine different way
+
+
 		switch (playState) {
 		case PlayState.idle:
 			break;
@@ -137,6 +144,28 @@ public class Cube : MonoBehaviour {
 				playState = PlayState.idle;
 			}
 			break;
+		case PlayState.placing:
+			if (Input.GetKey (KeyCode.Z)) {
+				cubePos.y += hitPosMod;
+			}
+			if (Input.GetKey (KeyCode.X)) {
+				cubePos.y -= hitPosMod;
+			}
+			UpdatePlacingPosition ();
+
+			if (Input.GetMouseButtonDown(0)) {
+				colliders = Physics.OverlapBox(cubePos,this.gameObject.GetComponent<Renderer>().bounds.extents,Quaternion.identity);
+				if (colliders.Length > 1) {
+					print ("You cannot place a cube there!");
+				}
+				else{
+					isKinematic = false;
+					playState = PlayState.idle;
+					this.gameObject.layer = LayerMask.NameToLayer("Default");
+					GameDriver.placedCube ();
+				}
+			}
+			break;
 		}
 	}
 
@@ -158,7 +187,6 @@ public class Cube : MonoBehaviour {
 
 			isKinematic = true;
 			playState = PlayState.aiming;
-			//StateMachine.playState = playState;
 
 			//might remove this later
 		}
@@ -214,6 +242,22 @@ public class Cube : MonoBehaviour {
 		/*float z = velocity.z;
 		velocity.z = velocity.y;
 		velocity.y = z;*/
+	}
+
+	public void SetToPlacing(){
+		isKinematic = true;
+		playState = PlayState.placing;
+		this.gameObject.layer = LayerMask.NameToLayer("placing");
+	}
+
+	private void UpdatePlacingPosition(){
+		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		if ( Physics.Raycast (ray,out hit,1000.0f)) {
+			cubePos = new Vector3 (hit.point.x, cubePos.y, 
+				hit.point.z);
+		}
+
+		this.gameObject.transform.position = cubePos;
 	}
 
 
