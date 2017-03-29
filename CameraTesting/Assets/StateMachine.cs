@@ -54,12 +54,14 @@ public class StateMachine : MonoBehaviour {
                     turnState = Turn.player2;
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
+                    GameDriver.updateTurnInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                         break;
                 case Turn.player2:
                     turnState = Turn.player1;
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
+                    GameDriver.updateTurnInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                     break;
                 case Turn.pause:

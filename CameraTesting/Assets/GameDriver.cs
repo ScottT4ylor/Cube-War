@@ -9,7 +9,6 @@ public class GameDriver : MonoBehaviour {
     public int playerPointsTesting = 100; // Change how this is done later once we know how to determine this.
     public bool checkingCubeMovement = false;
     public GameObject cubeSelected;
-    [SerializeField]
     public List<GameObject> cubesInPlay;
     public List<GameObject> menuObjects;
     public List<GameObject> setupInterfaceObjects;
@@ -138,6 +137,15 @@ public class GameDriver : MonoBehaviour {
         StateMachine.initiateTurns();
     }
 
+    public void startGameOver(int winner)
+    {
+        showGameOverInterface();
+        foreach (GameObject obj in gameOverInterfaceObjects)
+        {
+            if(obj.GetComponent<GameOverInterface>() != null) obj.GetComponent<GameOverInterface>().gameOver(winner);
+        }
+    }
+
 
 
 
@@ -212,6 +220,10 @@ public class GameDriver : MonoBehaviour {
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
+        if(obj.GetComponent<UnitClass>().unitClass.Equals(className.className3))//This will be filled with the king!!!
+        {
+            gameDriver.startGameOver(obj.GetComponent<UnitClass>().owner);
+        }
         GameObject.Destroy(obj);
     }
 
@@ -232,11 +244,27 @@ public class GameDriver : MonoBehaviour {
         }
     }
 
+    public static void showTurnInterface()
+    {
+        foreach (GameObject obj in gameDriver.turnInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+
     public static void hideTurnInterface()
     {
         foreach (GameObject obj in gameDriver.turnInterfaceObjects)
         {
             obj.SetActive(false);
+        }
+    }
+
+    public static void updateTurnInterface()
+    {
+        foreach (GameObject obj in gameDriver.turnInterfaceObjects)
+        {
+            if(obj.GetComponent<TurnInterface>() != null) obj.GetComponent<TurnInterface>().updateTurnInterface();
         }
     }
 
