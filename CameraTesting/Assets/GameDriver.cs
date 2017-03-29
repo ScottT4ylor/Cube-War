@@ -14,6 +14,7 @@ public class GameDriver : MonoBehaviour {
     public List<GameObject> setupInterfaceObjects;
     public List<GameObject> gameOverInterfaceObjects;
     public List<GameObject> turnInterfaceObjects;
+    public GameObject popupInterfaceObject;
 
     public void Awake()
     {
@@ -51,6 +52,21 @@ public class GameDriver : MonoBehaviour {
                 return p1.currentPoints;
             case 2:
                 p2.currentPoints += points;
+                return p2.currentPoints;
+            default:
+                return -1;
+        }
+    }
+
+    public int removePlayerPoints(int player, int points)
+    {
+        switch (player)
+        {
+            case 1:
+                p1.currentPoints -= points;
+                return p1.currentPoints;
+            case 2:
+                p2.currentPoints -= points;
                 return p2.currentPoints;
             default:
                 return -1;
@@ -219,10 +235,20 @@ public class GameDriver : MonoBehaviour {
 
     public static void removeCubeFromPlay(GameObject obj)
     {
+        UnitClass cla = obj.GetComponent<UnitClass>();
         gameDriver.cubesInPlay.Remove(obj);
-        if(obj.GetComponent<UnitClass>().unitClass.Equals(className.className3))//This will be filled with the king!!!
+        if (StateMachine.getPhase() == GamePhase.setup)
         {
-            gameDriver.startGameOver(obj.GetComponent<UnitClass>().owner);
+            gameDriver.removePlayerPoints(cla.owner, cla.cost);
+            if(StateMachine.currentTurn() != cla.owner)
+            {
+                StateMachine.passTurn();
+            }
+        }
+
+        if(cla.unitClass.Equals(className.className3))//This will be filled in with the king!!! This is what leads to game over!!!!!
+        {
+            gameDriver.startGameOver(cla.owner);
         }
         GameObject.Destroy(obj);
     }
@@ -283,6 +309,12 @@ public class GameDriver : MonoBehaviour {
             obj.SetActive(false);
         }
     }
+
+    public static void popup(string message, float time)
+    {
+        gameDriver.popupInterfaceObject.GetComponent<PopupInterface>().showPopupMessage(message, time);
+    }
+
 
 
     //
