@@ -42,6 +42,7 @@ public class StateMachine : MonoBehaviour {
         }
     }
 
+
     public static void passTurn()
     {
         if (state == GameState.active)
@@ -135,6 +136,11 @@ public class StateMachine : MonoBehaviour {
     public static GamePhase getPhase()
     {
         return gamePhase;
+    }
+
+    public static GameState getGameState()
+    {
+        return state;
     }
 
 

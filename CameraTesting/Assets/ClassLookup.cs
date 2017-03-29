@@ -25,16 +25,32 @@ public class ClassLookup : MonoBehaviour {
     //Note: The hardcoded values are only here for testing, these will need to be modified when
     //we come up With the real numbers for all the units.
     //
-    [SerializeField]
-    public static className cName;
-    public static classType type;
-    public static float attack;
-    public static float defense;
-    public static int cost;
-    public static Texture texture;
-    public static Dictionary<className, Texture> textures = new Dictionary<className, Texture>();
+    public static ClassLookup classinfo;
+    public className cName;
+    public classType type;
+    public float attack;
+    public float defense;
+    public int cost;
+    public Texture texture;
+    public List<className> texKey;
+    public List<Texture> texVal;
+    public Dictionary<className, Texture> textures = new Dictionary<className, Texture>();
 
-    public static UnitClass Lookup(string n, UnitClass unitLookup)
+
+    public void Awake()
+    {
+        classinfo = this;
+        if (texKey.Count == texVal.Count)
+        {
+            for (int i = 0; i < texKey.Count; i++)
+            {
+                textures.Add(texKey[i], texVal[i]);
+            }
+        }
+    }
+
+
+    public UnitClass Lookup(string n, UnitClass unitLookup)
     {
         switch (n)
         {
@@ -59,5 +75,10 @@ public class ClassLookup : MonoBehaviour {
             default:
                 return null;
         }
+    }
+
+    public static ClassLookup getClassLookup()
+    {
+        return classinfo;
     }
 }

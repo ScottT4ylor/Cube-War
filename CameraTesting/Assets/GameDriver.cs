@@ -9,6 +9,7 @@ public class GameDriver : MonoBehaviour {
     public int playerPointsTesting = 100; // Change how this is done later once we know how to determine this.
     public bool checkingCubeMovement = false;
     public GameObject cubeSelected;
+    [SerializeField]
     public List<GameObject> cubesInPlay;
     public List<GameObject> menuObjects;
     public List<GameObject> setupInterfaceObjects;
