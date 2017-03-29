@@ -53,7 +53,7 @@ public class Cube : MonoBehaviour {
 	void Start () {
 		//playState = StateMachine.playState;  BRING BACK LATER
 		flick = false;
-		stun = true; ///set to true ONLY to test placing, //TODO: Change to false 
+		stun = false; 
 		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
 		cubePos = this.gameObject.transform.position;
 		//mousePos2D = Input.mousePosition;
