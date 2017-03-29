@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player  {
 
     public int playerNum;
     public int maxPoints;
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour {
     {
         get { return currentPoints; }
         set { currentPoints = value;
-            if (currentPoints > maxPoints) print("Player using too many points!");
+            //if (currentPoints > maxPoints) print("Player using too many points!");
         }
     }
 
@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
     {
         get { return maxPoints; }
         set { maxPoints = value;
-            if (currentPoints > maxPoints) print("Set too low! It's under their current points!");
+           // if (currentPoints > maxPoints) print("Set too low! It's under their current points!");
         }
     }
 

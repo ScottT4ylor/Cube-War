@@ -8,16 +8,22 @@ public class SetupInterface : MonoBehaviour {
     public GameObject cubePrefab;
     public GameObject newUnit;
     public GameDriver driver = GameDriver.getGameDriverRef();
+    public ClassLookup classInfo;
+
+    public void Start()
+    {
+        classInfo = ClassLookup.getClassLookup();
+    }
 
 
     public void instantiateNewUnit()
     {
         if (StateMachine.turnState != Turn.pause)
         {
-            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < ClassLookup.Lookup(targetClass, unitClass).cost)
+            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < classInfo.Lookup(targetClass, unitClass).cost)
             {
                 newUnit = Instantiate(cubePrefab) as GameObject;
-                newUnit.GetComponent<UnitClass>().unitSetup(ClassLookup.Lookup(targetClass, unitClass));
+                newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(targetClass, unitClass));
                 driver.placingCube(newUnit);
             }
         }
@@ -27,10 +33,10 @@ public class SetupInterface : MonoBehaviour {
     {
         if (StateMachine.turnState != Turn.pause)
         {
-            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < ClassLookup.Lookup(targetClass, unitClass).cost)
+            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < classInfo.Lookup(targetClass, unitClass).cost)
             {
                 newUnit = Instantiate(cubePrefab) as GameObject;
-                newUnit.GetComponent<UnitClass>().unitSetup(ClassLookup.Lookup(target, unitClass));
+                newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, unitClass));
                 driver.placingCube(newUnit);
             }
         }
