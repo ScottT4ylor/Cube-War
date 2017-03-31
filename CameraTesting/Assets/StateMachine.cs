@@ -29,7 +29,7 @@ public class StateMachine : MonoBehaviour {
     public static Turn turnState;
     public static Turn holdTurn;
     public static GamePhase gamePhase;
-    public static bool cubePlace;
+	public static bool cubePlace = false;
     public static bool p1Setup = false;
     public static bool p2Setup = false;
 

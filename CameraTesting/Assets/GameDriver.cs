@@ -14,7 +14,8 @@ public class GameDriver : MonoBehaviour {
     public List<GameObject> setupInterfaceObjects;
     public List<GameObject> gameOverInterfaceObjects;
     public List<GameObject> turnInterfaceObjects;
-    public GameObject popupInterfaceObject;
+
+
 
     public void Awake()
     {
@@ -52,21 +53,6 @@ public class GameDriver : MonoBehaviour {
                 return p1.currentPoints;
             case 2:
                 p2.currentPoints += points;
-                return p2.currentPoints;
-            default:
-                return -1;
-        }
-    }
-
-    public int removePlayerPoints(int player, int points)
-    {
-        switch (player)
-        {
-            case 1:
-                p1.currentPoints -= points;
-                return p1.currentPoints;
-            case 2:
-                p2.currentPoints -= points;
                 return p2.currentPoints;
             default:
                 return -1;
@@ -127,7 +113,8 @@ public class GameDriver : MonoBehaviour {
     public void placingCube(GameObject toPlace)
     {
         cubeSelected = toPlace;
-        //cubeSelected.GetComponent<Cube>().cubePlayState = PlayState.placing; Leaving this commented out because I don't have the cube script available.
+		cubeSelected.GetComponent<Cube> ().SetToPlacing ();
+
     }
 
     public static void activateTurnInterface()
@@ -203,7 +190,7 @@ public class GameDriver : MonoBehaviour {
     {
         foreach (GameObject c in gameDriver.cubesInPlay)
         {
-            /*if (StateMachine.getPhase() == GamePhase.battle)
+            if (StateMachine.getPhase() == GamePhase.battle)
             {
                 if (c.GetComponent<Cube>().stunned == false)
                 {
@@ -213,7 +200,7 @@ public class GameDriver : MonoBehaviour {
                 {
                     c.GetComponent<Cube>().stunned = false;
                 }
-            }*/ //Currently commented out because I don't have the cubes in this project. Uncomment this when they're integrated.
+            } //Currently commented out because I don't have the cubes in this project. Uncomment this when they're integrated.
         }
     }
 
@@ -235,20 +222,10 @@ public class GameDriver : MonoBehaviour {
 
     public static void removeCubeFromPlay(GameObject obj)
     {
-        UnitClass cla = obj.GetComponent<UnitClass>();
         gameDriver.cubesInPlay.Remove(obj);
-        if (StateMachine.getPhase() == GamePhase.setup)
+        if(obj.GetComponent<UnitClass>().unitClass.Equals(className.className3))//This will be filled with the king!!!
         {
-            gameDriver.removePlayerPoints(cla.owner, cla.cost);
-            if(StateMachine.currentTurn() != cla.owner)
-            {
-                StateMachine.passTurn();
-            }
-        }
-
-        if(cla.unitClass.Equals(className.className3))//This will be filled in with the king!!! This is what leads to game over!!!!!
-        {
-            gameDriver.startGameOver(cla.owner);
+            gameDriver.startGameOver(obj.GetComponent<UnitClass>().owner);
         }
         GameObject.Destroy(obj);
     }
@@ -309,12 +286,6 @@ public class GameDriver : MonoBehaviour {
             obj.SetActive(false);
         }
     }
-
-    public static void popup(string message, float time)
-    {
-        gameDriver.popupInterfaceObject.GetComponent<PopupInterface>().showPopupMessage(message, time);
-    }
-
 
 
     //
