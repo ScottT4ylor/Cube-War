@@ -114,6 +114,7 @@ public class GameDriver : MonoBehaviour {
     {
         cubeSelected = toPlace;
 		cubeSelected.GetComponent<Cube> ().SetToPlacing ();
+		StateMachine.isPlacingCube = true;
 
     }
 
@@ -168,6 +169,7 @@ public class GameDriver : MonoBehaviour {
             print("Something went wrong with the player point counts!");
         gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
+		StateMachine.isPlacingCube = false;
         StateMachine.passTurn();
     }
 
@@ -181,6 +183,7 @@ public class GameDriver : MonoBehaviour {
     {
         GameObject.Destroy(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
+		StateMachine.isPlacingCube = false;
     }
 
     //
