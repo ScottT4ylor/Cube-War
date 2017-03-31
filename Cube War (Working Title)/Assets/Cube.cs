@@ -74,9 +74,14 @@ public class Cube : MonoBehaviour {
 		case PlayState.idle:
 			break;
 		case PlayState.aiming:
-			UpdatelaunchVelocity ();
+			if (Input.GetAxis ("Cancel") == 1) {
+				isKinematic = false;
+				DestroyLaunchingObjects ();
+				playState = PlayState.idle;
+				break;
+			}
 			//alter hit position
-			if(Input.GetKey(KeyCode.Z)){
+			if(Input.GetAxis("TargetUp") == 1){
 				if (hitPos.y < maxHitPosY) {
 					hitPos.y += hitPosMod;
 					launcherY += hitPosMod;
@@ -89,7 +94,7 @@ public class Cube : MonoBehaviour {
 					tempHitMarker.transform.position = hitPos;
 				}
 			}
-			if(Input.GetKey(KeyCode.X)){
+			if(Input.GetAxis("TargetDown") == 1){
 				if (hitPos.y > minHitPosY) {
 					hitPos.y -= hitPosMod;
 					launcherY -= hitPosMod;
@@ -104,7 +109,7 @@ public class Cube : MonoBehaviour {
 			}
 
 			//alter launcher pos
-			if(Input.GetKey(KeyCode.C)){
+			if(Input.GetAxis("ForceUp") == 1){
 				if (launcherY < maxlauncherY) {
 					launcherY += hitPosMod;
 					if (hitPos.y > maxlauncherY) {
@@ -112,7 +117,7 @@ public class Cube : MonoBehaviour {
 					}
 				}
 			}
-			if(Input.GetKey(KeyCode.V)){
+			if(Input.GetAxis("ForceDown") == 1){
 				if (hitPos.y > minlauncherY) {
 					launcherY -= hitPosMod;
 					if (hitPos.y < minlauncherY) {
@@ -120,18 +125,18 @@ public class Cube : MonoBehaviour {
 					}
 				}
 			}
+			UpdatelaunchVelocity ();
 
 			//launch 
 			if (Input.GetMouseButtonDown(0)) {
 				isKinematic = false;
 				flick = true;
 				this.gameObject.GetComponent<Rigidbody> ().AddForceAtPosition (-velocity * velocityMulti,hitPos);
-				GameObject.Destroy (tempHitMarker);
+				DestroyLaunchingObjects ();
 				playState = PlayState.launch;
 			}
 			break;
 		case PlayState.launch:
-			GameObject.Destroy(templauncher);
 
 			if (this.gameObject.GetComponent<Rigidbody> ().velocity.magnitude <= 0.01) {
 				this.gameObject.GetComponent<Rigidbody> ().velocity = Vector3.zero;
@@ -142,16 +147,21 @@ public class Cube : MonoBehaviour {
 				hitPos = this.gameObject.transform.position;
 				launcherY = this.gameObject.transform.position.y;
 				playState = PlayState.idle;
+				StateMachine.passTurn();
 			}
 			break;
 		case PlayState.placing:
-			if (Input.GetKey (KeyCode.Z)) {
+			if (Input.GetAxis ("Cancel") == 1) {
+				GameDriver.cancelPlaceCube ();
+			}
+			if (Input.GetAxis("TargetUp") == 1) {
 				cubePos.y += hitPosMod;
 			}
-			if (Input.GetKey (KeyCode.X)) {
+			if (Input.GetAxis("TargetDown") == 1) {
 				cubePos.y -= hitPosMod;
 			}
 			UpdatePlacingPosition ();
+		
 
 			if (Input.GetMouseButtonDown(0)) {
 				colliders = Physics.OverlapBox(cubePos,this.gameObject.GetComponent<Renderer>().bounds.extents,Quaternion.identity);
@@ -161,7 +171,7 @@ public class Cube : MonoBehaviour {
 				else{
 					isKinematic = false;
 					playState = PlayState.idle;
-					this.gameObject.layer = LayerMask.NameToLayer("Default");
+					this.gameObject.layer = LayerMask.NameToLayer("cube");
 					GameDriver.placedCube ();
 				}
 			}
@@ -172,7 +182,8 @@ public class Cube : MonoBehaviour {
 
 
 	void OnMouseDown(){
-		if ((playState == PlayState.idle) && (flick==false) && (stun==false)) {
+		if ((playState == PlayState.idle) && (flick==false) && (stun==false) && 
+			(StateMachine.turnState != Turn.pause) && (StateMachine.getPhase() == GamePhase.battle)) {
 			//TEMP
 			//this.gameObject.GetComponent<Rigidbody> ().velocity = new Vector3(30f,4f,30f);
 			hitPos = this.gameObject.transform.position;
@@ -242,6 +253,11 @@ public class Cube : MonoBehaviour {
 		/*float z = velocity.z;
 		velocity.z = velocity.y;
 		velocity.y = z;*/
+	}
+
+	private void DestroyLaunchingObjects(){
+		GameObject.Destroy (templauncher);
+		GameObject.Destroy (tempHitMarker);
 	}
 
 	public void SetToPlacing(){

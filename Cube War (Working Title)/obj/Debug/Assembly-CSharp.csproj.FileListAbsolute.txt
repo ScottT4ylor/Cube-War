@@ -104,9 +104,11 @@ C:\Users\Jason\Documents\GitHub\Cube-War\Cube War (Working Title)\obj\Debug\Asse
 C:\Users\Jason\Documents\GitHub\Cube-War\Cube War (Working Title)\obj\Debug\Assembly-CSharp.pdb
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.Analytics.dll
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.HoloLens.dll
-C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.dll
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.VR.dll
-C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.xml
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.Analytics.xml
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.HoloLens.xml
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.VR.xml
+C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\nunit.framework.dll
+C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.TestRunner.dll
+C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.TestRunner.xml
+C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\nunit.framework.xml
