@@ -14,7 +14,12 @@ public enum className
 	Peasant,
 	Healer,
 	Paralyze,
-	Titan
+	Titan,
+	//TODO: Remove these.
+	//These are Temp values I made to fix complie errors --Jason
+	className1,
+	className2,
+	className3
 }
 
 public enum classType
