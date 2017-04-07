@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SetupInterface : MonoBehaviour {
-    public string targetClass = "attacker"; // This is what you will set to change what class you get from the button
+    public string targetClass = "King"; // This is what you will set to change what class you get from the button
     public UnitClass unitClass;
     public GameObject cubePrefab;
     public GameObject newUnit;
-    public GameDriver driver = GameDriver.getGameDriverRef();
+    public GameDriver driver;
     public ClassLookup classInfo;
 
     public void Start()
     {
         classInfo = ClassLookup.getClassLookup();
+        driver = GameDriver.getGameDriverRef();
     }
 
 	//TODO: Make sure this is in  proper place
@@ -44,10 +45,12 @@ public class SetupInterface : MonoBehaviour {
     {
         if (StateMachine.turnState != Turn.pause)
         {
-            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < classInfo.Lookup(targetClass, unitClass).cost)
+            classInfo.Lookup(target);
+            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() > classInfo.cost)
             {
                 newUnit = Instantiate(cubePrefab) as GameObject;
-                newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, unitClass));
+                newUnit.GetComponent<Cube>().playState = PlayState.placing;
+                newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, newUnit.GetComponent<UnitClass>()));
                 driver.placingCube(newUnit);
             }
         }

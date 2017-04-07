@@ -253,7 +253,7 @@ public class Cube : MonoBehaviour {
 		}
 		LaunchLine.launchLine.SetPosition(0,hitPos);
 		LaunchLine.launchLine.SetPosition(1,launcherPos);
-		LaunchLine.launchLine.endColor = Color.HSVToRGB ((1 - velocity.magnitude / maxMagnitude) * 120.0f, 1.0f, 1.0f);
+		LaunchLine.launchLine.endColor = Color.HSVToRGB ((1 - (velocity.magnitude / maxMagnitude)) * 120.0f, 1.0f, 1.0f);
 		//do something about the y later
 		//velocity.y = 0f; 
 		//GameObject.Destroy (templauncher);
