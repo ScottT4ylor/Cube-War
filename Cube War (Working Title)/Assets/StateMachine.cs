@@ -33,6 +33,10 @@ public class StateMachine : MonoBehaviour {
     public static bool p1Setup = false;
     public static bool p2Setup = false;
 
+
+
+
+
     public static void initiateTurns()
     {
         if (state == GameState.active)
