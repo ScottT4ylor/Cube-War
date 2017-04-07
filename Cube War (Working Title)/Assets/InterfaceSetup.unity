@@ -213,6 +213,87 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224188761992393704, guid: 5ec68f7af76bad84b862daf70070798e,
     type: 2}
   m_PrefabInternal: {fileID: 1824024956}
+--- !u!1 &503545395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 503545399}
+  - component: {fileID: 503545398}
+  - component: {fileID: 503545397}
+  - component: {fileID: 503545396}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &503545396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503545395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ac5f524db8a964abc3fa712d4bb6ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cName: 0
+  type: 0
+  attack: 0
+  defense: 0
+  cost: 0
+  texture: {fileID: 0}
+  description: 
+  texKey: 
+  texVal: []
+--- !u!114 &503545397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503545395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ba919c3ce036434883734847649be0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &503545398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503545395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93bf9f5d7e07b5c4093f9cadc53bd0fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPointsTesting: 100
+  checkingCubeMovement: 0
+  cubeSelected: {fileID: 0}
+  cubesInPlay: []
+  menuObjects: []
+  setupInterfaceObjects: []
+  gameOverInterfaceObjects: []
+  turnInterfaceObjects: []
+--- !u!4 &503545399
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503545395}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1047.3, y: 79.49994, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &581724725 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224267784131378856, guid: a8ab1dcdaa326474ca9854ff150c6dcc,
@@ -484,6 +565,12 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 114557378248737670, guid: a8ab1dcdaa326474ca9854ff150c6dcc,
+        type: 2}
+      propertyPath: cubePrefab
+      value: 
+      objectReference: {fileID: 1249326618011934, guid: 1a55895beeb42b745af6b9b8889958d3,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a8ab1dcdaa326474ca9854ff150c6dcc, type: 2}
   m_IsPrefabParent: 0
