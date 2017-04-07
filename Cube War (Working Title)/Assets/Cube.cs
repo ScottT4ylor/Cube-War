@@ -63,7 +63,7 @@ public class Cube : MonoBehaviour {
 		//maxMagnitude = this.gameObject.GetComponent<Collider> ().bounds.size.x * 3f;
 		velocity = Vector3.zero; //The player only controls X and Z velocity
 		//cubeBody = this.gameObject.GetComponent<Rigidbody>();
-		//StateMachine.battlePhase(); //For turning batttle on/off
+		StateMachine.battlePhase(); //For turning batttle on/off
 	}
 	
 	// Update is called once per frame
