@@ -256,7 +256,7 @@ public class GameDriver : MonoBehaviour {
 
 
     /// <summary>
-    /// /////////////////////////////////////Setion for showing and hiding all the interface elements.
+    /// /////////////////////////////////////Section for showing and hiding all the interface elements.
     /// </summary>
 
     public static void showMenuInterface()
@@ -349,14 +349,6 @@ public class GameDriver : MonoBehaviour {
     }
 
 
-    public static void hideHoverInfoInterface()
-    {
-        gameDriver.hoverInfoVis = false;
-        foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
-        {
-            obj.SetActive(false);
-        }
-    }
     public static void showHoverInfoInterface()
     {
         if (gameDriver.hoverInfoVisLock != true)
@@ -368,16 +360,16 @@ public class GameDriver : MonoBehaviour {
             }
         }
     }
-
-    public static void hideHoverInfoInterface(bool l)
+    public static void hideHoverInfoInterface()
     {
         gameDriver.hoverInfoVis = false;
-        gameDriver.hoverInfoVisLock = true;
         foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
         {
             obj.SetActive(false);
         }
     }
+    
+
     public static void showHoverInfoInterface(bool l)
     {
         gameDriver.hoverInfoVis = true;
@@ -385,6 +377,15 @@ public class GameDriver : MonoBehaviour {
         foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
         {
             obj.SetActive(true);
+        }
+    }
+    public static void hideHoverInfoInterface(bool l)
+    {
+        gameDriver.hoverInfoVis = false;
+        gameDriver.hoverInfoVisLock = true;
+        foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(false);
         }
     }
 
@@ -449,6 +450,15 @@ public class GameDriver : MonoBehaviour {
                 else showHoverInfoInterface(false);
                 break;
         }
+    }
+
+    public void showHoverInfoOnMouseover()
+    {
+        showHoverInfoInterface();
+    }
+    public void hideHoverInfoOnMouseout()
+    {
+        hideHoverInfoInterface();
     }
 
 
