@@ -114,7 +114,7 @@ public class StateMachine : MonoBehaviour {
             turnState = Turn.pause;
             Time.timeScale = 0;
             Time.fixedDeltaTime = 0;
-            GameDriver.showMenu();
+            GameDriver.showMenuInterface();
         }
         else
         {
@@ -131,7 +131,7 @@ public class StateMachine : MonoBehaviour {
             holdTurn = Turn.idle;
             Time.timeScale = 1;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            GameDriver.hideMenu();
+            GameDriver.hideMenuInterface();
         }
         else
         {
