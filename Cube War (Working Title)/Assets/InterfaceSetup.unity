@@ -240,12 +240,12 @@ Prefab:
     - target: {fileID: 224786335188020350, guid: 60194ad1c27d8aa409e4dcc47549225f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -44.2
+      value: -41.52
       objectReference: {fileID: 0}
     - target: {fileID: 224246469638267298, guid: 60194ad1c27d8aa409e4dcc47549225f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -66.4
+      value: -64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60194ad1c27d8aa409e4dcc47549225f, type: 2}
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 503545397}
   - component: {fileID: 503545396}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameDriver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -725,7 +725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93bf9f5d7e07b5c4093f9cadc53bd0fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPointsTesting: 100
+  playerPointsTesting: 20
   checkingCubeMovement: 0
   cubeSelected: {fileID: 0}
   cubesInPlay: []
@@ -766,6 +766,10 @@ MonoBehaviour:
   - {fileID: 2067275679}
   - {fileID: 2115022058}
   - {fileID: 392326526}
+  pointSlider1: {fileID: 723752637}
+  pointSlider2: {fileID: 1582782091}
+  pointText1: {fileID: 1881077377}
+  pointText2: {fileID: 2135085559}
   hoverInfoInterfaceObjects:
   - {fileID: 601832810}
   - {fileID: 539271462}
@@ -2534,6 +2538,56 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.y
       value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 224440012403053210, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224061661560448340, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224061661560448340, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129698193573718, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114129698193573718, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_WholeNumbers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114754123513402560, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114197273358996068, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114242488603999418, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114020970468378454, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114554622292241134, guid: 5ec68f7af76bad84b862daf70070798e,
+        type: 2}
+      propertyPath: m_RaycastTarget
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5ec68f7af76bad84b862daf70070798e, type: 2}

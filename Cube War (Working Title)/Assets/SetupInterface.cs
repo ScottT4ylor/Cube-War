@@ -46,7 +46,7 @@ public class SetupInterface : MonoBehaviour {
         if (StateMachine.turnState != Turn.pause)
         {
             classInfo.Lookup(target);
-            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() > classInfo.cost)
+            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() >= classInfo.cost)
             {
                 newUnit = Instantiate(cubePrefab) as GameObject;
                 newUnit.GetComponent<Cube>().playState = PlayState.placing;

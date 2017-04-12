@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameDriver : MonoBehaviour {
     public static GameDriver gameDriver;
     public Player p1;
     public Player p2;
-    public int playerPointsTesting = 100; // Change how this is done later once we know how to determine this.
+    public int playerPointsTesting = 50; // Change how this is done later once we know how to determine this.
     public bool checkingCubeMovement = false;
     public GameObject cubeSelected;
     public List<GameObject> cubesInPlay;
@@ -15,6 +16,10 @@ public class GameDriver : MonoBehaviour {
     public List<GameObject> gameOverInterfaceObjects;
     public List<GameObject> turnInterfaceObjects;
     public List<GameObject> pointInterfaceObjects;
+    public GameObject pointSlider1;
+    public GameObject pointSlider2;
+    public GameObject pointText1;
+    public GameObject pointText2;
     public List<GameObject> hoverInfoInterfaceObjects;
     public GameObject setupInterfaceHide;
     public GameObject pointInterfaceHide;
@@ -47,6 +52,8 @@ public class GameDriver : MonoBehaviour {
     {
         p1 = new Player(1, playerPointsTesting);
         p2 = new Player(2, playerPointsTesting);
+        pointSlider1.GetComponent<Slider>().maxValue = p1.pointsAvailable;
+        pointSlider2.GetComponent<Slider>().maxValue = p2.pointsAvailable;
         StateMachine.activate();
         StateMachine.setupPhase();
         StateMachine.initiateTurns();
@@ -178,6 +185,7 @@ public class GameDriver : MonoBehaviour {
         gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
         StateMachine.isPlacingCube = false;
+        GameDriver.updatePointInterface();
         StateMachine.passTurn();
     }
 
@@ -459,6 +467,16 @@ public class GameDriver : MonoBehaviour {
         {
             if (obj.GetComponent<TurnInterface>() != null) obj.GetComponent<TurnInterface>().updateTurnInterface();
         }
+    }
+
+    public static void updatePointInterface()
+    {
+        int p1Points = gameDriver.p1.points;
+        int p2Points = gameDriver.p2.points;
+        gameDriver.pointSlider1.GetComponent<Slider>().value = p1Points;
+        gameDriver.pointSlider2.GetComponent<Slider>().value = p2Points;
+        gameDriver.pointText1.GetComponent<Text>().text = p1Points+"/"+gameDriver.p1.pointsAvailable;
+        gameDriver.pointText2.GetComponent<Text>().text = p2Points + "/" + gameDriver.p2.pointsAvailable;
     }
 
 
