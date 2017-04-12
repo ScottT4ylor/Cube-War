@@ -139,6 +139,11 @@ public class StateMachine : MonoBehaviour {
         }
     }
 
+    public void unPauseFromButton()
+    {
+        StateMachine.unPause();
+    }
+
     public static GamePhase getPhase()
     {
         return gamePhase;
