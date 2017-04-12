@@ -1,19 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameDriver : MonoBehaviour {
     public static GameDriver gameDriver;
     public Player p1;
     public Player p2;
-    public int playerPointsTesting = 100; // Change how this is done later once we know how to determine this.
+    public int playerPointsTesting = 50; // Change how this is done later once we know how to determine this.
     public bool checkingCubeMovement = false;
     public GameObject cubeSelected;
     public List<GameObject> cubesInPlay;
-    public List<GameObject> menuObjects;
+    public List<GameObject> menuInterfaceObjects;
     public List<GameObject> setupInterfaceObjects;
     public List<GameObject> gameOverInterfaceObjects;
     public List<GameObject> turnInterfaceObjects;
+    public List<GameObject> pointInterfaceObjects;
+    public GameObject pointSlider1;
+    public GameObject pointSlider2;
+    public GameObject pointText1;
+    public GameObject pointText2;
+    public List<GameObject> hoverInfoInterfaceObjects;
+    public GameObject setupInterfaceHide;
+    public GameObject pointInterfaceHide;
+    public GameObject hoverInfoInterfaceHide;
+    public bool menuVis = false;
+    public bool setupVis = true;
+    public bool gameOverVis = false;
+    public bool turnVis = true;
+    public bool pointVis = true;
+    public bool hoverInfoVis = false;
+    public bool hoverInfoVisLock = false;
 
 
 
@@ -25,7 +42,7 @@ public class GameDriver : MonoBehaviour {
 
     public void FixedUpdate()
     {
-        if(checkingCubeMovement)
+        if (checkingCubeMovement)
         {
             checkCubeMovement();
         }
@@ -35,18 +52,16 @@ public class GameDriver : MonoBehaviour {
     {
         p1 = new Player(1, playerPointsTesting);
         p2 = new Player(2, playerPointsTesting);
+        pointSlider1.GetComponent<Slider>().maxValue = p1.pointsAvailable;
+        pointSlider2.GetComponent<Slider>().maxValue = p2.pointsAvailable;
         StateMachine.activate();
         StateMachine.setupPhase();
         StateMachine.initiateTurns();
-        foreach(GameObject obj in setupInterfaceObjects)
-        {
-            obj.SetActive(true);
-        }
     }
 
     public int addPlayerPoints(int player, int points)
     {
-        switch(player)
+        switch (player)
         {
             case 1:
                 p1.currentPoints += points;
@@ -113,14 +128,14 @@ public class GameDriver : MonoBehaviour {
     public void placingCube(GameObject toPlace)
     {
         cubeSelected = toPlace;
-		cubeSelected.GetComponent<Cube> ().SetToPlacing ();
-		StateMachine.isPlacingCube = true;
+        cubeSelected.GetComponent<Cube>().SetToPlacing();
+        StateMachine.isPlacingCube = true;
 
     }
 
     public static void activateTurnInterface()
     {
-        foreach(GameObject obj in gameDriver.turnInterfaceObjects)
+        foreach (GameObject obj in gameDriver.turnInterfaceObjects)
         {
             obj.SetActive(true);
         }
@@ -128,10 +143,10 @@ public class GameDriver : MonoBehaviour {
 
     public static void endSetup()
     {
-        foreach(GameObject obj in gameDriver.setupInterfaceObjects)
-        {
-            obj.SetActive(false);
-        }
+        GameDriver.hidePointHider();
+        GameDriver.hideSetupHider();
+        GameDriver.hideSetupInterface();
+        GameDriver.hidePointInterface();
         GameDriver.startBattle();
     }
 
@@ -146,7 +161,7 @@ public class GameDriver : MonoBehaviour {
         showGameOverInterface();
         foreach (GameObject obj in gameOverInterfaceObjects)
         {
-            if(obj.GetComponent<GameOverInterface>() != null) obj.GetComponent<GameOverInterface>().gameOver(winner);
+            if (obj.GetComponent<GameOverInterface>() != null) obj.GetComponent<GameOverInterface>().gameOver(winner);
         }
     }
 
@@ -158,18 +173,19 @@ public class GameDriver : MonoBehaviour {
 
 
     //////////////////Static stuff for calling easily from outside//////////////////////////////////
-    
+
 
     //
     //Call this from the cube when it is placed
     //
     public static void placedCube()
     {
-        if (gameDriver.addPlayerPoints(StateMachine.currentTurn(),gameDriver.cubeSelected.GetComponent<UnitClass>().cost) == -1)
+        if (gameDriver.addPlayerPoints(StateMachine.currentTurn(), gameDriver.cubeSelected.GetComponent<UnitClass>().cost) == -1)
             print("Something went wrong with the player point counts!");
         gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
-		StateMachine.isPlacingCube = false;
+        StateMachine.isPlacingCube = false;
+        GameDriver.updatePointInterface();
         StateMachine.passTurn();
     }
 
@@ -183,7 +199,7 @@ public class GameDriver : MonoBehaviour {
     {
         GameObject.Destroy(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
-		StateMachine.isPlacingCube = false;
+        StateMachine.isPlacingCube = false;
     }
 
     //
@@ -211,7 +227,7 @@ public class GameDriver : MonoBehaviour {
     {
         gameDriver.checkingCubeMovement = true;
         bool allStopped = true;
-        foreach(GameObject c in gameDriver.cubesInPlay)
+        foreach (GameObject c in gameDriver.cubesInPlay)
         {
             //if(c is not stopped) then allStopped = false;
         }
@@ -226,7 +242,7 @@ public class GameDriver : MonoBehaviour {
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
-        if(obj.GetComponent<UnitClass>().unitClass.Equals(className.className3))//This will be filled with the king!!!
+        if (obj.GetComponent<UnitClass>().unitClass.Equals(className.className3))//This will be filled with the king!!!
         {
             gameDriver.startGameOver(obj.GetComponent<UnitClass>().owner);
         }
@@ -234,60 +250,243 @@ public class GameDriver : MonoBehaviour {
     }
 
 
-    public static void showMenu()
+
+
+
+
+
+    /// <summary>
+    /// /////////////////////////////////////Section for showing and hiding all the interface elements.
+    /// </summary>
+
+    public static void showMenuInterface()
     {
-        foreach(GameObject obj in gameDriver.menuObjects)
+        gameDriver.menuVis = true;
+        foreach (GameObject obj in gameDriver.menuInterfaceObjects)
         {
             obj.SetActive(true);
         }
     }
-
-    public static void hideMenu()
+    public static void hideMenuInterface()
     {
-        foreach(GameObject obj in gameDriver.menuObjects)
+        gameDriver.menuVis = false;
+        foreach (GameObject obj in gameDriver.menuInterfaceObjects)
         {
             obj.SetActive(false);
         }
     }
+
 
     public static void showTurnInterface()
     {
+        gameDriver.turnVis = true;
         foreach (GameObject obj in gameDriver.turnInterfaceObjects)
         {
             obj.SetActive(true);
         }
     }
-
     public static void hideTurnInterface()
     {
+        gameDriver.turnVis = false;
         foreach (GameObject obj in gameDriver.turnInterfaceObjects)
         {
             obj.SetActive(false);
         }
     }
+
+
+    public static void showSetupInterface()
+    {
+        gameDriver.setupVis = true;
+        foreach (GameObject obj in gameDriver.setupInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+    public static void hideSetupInterface()
+    {
+        gameDriver.setupVis = false;
+        foreach (GameObject obj in gameDriver.setupInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+
+    public static void showGameOverInterface()
+    {
+        gameDriver.gameOverVis = true;
+        foreach (GameObject obj in gameDriver.gameOverInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+    public static void hideGameOverInterface()
+    {
+        gameDriver.gameOverVis = false;
+        foreach (GameObject obj in gameDriver.gameOverInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+
+    public static void showPointInterface()
+    {
+        gameDriver.pointVis = true;
+        foreach (GameObject obj in gameDriver.pointInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+    public static void hidePointInterface()
+    {
+        gameDriver.pointVis = false;
+        foreach (GameObject obj in gameDriver.pointInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+
+    public static void showHoverInfoInterface()
+    {
+        if (gameDriver.hoverInfoVisLock != true)
+        {
+            gameDriver.hoverInfoVis = true;
+            foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
+            {
+                obj.SetActive(true);
+            }
+        }
+    }
+    public static void hideHoverInfoInterface()
+    {
+        gameDriver.hoverInfoVis = false;
+        foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+    
+
+    public static void showHoverInfoInterface(bool l)
+    {
+        gameDriver.hoverInfoVis = true;
+        gameDriver.hoverInfoVisLock = false;
+        foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+    }
+    public static void hideHoverInfoInterface(bool l)
+    {
+        gameDriver.hoverInfoVis = false;
+        gameDriver.hoverInfoVisLock = true;
+        foreach (GameObject obj in gameDriver.hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
+
+    public static void showSetupHider()
+    {
+        gameDriver.setupInterfaceHide.SetActive(true);
+    }
+    public static void hideSetupHider()
+    {
+        gameDriver.setupInterfaceHide.SetActive(false);
+    }
+
+
+    public static void showPointHider()
+    {
+        gameDriver.pointInterfaceHide.SetActive(true);
+    }
+    public static void hidePointHider()
+    {
+        gameDriver.pointInterfaceHide.SetActive(false);
+    }
+
+
+    public static void showHoverInfoHider()
+    {
+        gameDriver.hoverInfoInterfaceHide.SetActive(true);
+    }
+    public static void hideHoverInfoHider()
+    {
+        gameDriver.hoverInfoInterfaceHide.SetActive(false);
+    }
+
+
+
+    public void toggleInterface(string n)
+    {
+        switch (n)
+        {
+            case "setup":
+                if (setupVis == true) hideSetupInterface();
+                else showSetupInterface();
+                break;
+            case "turn":
+                if (turnVis == true) hideTurnInterface();
+                else showTurnInterface();
+                break;
+            case "point":
+                if (pointVis == true) hidePointInterface();
+                else showPointInterface();
+                break;
+            case "gameOver":
+                if (gameOverVis == true) hideGameOverInterface();
+                else showGameOverInterface();
+                break;
+            case "menu":
+                if (menuVis == true) hideMenuInterface();
+                else showMenuInterface();
+                break;
+            case "hoverInfo":
+                if (hoverInfoVis == true) hideHoverInfoInterface(true);
+                else showHoverInfoInterface(false);
+                break;
+        }
+    }
+
+    public void showHoverInfoOnMouseover()
+    {
+        showHoverInfoInterface();
+    }
+    public void hideHoverInfoOnMouseout()
+    {
+        hideHoverInfoInterface();
+    }
+
+
+    /// <summary>
+    /// /////////////////////////////////////////////////////////////End section for showing and hiding interface elements.
+    /// </summary>
+
+
+
+
+
 
     public static void updateTurnInterface()
     {
         foreach (GameObject obj in gameDriver.turnInterfaceObjects)
         {
-            if(obj.GetComponent<TurnInterface>() != null) obj.GetComponent<TurnInterface>().updateTurnInterface();
+            if (obj.GetComponent<TurnInterface>() != null) obj.GetComponent<TurnInterface>().updateTurnInterface();
         }
     }
 
-    public static void showGameOverInterface()
+    public static void updatePointInterface()
     {
-        foreach (GameObject obj in gameDriver.gameOverInterfaceObjects)
-        {
-            obj.SetActive(true);
-        }
-    }
-
-    public static void hideGameoverInterface()
-    {
-        foreach (GameObject obj in gameDriver.gameOverInterfaceObjects)
-        {
-            obj.SetActive(false);
-        }
+        int p1Points = gameDriver.p1.points;
+        int p2Points = gameDriver.p2.points;
+        gameDriver.pointSlider1.GetComponent<Slider>().value = p1Points;
+        gameDriver.pointSlider2.GetComponent<Slider>().value = p2Points;
+        gameDriver.pointText1.GetComponent<Text>().text = p1Points+"/"+gameDriver.p1.pointsAvailable;
+        gameDriver.pointText2.GetComponent<Text>().text = p2Points + "/" + gameDriver.p2.pointsAvailable;
     }
 
 

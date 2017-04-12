@@ -62,6 +62,20 @@ public class ClassLookup : MonoBehaviour {
         }
     }
 
+    public string name2String()
+    {
+        if (cName == className.King) return "King";
+        else if (cName == className.Brawler) return "Brawler";
+        else if (cName == className.Sentinel) return "Sentinal";
+        else if (cName == className.Shadow) return "Shadow";
+        else if (cName == className.Grunt) return "Grunt";
+        else if (cName == className.Peasant) return "Peasant";
+        else if (cName == className.Healer) return "Healer";
+        else if (cName == className.Paralyze) return "Paralyze";
+        else if (cName == className.Titan) return "Titan";
+        else return "Derp, it broke.";
+    }
+
 
     public UnitClass Lookup(string n, UnitClass unitLookup)
     {
