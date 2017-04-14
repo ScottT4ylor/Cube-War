@@ -17,12 +17,6 @@ public class SetupInterface : MonoBehaviour {
         textureButtons(1);
     }
 
-	//TODO: Make sure this is in  proper place
-	public void FixedUpdate(){
-		if(Input.GetKeyDown(KeyCode.Q)){
-			instantiateNewUnit();
-		}
-	}
 
 
     public void instantiateNewUnit()
@@ -35,7 +29,7 @@ public class SetupInterface : MonoBehaviour {
             {
 				print ("GOING");
 				newUnit = Instantiate(cubePrefab, new Vector3(0,2,0), Quaternion.identity) as GameObject;
-				newUnit.GetComponent<Cube> ().playState = PlayState.placing;
+				newUnit.GetComponent<Cube> ().SetToPlacing();
 				newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(targetClass, newUnit.GetComponent<UnitClass>()));
                 driver.placingCube(newUnit);
             }

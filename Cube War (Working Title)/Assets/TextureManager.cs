@@ -14,6 +14,7 @@ public class TextureManager : MonoBehaviour {
 	}
 
 
+
     
     public static void applySprite(GameObject obj, Texture tex)
     {

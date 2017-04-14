@@ -20,7 +20,8 @@ public enum GameState
 public enum GamePhase
 {
     setup,
-    battle
+    battle,
+	gameOver
 }
 
 public class StateMachine : MonoBehaviour {
@@ -107,6 +108,14 @@ public class StateMachine : MonoBehaviour {
             gamePhase = GamePhase.battle;
         }
     }
+
+	public static void gameOverPhase()
+	{
+		if (state == GameState.active) 
+		{
+			gamePhase = GamePhase.gameOver;
+		}
+	}
 
     public static void pause()
     {

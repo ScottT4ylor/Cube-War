@@ -18,14 +18,23 @@ public class LaunchLine : MonoBehaviour {
 
 	public void Enabled(bool enable){
 		this.gameObject.GetComponent<LineRenderer> ().enabled = enable;
+		this.gameObject.transform.GetChild (0).gameObject.SetActive (enable);
 	}
 
-	public void SetPosition(int index,Vector3 pos){
+	public void SetLinePosition(int index,Vector3 pos){
 		this.gameObject.GetComponent<LineRenderer> ().SetPosition (index, pos);
+	}
+
+	public void SetPointPosition(Vector3 pos){
+		this.gameObject.transform.GetChild (0).gameObject.transform.position = pos;
 	}
 
 	public Color endColor{
 		get{ return this.gameObject.GetComponent<LineRenderer> ().endColor;}
-		set{ this.gameObject.GetComponent<LineRenderer> ().endColor = value;}
+		set{ 
+			this.gameObject.GetComponent<LineRenderer> ().startColor = new Color(value.r,value.g,value.b,0.5f);
+			this.gameObject.GetComponent<LineRenderer> ().endColor = new Color(value.r,value.g,value.b,0.8f);
+			this.gameObject.transform.GetChild (0).gameObject.GetComponent<Renderer> ().material.color = value;
+		}
 	}
 }
