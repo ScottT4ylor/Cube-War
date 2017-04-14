@@ -14,6 +14,7 @@ public class SetupInterface : MonoBehaviour {
     {
         classInfo = ClassLookup.getClassLookup();
         driver = GameDriver.getGameDriverRef();
+        textureButtons(1);
     }
 
 	//TODO: Make sure this is in  proper place
@@ -74,6 +75,44 @@ public class SetupInterface : MonoBehaviour {
                 }
             }
         }
+    }
 
+
+    public void textureButtons(int i)
+    {
+        foreach(Transform t in transform)
+        {
+            switch (t.name)
+            {
+                case "King":
+                    classInfo.Lookup("King");
+                    break;
+                case "Brawler":
+                    classInfo.Lookup("Brawler");
+                    break;
+                case "Sentinel":
+                    classInfo.Lookup("Sentinel");
+                    break;
+                case "Shadow":
+                    classInfo.Lookup("Shadow");
+                    break;
+                case "Grunt":
+                    classInfo.Lookup("Grunt");
+                    break;
+                case "Peasant":
+                    classInfo.Lookup("Peasant");
+                    break;
+                case "Healer":
+                    classInfo.Lookup("Healer");
+                    break;
+                case "Paralyze":
+                    classInfo.Lookup("Paralyze");
+                    break;
+                case "Titan":
+                    classInfo.Lookup("Titan");
+                    break;
+            }
+            TextureManager.applySprite(t.gameObject, classInfo.texture[i-1]);
+        }
     }
 }

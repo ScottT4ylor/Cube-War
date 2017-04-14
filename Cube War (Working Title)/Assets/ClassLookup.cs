@@ -42,22 +42,33 @@ public class ClassLookup : MonoBehaviour {
     public float attack;
     public float defense;
     public int cost;
-    public Texture texture;
+    public Texture[] texture;
     public string description;
 
-    public List<className> texKey;
-    public List<Texture> texVal;
-    public Dictionary<className, Texture> textures = new Dictionary<className, Texture>();
+    public List<className> p1TexKey;
+    public List<className> p2TexKey;
+    public List<Texture> p1TexVal;
+    public List<Texture> p2TexVal;
+    public Dictionary<className, Texture> p1Textures = new Dictionary<className, Texture>();
+    public Dictionary<className, Texture> p2Textures = new Dictionary<className, Texture>();
 
 
     public void Awake()
     {
         classinfo = this;
-        if (texKey.Count == texVal.Count)
+        texture = new Texture[2];
+        if (p1TexKey.Count == p1TexVal.Count)
         {
-            for (int i = 0; i < texKey.Count; i++)
+            for (int i = 0; i < p1TexKey.Count; i++)
             {
-                textures.Add(texKey[i], texVal[i]);
+                p1Textures.Add(p1TexKey[i], p1TexVal[i]);
+            }
+        }
+        if (p2TexKey.Count == p2TexVal.Count)
+        {
+            for (int i = 0; i < p2TexKey.Count; i++)
+            {
+                p2Textures.Add(p2TexKey[i], p2TexVal[i]);
             }
         }
     }
@@ -89,7 +100,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 0;
                 description = "";
                 //If it is knocked off of the board or defeated, it's owner loses the game. Limit: 1 per player per round.
-                // texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
             case "Brawler":
@@ -100,7 +112,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 4;
                 description = ""; description = "";
                 //If it lands on your side of the field after the initial flick, it can be flicked a second time in the same turn.
-                // texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
 			case "Sentinel":
@@ -111,7 +124,8 @@ public class ClassLookup : MonoBehaviour {
 				cost = 4;
                 description = "";
                 // No ability.
-                // texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
 			case "Shadow":
@@ -122,7 +136,8 @@ public class ClassLookup : MonoBehaviour {
 				cost = 3;
                 description = "";
                 //If it lands on opponent's side of the field at the end of your turn, you may remove from play. Use your flick action to place on board on a later turn.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
 			case "Grunt":
@@ -133,7 +148,8 @@ public class ClassLookup : MonoBehaviour {
 				cost = 2;
                 description = "";
                 //No ability.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
 			case "Peasant":
@@ -144,7 +160,8 @@ public class ClassLookup : MonoBehaviour {
 				cost = 1;
                 description = "";
                 //May be flicked twice in the same turn. Limit: 3 per player per round.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
 			case "Healer":
@@ -155,7 +172,8 @@ public class ClassLookup : MonoBehaviour {
 				cost = 4;
                 description = "";
                 //Can not be flicked. Can be sacrificed to return up to 6 cost worth of troops from the dead to your side of the field (depends on coin toss per attempted piece). Limit: 1 per player per round.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
 			case "Paralyze":
@@ -166,7 +184,8 @@ public class ClassLookup : MonoBehaviour {
 				cost = 2;
                 description = "";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
 			case "Titan":
@@ -177,7 +196,8 @@ public class ClassLookup : MonoBehaviour {
 				cost = 7;
                 description = "";
                 //No ability.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
                 return unitLookup;
             default:
@@ -197,7 +217,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 0;
                 description = "";
                 //If it is knocked off of the board or defeated, it's owner loses the game. Limit: 1 per player per round.
-                // texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Brawler":
                 cName = className.Brawler;
@@ -207,7 +228,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 4;
                 description = "";
                 //If it lands on your side of the field after the initial flick, it can be flicked a second time in the same turn.
-                // texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Sentinel":
                 cName = className.Sentinel;
@@ -217,7 +239,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 4;
                 description = "";
                 // No ability.
-                // texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Shadow":
                 cName = className.Shadow;
@@ -227,7 +250,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 3;
                 description = "";
                 //If it lands on opponent's side of the field at the end of your turn, you may remove from play. Use your flick action to place on board on a later turn.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Grunt":
                 cName = className.Grunt;
@@ -237,7 +261,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 2;
                 description = "";
                 //No ability.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Peasant":
                 cName = className.Peasant;
@@ -247,7 +272,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 1;
                 description = "";
                 //May be flicked twice in the same turn. Limit: 3 per player per round.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Healer":
                 cName = className.Healer;
@@ -257,7 +283,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 4;
                 description = "";
                 //Can not be flicked. Can be sacrificed to return up to 6 cost worth of troops from the dead to your side of the field (depends on coin toss per attempted piece). Limit: 1 per player per round.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Paralyze":
                 cName = className.Paralyze;
@@ -267,7 +294,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 2;
                 description = "";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             case "Titan":
                 cName = className.Titan;
@@ -277,7 +305,8 @@ public class ClassLookup : MonoBehaviour {
                 cost = 7;
                 description = "";
                 //No ability.
-                //texture = textures[cName];
+                // texture[0] = p1Textures[cName];
+                // texture[1] = p2Textures[cName];
                 break;
             default:
                 break;
