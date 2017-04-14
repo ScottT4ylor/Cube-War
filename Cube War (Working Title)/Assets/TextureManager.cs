@@ -11,4 +11,7 @@ public class TextureManager : MonoBehaviour {
         else
             print("Can't apply texture, the texture you passed in is null!");
 	}
+
+
+
 }
