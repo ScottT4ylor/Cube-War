@@ -44,7 +44,10 @@ public class GameDriver : MonoBehaviour {
     {
         if (checkingCubeMovement)
         {
-            checkCubeMovement();
+			if (checkCubeMovement ()) {
+				gameDriver.checkingCubeMovement = false;
+				StateMachine.passTurn ();
+			}
         }
     }
 
@@ -158,11 +161,13 @@ public class GameDriver : MonoBehaviour {
 
     public void startGameOver(int winner)
     {
+		StateMachine.gameOverPhase ();
         showGameOverInterface();
         foreach (GameObject obj in gameOverInterfaceObjects)
         {
             if (obj.GetComponent<GameOverInterface>() != null) obj.GetComponent<GameOverInterface>().gameOver(winner);
         }
+		print ("Game Over! Player " + StateMachine.currentTurn () + " Wins!");
     }
 
 
@@ -229,20 +234,31 @@ public class GameDriver : MonoBehaviour {
         bool allStopped = true;
         foreach (GameObject c in gameDriver.cubesInPlay)
         {
-            //if(c is not stopped) then allStopped = false;
+			if (!c.GetComponent<Rigidbody> ().IsSleeping ()) {
+				allStopped = false;
+			}
         }
-        /*if (allStopped == true)
+        if (allStopped == true)
         {
-            gameDriver.checkingCubeMovement = false;
             return true; //All are stopped, it can call for next turn.
-        }*/
-        return true; //just so it doesn't yell at me. Changing it later.
+        }
+		return false; //just so it doesn't yell at me. Changing it later.
     }
 
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
-        if (obj.GetComponent<UnitClass>().unitClass.Equals(className.className3))//This will be filled with the king!!!
+		if (StateMachine.gamePhase == GamePhase.setup) {
+			if (obj.GetComponent<Cube> ().playState == PlayState.idle) {
+				gameDriver.addPlayerPoints (obj.GetComponent<UnitClass>().owner, -1 * obj.GetComponent<UnitClass> ().cost);
+			}
+			StateMachine.isPlacingCube = false;
+			if (StateMachine.currentTurn () != obj.GetComponent<UnitClass> ().owner) {
+				StateMachine.passTurn ();
+			}
+			updatePointInterface ();
+		}
+		else if (obj.GetComponent<UnitClass>().unitClass.Equals(className.King))
         {
             gameDriver.startGameOver(obj.GetComponent<UnitClass>().owner);
         }
