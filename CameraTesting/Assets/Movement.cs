@@ -21,27 +21,30 @@ public class Movement : MonoBehaviour {
     public float smoothTime = 1;
 
 
-	void Update ()
+    void Update()
     {
-        mov = Vector3.zero;
-        if (focusSet)
+        if (StateMachine.turnState != Turn.pause)
         {
-            t = (Time.time - startTime) / smoothTime;
-            if (t >= 1)
+            mov = Vector3.zero;
+            if (focusSet)
             {
-                t = 1;
-                focusSet = false;
+                t = (Time.time - startTime) / smoothTime;
+                if (t >= 1)
+                {
+                    t = 1;
+                    focusSet = false;
+                }
+                mov = Vector3.Lerp(startPos, endPos, t);
             }
-            mov = Vector3.Lerp(startPos, endPos, t);
+            endPos.x += Input.GetAxis("XMove");
+            mov.x += Input.GetAxis("XMove");
+            endPos.y += Input.GetAxis("YMove");
+            mov.y += Input.GetAxis("YMove");
+            endPos.z += Input.GetAxis("ZMove");
+            mov.z += Input.GetAxis("ZMove");
+            transform.localPosition += transform.rotation * mov * Time.deltaTime * speed;
         }
-        endPos.x += Input.GetAxis("XMove");
-        mov.x += Input.GetAxis("XMove");
-        endPos.y += Input.GetAxis("YMove");
-        mov.y += Input.GetAxis("YMove");
-        endPos.z += Input.GetAxis("ZMove");
-        mov.z += Input.GetAxis("ZMove");
-        transform.localPosition +=  transform.rotation * mov * Time.deltaTime * speed;
-	}
+    }
 
 
 

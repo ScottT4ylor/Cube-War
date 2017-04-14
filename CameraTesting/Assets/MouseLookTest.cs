@@ -12,7 +12,7 @@ public class MouseLookTest : MonoBehaviour {
 	public float MaximumX = 90F;
 	public bool smooth;
 	public float smoothTime = 5f;
-	public Transform camera;
+	public Transform cam;
     
 
 
@@ -27,7 +27,7 @@ public class MouseLookTest : MonoBehaviour {
 	public void Awake()
 	{
         //Sets the character and camera's target rotation to their current one when the script starts running.
-		cameraTargetRot = camera.localRotation;
+		cameraTargetRot = cam.localRotation;
         setCursorLock(lockCursor);
 	}
     
@@ -57,12 +57,12 @@ public class MouseLookTest : MonoBehaviour {
         //turn the camera
 		if(smooth)
 		{
-			camera.localRotation = Quaternion.Slerp (camera.localRotation, cameraTargetRot,
+			cam.localRotation = Quaternion.Slerp (cam.localRotation, cameraTargetRot,
 				smoothTime * Time.deltaTime);
 		}
 		else
 		{
-			camera.localRotation = characterTargetRot;
+			cam.localRotation = characterTargetRot;
 		}
 
         cameraTargetRot *= Quaternion.Euler(0f, yRot, 0f);
@@ -73,17 +73,17 @@ public class MouseLookTest : MonoBehaviour {
 
         if (smooth)
         {
-            camera.localRotation = Quaternion.Slerp(camera.localRotation, cameraTargetRot,
+            cam.localRotation = Quaternion.Slerp(cam.localRotation, cameraTargetRot,
                 smoothTime * Time.deltaTime);
         }
         else
         {
-            camera.localRotation = cameraTargetRot;
+            cam.localRotation = cameraTargetRot;
         }
-        upright = camera.localEulerAngles;
+        upright = cam.localEulerAngles;
         upright.z = 0;
         uprightTargetRot = Quaternion.Euler(upright);
-        camera.localRotation = uprightTargetRot;
+        cam.localRotation = uprightTargetRot;
 
 	}
 
