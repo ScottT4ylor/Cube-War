@@ -60,6 +60,7 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
                     GameDriver.updateTurnInterface();
+                    GameDriver.updateSetupInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                         break;
                 case Turn.player2:
@@ -67,6 +68,7 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
                     GameDriver.updateTurnInterface();
+                    GameDriver.updateSetupInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                     break;
                 case Turn.pause:
