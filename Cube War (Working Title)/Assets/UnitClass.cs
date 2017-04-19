@@ -16,32 +16,32 @@ public class UnitClass : MonoBehaviour
 
     public void unitSetup(className cn, classType ct, float a, float d, int pl, int p, Texture[] tex)
     {
-        texture = new Texture[2];
+        unitTexture = new Texture[2];
         uC = cn;
         uT = ct;
         att = a;
         def = d;
         owningPlayer = pl;
         pointCost = p;
-        //texture[0] = tex[0];
-        //texture[1] = tex[1];
-      //  if (owningPlayer == 1) TextureManager.applyTexture(this.gameObject, texture[0]);
-       // if (owningPlayer == 2) TextureManager.applyTexture(this.gameObject, texture[1]);
+        texture[0] = tex[0];
+        texture[1] = tex[1];
+        if (owningPlayer == 1) TextureManager.applyTexture(this.gameObject, texture[0]);
+        if (owningPlayer == 2) TextureManager.applyTexture(this.gameObject, texture[1]);
     }
 
     public void unitSetup(UnitClass copy)
     {
-        texture = new Texture[2];
+        unitTexture = new Texture[2];
         uC = copy.unitClass;
         uT = copy.unitType;
         att = copy.attack;
         def = copy.defense;
         owningPlayer = copy.owner;
         pointCost = copy.cost;
-        //texture[0] = copy.texture[0];
-       // texture[1] = copy.texture[1];
-       // if (owningPlayer == 1) TextureManager.applyTexture(this.gameObject, texture[0]);
-        //if (owningPlayer == 2) TextureManager.applyTexture(this.gameObject, texture[1]);
+        texture[0] = copy.texture[0];
+        texture[1] = copy.texture[1];
+        if (owningPlayer == 1) TextureManager.applyTexture(this.gameObject, texture[0]);
+        if (owningPlayer == 2) TextureManager.applyTexture(this.gameObject, texture[1]);
     }
 
     public className unitClass
@@ -125,8 +125,8 @@ public class UnitClass : MonoBehaviour
         }
         set
         {
-           // unitTexture[0] = value[0];
-          //  unitTexture[1] = value[1];
+            unitTexture[0] = value[0];
+            unitTexture[1] = value[1];
         }
     }
 
