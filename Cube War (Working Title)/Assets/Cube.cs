@@ -287,7 +287,7 @@ public class Cube : MonoBehaviour {
 
 	private void UpdatePlacingPosition(){
 		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		if ( Physics.Raycast (ray,out hit,1000.0f)) {
+		if ( Physics.Raycast (ray,out hit,1000.0f, (LayerMask)4096)) { //Only casts the ray against the RaycastGround layer.
 			cubePos = new Vector3 (hit.point.x, cubePos.y, 
 				hit.point.z);
 		}

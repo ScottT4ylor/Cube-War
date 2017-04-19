@@ -27,7 +27,6 @@ public class SetupInterface : MonoBehaviour {
 			print (classInfo.cost);
             if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() > classInfo.cost)
             {
-				print ("GOING");
 				newUnit = Instantiate(cubePrefab, new Vector3(0,2,0), Quaternion.identity) as GameObject;
 				newUnit.GetComponent<Cube> ().SetToPlacing();
 				newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(targetClass, newUnit.GetComponent<UnitClass>()));
@@ -44,7 +43,7 @@ public class SetupInterface : MonoBehaviour {
             if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() >= classInfo.cost)
             {
                 newUnit = Instantiate(cubePrefab) as GameObject;
-                newUnit.GetComponent<Cube>().playState = PlayState.placing;
+                newUnit.GetComponent<Cube>().SetToPlacing();
                 newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, newUnit.GetComponent<UnitClass>()));
                 driver.placingCube(newUnit);
             }
