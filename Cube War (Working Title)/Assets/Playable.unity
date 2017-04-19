@@ -890,6 +890,7 @@ GameObject:
   - component: {fileID: 503545398}
   - component: {fileID: 503545397}
   - component: {fileID: 503545396}
+  - component: {fileID: 503545400}
   m_Layer: 0
   m_Name: GameDriver
   m_TagString: Untagged
@@ -964,7 +965,16 @@ MonoBehaviour:
   checkingCubeMovement: 0
   cubeSelected: {fileID: 0}
   cubesInPlay: []
-  menuInterfaceObjects: []
+  menuInterfaceObjects:
+  - {fileID: 564131599}
+  - {fileID: 453254055}
+  - {fileID: 1605519468}
+  - {fileID: 1234434629}
+  - {fileID: 290815622}
+  - {fileID: 1952846487}
+  - {fileID: 798434311}
+  - {fileID: 278462689}
+  - {fileID: 1513618473}
   setupInterfaceObjects:
   - {fileID: 1707945159}
   - {fileID: 1357781664}
@@ -1036,6 +1046,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &503545400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503545395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b4659b4bd35284a97303a6b088b99b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &534698144 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1739689377392546, guid: 60194ad1c27d8aa409e4dcc47549225f,
@@ -1991,7 +2012,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1234434630
 RectTransform:
   m_ObjectHideFlags: 0
