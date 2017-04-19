@@ -909,10 +909,31 @@ MonoBehaviour:
   attack: 0
   defense: 0
   cost: 0
-  texture: {fileID: 0}
+  texture:
+  - {fileID: 0}
   description: 
-  texKey: 
-  texVal: []
+  p1TexKey: 000000000100000002000000030000000400000005000000060000000700000008000000
+  p2TexKey: 000000000100000002000000030000000400000005000000060000000700000008000000
+  p1TexVal:
+  - {fileID: 2800000, guid: 5431f7ab565ecd942b82f461020b8642, type: 3}
+  - {fileID: 2800000, guid: e1e5f7ba0d379b640a17934dd35a5243, type: 3}
+  - {fileID: 2800000, guid: 309cc6c4a2dfb4e48878f1a33a1da140, type: 3}
+  - {fileID: 2800000, guid: 5dd5d6ba1c0f38348a7c87c0585d3cf4, type: 3}
+  - {fileID: 2800000, guid: f721f44cc89337541a1206b77992dabf, type: 3}
+  - {fileID: 2800000, guid: 223c9cb383b28a94483fc7579d026df1, type: 3}
+  - {fileID: 2800000, guid: ad31254ee5d29a04282c1120b5ce5165, type: 3}
+  - {fileID: 2800000, guid: 1ea712c9d35893e41a62252e1e6a13ee, type: 3}
+  - {fileID: 2800000, guid: c5ecbec14d5fc6b419c4aee453ed6466, type: 3}
+  p2TexVal:
+  - {fileID: 2800000, guid: 5431f7ab565ecd942b82f461020b8642, type: 3}
+  - {fileID: 2800000, guid: e1e5f7ba0d379b640a17934dd35a5243, type: 3}
+  - {fileID: 2800000, guid: 309cc6c4a2dfb4e48878f1a33a1da140, type: 3}
+  - {fileID: 2800000, guid: 5dd5d6ba1c0f38348a7c87c0585d3cf4, type: 3}
+  - {fileID: 2800000, guid: f721f44cc89337541a1206b77992dabf, type: 3}
+  - {fileID: 2800000, guid: 223c9cb383b28a94483fc7579d026df1, type: 3}
+  - {fileID: 2800000, guid: ad31254ee5d29a04282c1120b5ce5165, type: 3}
+  - {fileID: 2800000, guid: 1ea712c9d35893e41a62252e1e6a13ee, type: 3}
+  - {fileID: 2800000, guid: c5ecbec14d5fc6b419c4aee453ed6466, type: 3}
 --- !u!114 &503545397
 MonoBehaviour:
   m_ObjectHideFlags: 0
