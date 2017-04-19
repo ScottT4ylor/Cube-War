@@ -74,7 +74,6 @@ public class ClassLookup : MonoBehaviour {
         }
 		//load textures into dictionaries
 		//player 1
-		//TODO: clean this up later
 		p1Textures.Add (className.King, (Texture)Resources.Load("/Textures/Space King", typeof(Texture)));
 		p1Textures.Add(className.Grunt, (Texture)Resources.Load("/Textures/Grunt", typeof(Texture)));
 		p1Textures.Add(className.Sentinel, (Texture)Resources.Load("/Textures/Space Knight", typeof(Texture))); //TODO: Is the kinght a Sentinel?
@@ -131,7 +130,7 @@ public class ClassLookup : MonoBehaviour {
                 cost = 4;
                 description = "";
                 //If it lands on your side of the field after the initial flick, it can be flicked a second time in the same turn.
-                // texture[0] = p1Textures[cName];
+                //texture[0] = p1Textures[cName];
                 // texture[1] = p2Textures[cName];
                 break;
             case "Sentinel":
