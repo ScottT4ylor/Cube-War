@@ -73,7 +73,7 @@ public class SetupInterface : MonoBehaviour {
 
     public void textureButtons(int i)
     {
-        foreach(Transform t in transform)
+        foreach (Transform t in transform)
         {
             switch (t.name)
             {
@@ -104,8 +104,14 @@ public class SetupInterface : MonoBehaviour {
                 case "Titan":
                     classInfo.Lookup("Titan");
                     break;
+                default:
+                    classInfo.Lookup("blank");
+                    break;
             }
-            TextureManager.applySprite(t.gameObject, classInfo.texture[i-1]);
+            if (classInfo.cName != className.Null)
+            {
+                TextureManager.applySprite(t.gameObject, classInfo.texture[i - 1]);
+            }
         }
     }
 }

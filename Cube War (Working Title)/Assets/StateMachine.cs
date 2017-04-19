@@ -43,7 +43,7 @@ public class StateMachine : MonoBehaviour {
         if (state == GameState.active)
         {
             turnState = Turn.player1;
-
+            GameDriver.updateTurnInterface();
         }
     }
 
