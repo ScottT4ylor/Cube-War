@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TurnInterface : MonoBehaviour {
     public Text turnText;
 
-    public void Start()
+    public void Awake()
     {
         turnText = GetComponent<Text>();
     }

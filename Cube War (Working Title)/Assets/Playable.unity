@@ -2650,6 +2650,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1252905567952306, guid: a8ab1dcdaa326474ca9854ff150c6dcc, type: 2}
+      propertyPath: m_Name
+      value: Sentinel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a8ab1dcdaa326474ca9854ff150c6dcc, type: 2}
   m_IsPrefabParent: 0

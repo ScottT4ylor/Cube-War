@@ -55,10 +55,20 @@ public class GameDriver : MonoBehaviour {
     {
         p1 = new Player(1, playerPointsTesting);
         p2 = new Player(2, playerPointsTesting);
+        StateMachine.activate();
         pointSlider1.GetComponent<Slider>().maxValue = p1.pointsAvailable;
         pointSlider2.GetComponent<Slider>().maxValue = p2.pointsAvailable;
-        StateMachine.activate();
+        foreach(GameObject obj in hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(true);
+            if (obj.GetComponent<HoverInfoInterface>() != null) obj.GetComponent<HoverInfoInterface>().Start();
+        }
+        
         StateMachine.setupPhase();
+        foreach (GameObject obj in hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
         StateMachine.initiateTurns();
     }
 

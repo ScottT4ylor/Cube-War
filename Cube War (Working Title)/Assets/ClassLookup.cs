@@ -19,7 +19,8 @@ public enum className
 	//These are Temp values I made to fix complie errors --Jason
 	className1,
 	className2,
-	className3
+	className3,
+    Null
 }
 
 public enum classType
