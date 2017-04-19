@@ -11,41 +11,37 @@ public class UnitClass : MonoBehaviour
     public float def;
     public int owningPlayer;
     public int pointCost;
-    public Texture unitTexture;
+    public Texture[] unitTexture;
 
-    public UnitClass()
-    {
-        uC = className.className1;
-        uT = classType.classType1;
-        att = 0;
-        def = 0;
-        owningPlayer = 0;
-        pointCost = 0;
-        unitTexture = null;
-    }
 
-    public void unitSetup(className cn, classType ct, float a, float d, int pl, int p, Texture tex)
+    public void unitSetup(className cn, classType ct, float a, float d, int pl, int p, Texture[] tex)
     {
+        texture = new Texture[2];
         uC = cn;
         uT = ct;
         att = a;
         def = d;
         owningPlayer = pl;
         pointCost = p;
-        texture = tex;
-        TextureManager.applyTexture(this.gameObject, texture);
+        texture[0] = tex[0];
+        //texture[1] = tex[1];
+      //  if (owningPlayer == 1) TextureManager.applyTexture(this.gameObject, texture[0]);
+       // if (owningPlayer == 2) TextureManager.applyTexture(this.gameObject, texture[1]);
     }
 
     public void unitSetup(UnitClass copy)
     {
+        texture = new Texture[2];
         uC = copy.unitClass;
         uT = copy.unitType;
         att = copy.attack;
         def = copy.defense;
         owningPlayer = copy.owner;
         pointCost = copy.cost;
-        texture = copy.texture;
-        TextureManager.applyTexture(this.gameObject, texture);
+        texture[0] = copy.texture[0];
+       // texture[1] = copy.texture[1];
+       // if (owningPlayer == 1) TextureManager.applyTexture(this.gameObject, texture[0]);
+        //if (owningPlayer == 2) TextureManager.applyTexture(this.gameObject, texture[1]);
     }
 
     public className unitClass
@@ -120,7 +116,8 @@ public class UnitClass : MonoBehaviour
         }
     }
 
-    public Texture texture
+
+    public Texture[] texture
     {
         get
         {
@@ -128,7 +125,8 @@ public class UnitClass : MonoBehaviour
         }
         set
         {
-            unitTexture = value;
+           unitTexture[0] = value[0];
+          //  unitTexture[1] = value[1];
         }
     }
 

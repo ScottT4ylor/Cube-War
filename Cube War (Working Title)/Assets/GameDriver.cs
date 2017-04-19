@@ -505,6 +505,14 @@ public class GameDriver : MonoBehaviour {
         gameDriver.pointText2.GetComponent<Text>().text = p2Points + "/" + gameDriver.p2.pointsAvailable;
     }
 
+    public static void updateSetupInterface()
+    {
+        foreach(GameObject obj in gameDriver.setupInterfaceObjects)
+        {
+            if (obj.GetComponent<SetupInterface>() != null) obj.GetComponent<SetupInterface>().textureButtons(StateMachine.currentTurn());
+        }
+    }
+
 
     //
     //Call this to get a reference to this script
