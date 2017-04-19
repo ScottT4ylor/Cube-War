@@ -203,6 +203,12 @@ public class ClassLookup : MonoBehaviour {
             default:
                 return null;
         }
+		  Lookup (n);
+		  if (cName == className.Null) {
+			return null;
+		  } 
+       unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
+		    return unitLookup;
     }
 
 	public void Lookup(string n)
@@ -309,6 +315,7 @@ public class ClassLookup : MonoBehaviour {
                 texture[1] = p2Textures[cName];
                 break;
             default:
+			  cName = className.Null;
                 break;
         }
 	}
