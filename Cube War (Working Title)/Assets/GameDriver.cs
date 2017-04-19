@@ -70,6 +70,7 @@ public class GameDriver : MonoBehaviour {
             obj.SetActive(false);
         }
         StateMachine.initiateTurns();
+        updatePointInterface();
     }
 
     public int addPlayerPoints(int player, int points)
