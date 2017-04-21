@@ -202,6 +202,12 @@ public class GameDriver : MonoBehaviour {
         if (gameDriver.addPlayerPoints(StateMachine.currentTurn(), gameDriver.cubeSelected.GetComponent<UnitClass>().cost) == -1)
             print("Something went wrong with the player point counts!");
         gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
+        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.King)
+        {
+            if (StateMachine.currentTurn() == 1) StateMachine.p1KingPlaced();
+            else if (StateMachine.currentTurn() == 2) StateMachine.p2KingPlaced();
+            else print("That king was placed on no particular player's turn!");
+        }
         gameDriver.cubeSelected = null;
         StateMachine.isPlacingCube = false;
         GameDriver.updatePointInterface();

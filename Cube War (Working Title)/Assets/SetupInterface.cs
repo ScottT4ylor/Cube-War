@@ -42,6 +42,13 @@ public class SetupInterface : MonoBehaviour {
             classInfo.Lookup(target);
             if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() >= classInfo.cost)
             {
+                if (target == "King")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1King == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2King == true))
+                    {
+                        return;
+                    }
+                }
                 newUnit = Instantiate(cubePrefab) as GameObject;
                 newUnit.GetComponent<Cube>().SetToPlacing();
                 newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, newUnit.GetComponent<UnitClass>()));
@@ -56,12 +63,12 @@ public class SetupInterface : MonoBehaviour {
         {
             if (StateMachine.isPlacingCube == false)
             {
-                if (StateMachine.currentTurn() == 1)
+                if (StateMachine.currentTurn() == 1 && StateMachine.p1King == true)
                 {
                     StateMachine.endP1Setup();
                     StateMachine.passTurn();
                 }
-                else if (StateMachine.currentTurn() == 2)
+                else if (StateMachine.currentTurn() == 2 && StateMachine.p2King == true)
                 {
                     StateMachine.endP2Setup();
                     StateMachine.passTurn();
