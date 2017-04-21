@@ -132,11 +132,11 @@ public class UnitClass : MonoBehaviour
 
     public void startAttack()
     {
-        //do stuff for attack
+		this.gameObject.GetComponent<Rigidbody> ().mass= 2.0f + (attack * 2);
     }
 
     public void startDefense()
     {
-        //do stuff for defense
+		this.gameObject.GetComponent<Rigidbody> ().mass = def;
     }
 }
