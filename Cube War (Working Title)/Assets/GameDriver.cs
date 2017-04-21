@@ -172,11 +172,14 @@ public class GameDriver : MonoBehaviour {
 
     public void startGameOver(int winner)
     {
-		StateMachine.gameOverPhase ();
+		StateMachine.gameOverPhase();
         showGameOverInterface();
         foreach (GameObject obj in gameOverInterfaceObjects)
         {
-            if (obj.GetComponent<GameOverInterface>() != null) obj.GetComponent<GameOverInterface>().gameOver(winner);
+            if (obj.name.Equals("GameOverWinner"))
+            {
+                obj.GetComponent<Text>().text = ("Player " + winner + " wins!");
+            }
         }
 		print ("Game Over! Player " + StateMachine.currentTurn () + " Wins!");
     }
@@ -271,7 +274,16 @@ public class GameDriver : MonoBehaviour {
 		}
 		else if (obj.GetComponent<UnitClass>().unitClass.Equals(className.King))
         {
-            gameDriver.startGameOver(obj.GetComponent<UnitClass>().owner);
+            if (obj.GetComponent<UnitClass>().owner == 1)
+            {
+                gameDriver.startGameOver(2);
+                return;
+            }
+            else
+            {
+                gameDriver.startGameOver(1);
+                return;
+            }
         }
         GameObject.Destroy(obj);
     }
