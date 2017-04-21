@@ -21,4 +21,5 @@ public class CameraZoom : MonoBehaviour {
         dest.z = Mathf.Clamp(transform.localPosition.z + (Input.GetAxis("Mouse ScrollWheel") * zoomSensitivity * Vector3.Distance(transform.position, anchor.position)), -maxDist, -minDist);
         transform.localPosition = dest;
     }
+
 }
