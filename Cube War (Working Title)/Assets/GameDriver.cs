@@ -277,12 +277,10 @@ public class GameDriver : MonoBehaviour {
             if (obj.GetComponent<UnitClass>().owner == 1)
             {
                 gameDriver.startGameOver(2);
-                return;
             }
             else
             {
                 gameDriver.startGameOver(1);
-                return;
             }
         }
         GameObject.Destroy(obj);
