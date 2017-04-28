@@ -15,6 +15,7 @@ public enum className
 	Healer,
 	Paralyze,
 	Titan,
+    Bomb,
 	//TODO: Remove these.
 	//These are Temp values I made to fix complie errors --Jason
 	className1,
@@ -85,6 +86,7 @@ public class ClassLookup : MonoBehaviour {
         else if (cName == className.Healer) return "Healer";
         else if (cName == className.Paralyze) return "Paralyze";
         else if (cName == className.Titan) return "Titan";
+        else if (cName == className.Bomb) return "Bomb";
         else return "Derp, it broke.";
     }
 
