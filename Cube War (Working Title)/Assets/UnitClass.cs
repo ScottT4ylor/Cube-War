@@ -56,6 +56,22 @@ public class UnitClass : MonoBehaviour
         }
     }
 
+    public string unitClassString()
+    {
+        if (uC == className.King) return "King";
+        else if (uC == className.Brawler) return "Brawler";
+        else if (uC == className.Sentinel) return "Sentinal";
+        else if (uC == className.Shadow) return "Shadow";
+        else if (uC == className.Grunt) return "Grunt";
+        else if (uC == className.Peasant) return "Peasant";
+        else if (uC == className.Healer) return "Healer";
+        else if (uC == className.Paralyze) return "Paralyze";
+        else if (uC == className.Titan) return "Titan";
+        else if (uC == className.Bomb) return "Bomb";
+        else return "Derp, it broke.";
+
+    }
+
     public classType unitType
     {
         get
