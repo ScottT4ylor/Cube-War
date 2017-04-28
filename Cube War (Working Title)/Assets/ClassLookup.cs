@@ -6,16 +6,17 @@ using UnityEngine;
 
 public enum className
 {
-    King,
-    Brawler,
-    Sentinel,
+	King,
+	Brawler,
+	Sentinel,
 	Shadow,
 	Grunt,
 	Peasant,
 	Healer,
 	Paralyze,
 	Titan,
-    Bomb,
+	Bomb,
+
 	//TODO: Remove these.
 	//These are Temp values I made to fix complie errors --Jason
 	className1,
