@@ -242,7 +242,7 @@ public class GameDriver : MonoBehaviour {
                 }
                 else
                 {
-                    c.GetComponent<Cube>().stunned = false;
+                    //c.GetComponent<Cube>().stunned = false;
                 }
             } //Currently commented out because I don't have the cubes in this project. Uncomment this when they're integrated.
         }
@@ -264,6 +264,8 @@ public class GameDriver : MonoBehaviour {
         }
 		return false; //just so it doesn't yell at me. Changing it later.
     }
+
+
 
     public static void removeCubeFromPlay(GameObject obj)
     {
@@ -291,6 +293,29 @@ public class GameDriver : MonoBehaviour {
         }
         GameObject.Destroy(obj);
     }
+
+	public static void resolveStalemate(){
+		int p1Cubes = 0;
+		int p2Cubes = 0;
+		foreach (GameObject c in gameDriver.cubesInPlay) {
+			if (c.GetComponent<UnitClass> ().owningPlayer == 1) {
+				p1Cubes += 1;
+			}
+		}
+		foreach (GameObject c in gameDriver.cubesInPlay) {
+			if (c.GetComponent<UnitClass> ().owningPlayer == 2) {
+				p2Cubes += 1;
+			}
+		}
+		if (p1Cubes == p2Cubes) {
+			//draw
+			print ("draw");
+		} else if (p1Cubes > p2Cubes) {
+			gameDriver.startGameOver (1);
+		} else {
+			gameDriver.startGameOver (2);
+		}
+	}
 
 
 

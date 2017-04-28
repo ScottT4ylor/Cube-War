@@ -56,10 +56,19 @@ public class StateMachine : MonoBehaviour {
         {
             switch (turnState)
             {
-                case Turn.idle:
-                case Turn.player1:
-                    turnState = Turn.player2;
-                    if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
+			case Turn.idle:
+			case Turn.player1:
+				turnState = Turn.player2;
+				if (getPhase () == GamePhase.battle) {
+					GameDriver.clearFlicks ();
+					if (flickableCubesAvailable (2) == 0) {
+						if (flickableCubesAvailable (1) == 0) {
+							GameDriver.resolveStalemate ();
+						} else {
+							passTurn ();
+						}
+					}
+				}
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
                     GameDriver.updateTurnInterface();
                     GameDriver.updateSetupInterface();
@@ -67,7 +76,16 @@ public class StateMachine : MonoBehaviour {
                         break;
                 case Turn.player2:
                     turnState = Turn.player1;
-                    if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
+					if (getPhase () == GamePhase.battle) {
+						GameDriver.clearFlicks ();
+						if (flickableCubesAvailable (1) == 0) {
+							if (flickableCubesAvailable (2) == 0) {
+							GameDriver.resolveStalemate ();
+							} else {
+								passTurn ();
+							}
+						}
+					}
                     if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
                     GameDriver.updateTurnInterface();
                     GameDriver.updateSetupInterface();
@@ -108,6 +126,9 @@ public class StateMachine : MonoBehaviour {
         if (state == GameState.active)
         {
             gamePhase = GamePhase.battle;
+			if ((flickableCubesAvailable (1) == 0) && (flickableCubesAvailable (2) == 0)) {
+				GameDriver.resolveStalemate ();
+			}
         }
     }
 
@@ -117,6 +138,16 @@ public class StateMachine : MonoBehaviour {
 		{
 			gamePhase = GamePhase.gameOver;
 		}
+	}
+
+	public static int flickableCubesAvailable(int playerNum){
+		int cubes = 0;
+		foreach (GameObject cb in GameDriver.gameDriver.cubesInPlay) {
+			if (!cb.GetComponent<Cube> ().stunned && cb.GetComponent<UnitClass> ().owningPlayer == playerNum) {
+				cubes += 1;
+			}
+		}
+		return cubes;
 	}
 
     public static void pause()
