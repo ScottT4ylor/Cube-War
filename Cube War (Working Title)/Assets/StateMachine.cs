@@ -20,7 +20,8 @@ public enum GameState
 public enum GamePhase
 {
     setup,
-    battle
+    battle,
+	gameOver
 }
 
 public class StateMachine : MonoBehaviour {
@@ -32,13 +33,19 @@ public class StateMachine : MonoBehaviour {
 	public static bool cubePlace = false;
     public static bool p1Setup = false;
     public static bool p2Setup = false;
+    public static bool p1King = false;
+    public static bool p2King = false;
+
+
+
+
 
     public static void initiateTurns()
     {
         if (state == GameState.active)
         {
             turnState = Turn.player1;
-
+            GameDriver.updateTurnInterface();
         }
     }
 
@@ -55,6 +62,7 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
                     GameDriver.updateTurnInterface();
+                    GameDriver.updateSetupInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                         break;
                 case Turn.player2:
@@ -62,6 +70,7 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
                     GameDriver.updateTurnInterface();
+                    GameDriver.updateSetupInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                     break;
                 case Turn.pause:
@@ -102,6 +111,14 @@ public class StateMachine : MonoBehaviour {
         }
     }
 
+	public static void gameOverPhase()
+	{
+		if (state == GameState.active) 
+		{
+			gamePhase = GamePhase.gameOver;
+		}
+	}
+
     public static void pause()
     {
         if (turnState != Turn.pause)
@@ -110,7 +127,7 @@ public class StateMachine : MonoBehaviour {
             turnState = Turn.pause;
             Time.timeScale = 0;
             Time.fixedDeltaTime = 0;
-            GameDriver.showMenu();
+            GameDriver.showMenuInterface();
         }
         else
         {
@@ -127,12 +144,17 @@ public class StateMachine : MonoBehaviour {
             holdTurn = Turn.idle;
             Time.timeScale = 1;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
-            GameDriver.hideMenu();
+            GameDriver.hideMenuInterface();
         }
         else
         {
             print("Game isn't paused, you can't unpause it!");
         }
+    }
+
+    public void unPauseFromButton()
+    {
+        StateMachine.unPause();
     }
 
     public static GamePhase getPhase()
@@ -154,6 +176,16 @@ public class StateMachine : MonoBehaviour {
     public static void endP2Setup()
     {
         p2Setup = false;
+    }
+
+    public static void p1KingPlaced()
+    {
+        p1King = true;
+    }
+
+    public static void p2KingPlaced()
+    {
+        p2King = true;
     }
 
     public static void endSetup()

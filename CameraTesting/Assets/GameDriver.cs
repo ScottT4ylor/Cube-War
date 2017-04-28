@@ -15,6 +15,8 @@ public class GameDriver : MonoBehaviour {
     public List<GameObject> gameOverInterfaceObjects;
     public List<GameObject> turnInterfaceObjects;
 
+
+
     public void Awake()
     {
         gameDriver = this;
@@ -111,7 +113,8 @@ public class GameDriver : MonoBehaviour {
     public void placingCube(GameObject toPlace)
     {
         cubeSelected = toPlace;
-        //cubeSelected.GetComponent<Cube>().cubePlayState = PlayState.placing; Leaving this commented out because I don't have the cube script available.
+		cubeSelected.GetComponent<Cube> ().SetToPlacing ();
+
     }
 
     public static void activateTurnInterface()
@@ -187,7 +190,7 @@ public class GameDriver : MonoBehaviour {
     {
         foreach (GameObject c in gameDriver.cubesInPlay)
         {
-            /*if (StateMachine.getPhase() == GamePhase.battle)
+            if (StateMachine.getPhase() == GamePhase.battle)
             {
                 if (c.GetComponent<Cube>().stunned == false)
                 {
@@ -197,7 +200,7 @@ public class GameDriver : MonoBehaviour {
                 {
                     c.GetComponent<Cube>().stunned = false;
                 }
-            }*/ //Currently commented out because I don't have the cubes in this project. Uncomment this when they're integrated.
+            } //Currently commented out because I don't have the cubes in this project. Uncomment this when they're integrated.
         }
     }
 
