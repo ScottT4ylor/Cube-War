@@ -25,9 +25,9 @@ GameObject:
   - component: {fileID: 54529293110827546}
   - component: {fileID: 114007992005776548}
   - component: {fileID: 114110244544113526}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Die
-  m_TagString: Untagged
+  m_TagString: Cube
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,6 +75,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &33508988992663046
 MeshFilter:
@@ -125,7 +126,7 @@ MonoBehaviour:
   launcher: {fileID: 150774, guid: 314ca14d051f212408974d556cb3aa13, type: 2}
   hitPosMarker: {fileID: 1261155044903242, guid: f026e7145b157514db6e0dfd551ebc24,
     type: 2}
-  velocityMulti: 200
+  velocityMulti: 150
   hitPosMod: 0.02
   maxMagnitude: 5
 --- !u!114 &114110244544113526
@@ -145,4 +146,5 @@ MonoBehaviour:
   def: 0
   owningPlayer: 0
   pointCost: 0
-  unitTexture: {fileID: 0}
+  unitTexture:
+  - {fileID: 0}

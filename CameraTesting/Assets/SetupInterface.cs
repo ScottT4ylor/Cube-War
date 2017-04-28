@@ -15,15 +15,26 @@ public class SetupInterface : MonoBehaviour {
         classInfo = ClassLookup.getClassLookup();
     }
 
+	//TODO: Make sure this is in  proper place
+	public void FixedUpdate(){
+		if(Input.GetKeyDown(KeyCode.Q)){
+			instantiateNewUnit();
+		}
+	}
+
 
     public void instantiateNewUnit()
     {
         if (StateMachine.turnState != Turn.pause)
         {
-            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() < classInfo.Lookup(targetClass, unitClass).cost)
+			classInfo.Lookup (targetClass);
+			print (classInfo.cost);
+            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() > classInfo.cost)
             {
-                newUnit = Instantiate(cubePrefab) as GameObject;
-                newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(targetClass, unitClass));
+				print ("GOING");
+				newUnit = Instantiate(cubePrefab, new Vector3(0,2,0), Quaternion.identity) as GameObject;
+				newUnit.GetComponent<Cube> ().playState = PlayState.placing;
+				newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(targetClass, newUnit.GetComponent<UnitClass>()));
                 driver.placingCube(newUnit);
             }
         }
