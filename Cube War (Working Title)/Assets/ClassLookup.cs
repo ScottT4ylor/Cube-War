@@ -15,6 +15,7 @@ public enum className
 	Healer,
 	Paralyze,
 	Titan,
+	Bomb,
 	//TODO: Remove these.
 	//These are Temp values I made to fix complie errors --Jason
 	className1,
