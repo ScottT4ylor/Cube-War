@@ -7,8 +7,10 @@ public class CubeKillBox : MonoBehaviour {
     {
         if(collision.gameObject.tag.Equals("Cube"))
         {
+			if (collision.gameObject.GetComponent<Cube> ().playState == PlayState.launch && collision.gameObject.GetComponent<UnitClass>().unitClass != className.King) {
+				GameDriver.checkCubeMovement();
+			} 
             GameDriver.removeCubeFromPlay(collision.gameObject);
-            GameDriver.checkCubeMovement();
         }
     }
 }

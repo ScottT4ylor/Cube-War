@@ -20,7 +20,8 @@ public enum GameState
 public enum GamePhase
 {
     setup,
-    battle
+    battle,
+	gameOver
 }
 
 public class StateMachine : MonoBehaviour {
@@ -32,6 +33,8 @@ public class StateMachine : MonoBehaviour {
 	public static bool cubePlace = false;
     public static bool p1Setup = false;
     public static bool p2Setup = false;
+    public static bool p1King = false;
+    public static bool p2King = false;
 
 
 
@@ -42,7 +45,7 @@ public class StateMachine : MonoBehaviour {
         if (state == GameState.active)
         {
             turnState = Turn.player1;
-
+            GameDriver.updateTurnInterface();
         }
     }
 
@@ -59,6 +62,7 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
                     GameDriver.updateTurnInterface();
+                    GameDriver.updateSetupInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                         break;
                 case Turn.player2:
@@ -66,6 +70,7 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
                     if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
                     GameDriver.updateTurnInterface();
+                    GameDriver.updateSetupInterface();
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                     break;
                 case Turn.pause:
@@ -105,6 +110,14 @@ public class StateMachine : MonoBehaviour {
             gamePhase = GamePhase.battle;
         }
     }
+
+	public static void gameOverPhase()
+	{
+		if (state == GameState.active) 
+		{
+			gamePhase = GamePhase.gameOver;
+		}
+	}
 
     public static void pause()
     {
@@ -163,6 +176,16 @@ public class StateMachine : MonoBehaviour {
     public static void endP2Setup()
     {
         p2Setup = false;
+    }
+
+    public static void p1KingPlaced()
+    {
+        p1King = true;
+    }
+
+    public static void p2KingPlaced()
+    {
+        p2King = true;
     }
 
     public static void endSetup()

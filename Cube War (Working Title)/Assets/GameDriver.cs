@@ -44,7 +44,10 @@ public class GameDriver : MonoBehaviour {
     {
         if (checkingCubeMovement)
         {
-            checkCubeMovement();
+			if (checkCubeMovement ()) {
+				gameDriver.checkingCubeMovement = false;
+				StateMachine.passTurn ();
+			}
         }
     }
 
@@ -52,11 +55,22 @@ public class GameDriver : MonoBehaviour {
     {
         p1 = new Player(1, playerPointsTesting);
         p2 = new Player(2, playerPointsTesting);
+        StateMachine.activate();
         pointSlider1.GetComponent<Slider>().maxValue = p1.pointsAvailable;
         pointSlider2.GetComponent<Slider>().maxValue = p2.pointsAvailable;
-        StateMachine.activate();
+        foreach(GameObject obj in hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(true);
+            if (obj.GetComponent<HoverInfoInterface>() != null) obj.GetComponent<HoverInfoInterface>().Start();
+        }
+        
         StateMachine.setupPhase();
+        foreach (GameObject obj in hoverInfoInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
         StateMachine.initiateTurns();
+        updatePointInterface();
     }
 
     public int addPlayerPoints(int player, int points)
@@ -158,11 +172,16 @@ public class GameDriver : MonoBehaviour {
 
     public void startGameOver(int winner)
     {
+		StateMachine.gameOverPhase();
         showGameOverInterface();
         foreach (GameObject obj in gameOverInterfaceObjects)
         {
-            if (obj.GetComponent<GameOverInterface>() != null) obj.GetComponent<GameOverInterface>().gameOver(winner);
+            if (obj.name.Equals("GameOverWinner"))
+            {
+                obj.GetComponent<Text>().text = ("Player " + winner + " wins!");
+            }
         }
+		print ("Game Over! Player " + StateMachine.currentTurn () + " Wins!");
     }
 
 
@@ -183,6 +202,12 @@ public class GameDriver : MonoBehaviour {
         if (gameDriver.addPlayerPoints(StateMachine.currentTurn(), gameDriver.cubeSelected.GetComponent<UnitClass>().cost) == -1)
             print("Something went wrong with the player point counts!");
         gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
+        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.King)
+        {
+            if (StateMachine.currentTurn() == 1) StateMachine.p1KingPlaced();
+            else if (StateMachine.currentTurn() == 2) StateMachine.p2KingPlaced();
+            else print("That king was placed on no particular player's turn!");
+        }
         gameDriver.cubeSelected = null;
         StateMachine.isPlacingCube = false;
         GameDriver.updatePointInterface();
@@ -229,22 +254,40 @@ public class GameDriver : MonoBehaviour {
         bool allStopped = true;
         foreach (GameObject c in gameDriver.cubesInPlay)
         {
-            //if(c is not stopped) then allStopped = false;
+			if (!c.GetComponent<Rigidbody> ().IsSleeping ()) {
+				allStopped = false;
+			}
         }
-        /*if (allStopped == true)
+        if (allStopped == true)
         {
-            gameDriver.checkingCubeMovement = false;
             return true; //All are stopped, it can call for next turn.
-        }*/
-        return true; //just so it doesn't yell at me. Changing it later.
+        }
+		return false; //just so it doesn't yell at me. Changing it later.
     }
 
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
-        if (obj.GetComponent<UnitClass>().unitClass.Equals(className.className3))//This will be filled with the king!!!
+		if (StateMachine.gamePhase == GamePhase.setup) {
+			if (obj.GetComponent<Cube> ().playState == PlayState.idle) {
+				gameDriver.addPlayerPoints (obj.GetComponent<UnitClass>().owner, -1 * obj.GetComponent<UnitClass> ().cost);
+			}
+			StateMachine.isPlacingCube = false;
+			if (StateMachine.currentTurn () != obj.GetComponent<UnitClass> ().owner) {
+				StateMachine.passTurn ();
+			}
+			updatePointInterface ();
+		}
+		else if (obj.GetComponent<UnitClass>().unitClass.Equals(className.King))
         {
-            gameDriver.startGameOver(obj.GetComponent<UnitClass>().owner);
+            if (obj.GetComponent<UnitClass>().owner == 1)
+            {
+                gameDriver.startGameOver(2);
+            }
+            else
+            {
+                gameDriver.startGameOver(1);
+            }
         }
         GameObject.Destroy(obj);
     }
@@ -487,6 +530,14 @@ public class GameDriver : MonoBehaviour {
         gameDriver.pointSlider2.GetComponent<Slider>().value = p2Points;
         gameDriver.pointText1.GetComponent<Text>().text = p1Points+"/"+gameDriver.p1.pointsAvailable;
         gameDriver.pointText2.GetComponent<Text>().text = p2Points + "/" + gameDriver.p2.pointsAvailable;
+    }
+
+    public static void updateSetupInterface()
+    {
+        foreach(GameObject obj in gameDriver.setupInterfaceObjects)
+        {
+            if (obj.GetComponent<SetupInterface>() != null) obj.GetComponent<SetupInterface>().textureButtons(StateMachine.currentTurn());
+        }
     }
 
 

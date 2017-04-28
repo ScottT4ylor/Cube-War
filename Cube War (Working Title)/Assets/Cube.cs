@@ -12,7 +12,8 @@ public enum PlayState{
 	idle, //The player is idle
 	aiming, //The player has selected a cude and is currently aiming
 	launch,
-	placing}; //The player has launched the cube, and the cube is in motion
+	placing,
+	placed}; //The player has launched the cube, and the cube is in motion
 
 public class Cube : MonoBehaviour {
 
@@ -22,6 +23,7 @@ public class Cube : MonoBehaviour {
 
 	//private Vector3 mousePos2D;
 	//private Vector3 mousePos3D;
+	private UnitClass unit;
 	private Vector3 launcherPos;
 	private float launcherY = 0.0f;
 	private Vector3 cubePos;
@@ -54,6 +56,7 @@ public class Cube : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//playState = StateMachine.playState;  BRING BACK LATER
+		unit = this.gameObject.GetComponent<UnitClass>();
 		flick = false;
 		stun = false; 
 		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
@@ -62,6 +65,7 @@ public class Cube : MonoBehaviour {
 		//mousePos3D = Vector3.zero;
 		//maxMagnitude = this.gameObject.GetComponent<Collider> ().bounds.size.x * 3f;
 		velocity = Vector3.zero; //The player only controls X and Z velocity
+		unit.startDefense ();
 		//cubeBody = this.gameObject.GetComponent<Rigidbody>();
 		//StateMachine.battlePhase(); //For turning batttle on/off
 	}
@@ -135,7 +139,9 @@ public class Cube : MonoBehaviour {
 			if (Input.GetMouseButtonDown(0)) {
 				isKinematic = false;
 				flick = true;
-				this.gameObject.GetComponent<Rigidbody> ().AddForceAtPosition (-velocity * velocityMulti,hitPos);
+				unit.startAttack ();
+				this.gameObject.GetComponent<Rigidbody> ().AddForceAtPosition (-velocity * 
+					this.gameObject.GetComponent<Rigidbody>().mass * velocityMulti,hitPos);
 				//DestroyLaunchingObjects ();
 				LaunchLine.launchLine.Enabled(false);
 				playState = PlayState.launch;
@@ -143,16 +149,16 @@ public class Cube : MonoBehaviour {
 			break;
 		case PlayState.launch:
 
-			if (this.gameObject.GetComponent<Rigidbody> ().velocity.magnitude <= 0.01) {
-				this.gameObject.GetComponent<Rigidbody> ().velocity = Vector3.zero;
+			if (this.gameObject.GetComponent<Rigidbody> ().IsSleeping()) {
 
-				this.gameObject.transform.rotation = Quaternion.Euler (0, 0, 0);
+				//this.gameObject.transform.rotation = Quaternion.Euler (0, 0, 0);
 				velocity = Vector3.zero;
 				//cubePos = this.gameObject.transform.position;
 				hitPos = this.gameObject.transform.position;
 				launcherY = this.gameObject.transform.position.y;
+				unit.startDefense ();
 				playState = PlayState.idle;
-				StateMachine.passTurn();
+				GameDriver.checkCubeMovement();
 			}
 			break;
 		case PlayState.placing:
@@ -175,19 +181,24 @@ public class Cube : MonoBehaviour {
 				}
 				else{
 					isKinematic = false;
-					playState = PlayState.idle;
-					this.gameObject.layer = LayerMask.NameToLayer("cube");
-					GameDriver.placedCube ();
+					this.gameObject.layer = LayerMask.NameToLayer ("cube");
+					playState = PlayState.placed;
 				}
+			}
+			break;
+		case PlayState.placed:
+			if (this.gameObject.GetComponent<Rigidbody> ().IsSleeping ()) {
+				playState = PlayState.idle;
+				GameDriver.placedCube ();
 			}
 			break;
 		}
 	}
 
 
-
+	//TODO: Add messages for each condition.
 	void OnMouseDown(){
-		if ((playState == PlayState.idle) && (flick==false) && (stun==false) && 
+		if ((playState == PlayState.idle) && (StateMachine.currentTurn() == unit.owner) && (flick==false) && (stun==false) && 
 			(StateMachine.turnState != Turn.pause) && (StateMachine.getPhase() == GamePhase.battle)) {
 			//TEMP
 			//this.gameObject.GetComponent<Rigidbody> ().velocity = new Vector3(30f,4f,30f);
@@ -202,6 +213,7 @@ public class Cube : MonoBehaviour {
 			//tempHitMarker = (GameObject)Instantiate(hitPosMarker,hitPos,Quaternion.identity);
 
 			isKinematic = true;
+			UpdatelaunchVelocity ();
 			LaunchLine.launchLine.Enabled (true);
 			playState = PlayState.aiming;
 
@@ -247,13 +259,15 @@ public class Cube : MonoBehaviour {
 		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
 		velocity = launcherPos - hitPos;
 		if (velocity.magnitude > maxMagnitude) {
-			velocity = launcherPos.normalized * maxMagnitude;
+			velocity = Vector3.ClampMagnitude(velocity, maxMagnitude);
 			launcherPos = velocity + hitPos;
-			templauncher.transform.position = launcherPos;
+			//templauncher.transform.position = launcherPos;
 		}
-		LaunchLine.launchLine.SetPosition(0,hitPos);
-		LaunchLine.launchLine.SetPosition(1,launcherPos);
-		LaunchLine.launchLine.endColor = Color.HSVToRGB ((1 - (velocity.magnitude / maxMagnitude)) * 120.0f, 1.0f, 1.0f);
+		LaunchLine.launchLine.SetLinePosition(0,hitPos);
+		LaunchLine.launchLine.SetLinePosition(1,launcherPos);
+		LaunchLine.launchLine.SetPointPosition (launcherPos);
+		//LaunchLine.launchLine.endColor = Color.HSVToRGB ((1 - (velocity.magnitude / maxMagnitude)) * 120.0f, 1.0f, 1.0f);
+		LaunchLine.launchLine.endColor = Color.Lerp (Color.green, Color.red, velocity.magnitude / maxMagnitude);
 		//do something about the y later
 		//velocity.y = 0f; 
 		//GameObject.Destroy (templauncher);
@@ -277,7 +291,7 @@ public class Cube : MonoBehaviour {
 
 	private void UpdatePlacingPosition(){
 		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		if ( Physics.Raycast (ray,out hit,1000.0f)) {
+		if ( Physics.Raycast (ray,out hit,1000.0f, (LayerMask)4096)) { //Only casts the ray against the RaycastGround layer.
 			cubePos = new Vector3 (hit.point.x, cubePos.y, 
 				hit.point.z);
 		}
