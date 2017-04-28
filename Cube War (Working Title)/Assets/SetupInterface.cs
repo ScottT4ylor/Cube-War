@@ -111,6 +111,9 @@ public class SetupInterface : MonoBehaviour {
                 case "Titan":
                     classInfo.Lookup("Titan");
                     break;
+                case "Bomb":
+                    classInfo.Lookup("Bomb");
+                    break;
                 default:
                     classInfo.Lookup("blank");
                     break;
