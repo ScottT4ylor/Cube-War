@@ -534,11 +534,6 @@ GameObject:
   m_PrefabParentObject: {fileID: 1982530029250694, guid: 5ec68f7af76bad84b862daf70070798e,
     type: 2}
   m_PrefabInternal: {fileID: 1824024956}
---- !u!1 &225064304 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1043693796876164, guid: aa09ecc84a80f0242a29e260a5075199,
-    type: 2}
-  m_PrefabInternal: {fileID: 1542021476}
 --- !u!1 &278462689
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,7 +980,7 @@ MonoBehaviour:
   gameOverInterfaceObjects: []
   turnInterfaceObjects:
   - {fileID: 2069756320}
-  - {fileID: 225064304}
+  - {fileID: 0}
   pointInterfaceObjects:
   - {fileID: 2096144961}
   - {fileID: 366220389}
@@ -2391,7 +2386,7 @@ Transform:
   m_Children:
   - {fileID: 1144675793}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1459766353
 Prefab:
@@ -3463,7 +3458,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1707515835}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.02, z: 0}
+  m_LocalPosition: {x: 0, y: 85.19, z: 0}
   m_LocalScale: {x: 2.09, y: 1, z: 2.09}
   m_Children:
   - {fileID: 1585389459}
