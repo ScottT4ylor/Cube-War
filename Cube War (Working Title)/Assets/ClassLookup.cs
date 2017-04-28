@@ -6,9 +6,9 @@ using UnityEngine;
 
 public enum className
 {
-    King,
-    Brawler,
-    Sentinel,
+	King,
+	Brawler,
+	Sentinel,
 	Shadow,
 	Grunt,
 	Peasant,

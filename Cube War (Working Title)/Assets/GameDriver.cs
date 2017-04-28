@@ -11,6 +11,8 @@ public class GameDriver : MonoBehaviour {
     public bool checkingCubeMovement = false;
     public GameObject cubeSelected;
     public List<GameObject> cubesInPlay;
+    public List<className> cubesDeadP1;
+    public List<className> cubesDeadP2;
     public List<GameObject> menuInterfaceObjects;
     public List<GameObject> setupInterfaceObjects;
     public List<GameObject> gameOverInterfaceObjects;
@@ -208,6 +210,24 @@ public class GameDriver : MonoBehaviour {
             else if (StateMachine.currentTurn() == 2) StateMachine.p2KingPlaced();
             else print("That king was placed on no particular player's turn!");
         }
+        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Paralyze)
+        {
+            if (StateMachine.currentTurn() == 1) StateMachine.p1ParalyzePlaced();
+            else if (StateMachine.currentTurn() == 2) StateMachine.p2ParalyzePlaced();
+            else print("That Paralyze was placed on no particular player's turn!");
+        }
+        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Bomb)
+        {
+            if (StateMachine.currentTurn() == 1) StateMachine.p1BombPlaced();
+            else if (StateMachine.currentTurn() == 2) StateMachine.p2BombPlaced();
+            else print("That Bomb was placed on no particular player's turn!");
+        }
+        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Healer)
+        {
+            if (StateMachine.currentTurn() == 1) StateMachine.p1HealerPlaced();
+            else if (StateMachine.currentTurn() == 2) StateMachine.p2HealerPlaced();
+            else print("That king was placed on no particular player's turn!");
+        }
         gameDriver.cubeSelected = null;
         StateMachine.isPlacingCube = false;
         GameDriver.updatePointInterface();
@@ -270,17 +290,56 @@ public class GameDriver : MonoBehaviour {
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
-		if (StateMachine.gamePhase == GamePhase.setup) {
-			if (obj.GetComponent<Cube> ().playState == PlayState.idle) {
-				gameDriver.addPlayerPoints (obj.GetComponent<UnitClass>().owner, -1 * obj.GetComponent<UnitClass> ().cost);
-			}
-			StateMachine.isPlacingCube = false;
-			if (StateMachine.currentTurn () != obj.GetComponent<UnitClass> ().owner) {
-				StateMachine.passTurn ();
-			}
-			updatePointInterface ();
-		}
-		else if (obj.GetComponent<UnitClass>().unitClass.Equals(className.King))
+        if (StateMachine.gamePhase == GamePhase.setup)
+        {
+            if (obj.GetComponent<Cube>().playState == PlayState.idle)
+            {
+                gameDriver.addPlayerPoints(obj.GetComponent<UnitClass>().owner, -1 * obj.GetComponent<UnitClass>().cost);
+                if (obj.GetComponent<UnitClass>().owner == 1)
+                {
+                    switch (obj.GetComponent<UnitClass>().unitClassString())
+                    {
+                        case "King":
+                            StateMachine.p1KingRemoved();
+                            break;
+                        case "Paralyze":
+                            StateMachine.p1ParalyzeRemoved();
+                            break;
+                        case "Bomb":
+                            StateMachine.p1BombRemoved();
+                            break;
+                        case "Peasant":
+                            StateMachine.p1PeasantRemoved();
+                            break;
+                    }
+                }
+                else if (obj.GetComponent<UnitClass>().owner == 2)
+                {
+                    switch (obj.GetComponent<UnitClass>().unitClassString())
+                    {
+                        case "King":
+                            StateMachine.p2KingRemoved();
+                            break;
+                        case "Paralyze":
+                            StateMachine.p2ParalyzeRemoved();
+                            break;
+                        case "Bomb":
+                            StateMachine.p2BombRemoved();
+                            break;
+                        case "Peasant":
+                            StateMachine.p2PeasantRemoved();
+                            break;
+                    }
+                }  
+            }
+            StateMachine.isPlacingCube = false;
+            if (StateMachine.currentTurn() != obj.GetComponent<UnitClass>().owner)
+            {
+                StateMachine.passTurn();
+            }
+            updatePointInterface();
+        }
+        else if (obj.GetComponent<UnitClass>().unitClass.Equals(className.King))
         {
             if (obj.GetComponent<UnitClass>().owner == 1)
             {
@@ -291,7 +350,29 @@ public class GameDriver : MonoBehaviour {
                 gameDriver.startGameOver(1);
             }
         }
+        else if (obj.GetComponent<UnitClass>().owner == 1)
+        {
+            gameDriver.cubesDeadP1.Add(obj.GetComponent<UnitClass>().unitClass);
+        }
+        else if (obj.GetComponent<UnitClass>().owner == 2)
+        {
+            gameDriver.cubesDeadP2.Add(obj.GetComponent<UnitClass>().unitClass);
+        }
         GameObject.Destroy(obj);
+    }
+
+
+    public static void returnToPlay(GameObject obj)
+    {
+        if (obj.GetComponent<UnitClass>().owner == 1)
+        {
+            gameDriver.cubesDeadP1.Remove(obj.GetComponent<UnitClass>().unitClass);
+        }
+        else if (obj.GetComponent<UnitClass>().owner == 2)
+        {
+            gameDriver.cubesDeadP2.Remove(obj.GetComponent<UnitClass>().unitClass);
+        }
+        gameDriver.cubesInPlay.Add(obj);
     }
 
 	public static void resolveStalemate(){
@@ -316,6 +397,7 @@ public class GameDriver : MonoBehaviour {
 			gameDriver.startGameOver (2);
 		}
 	}
+
 
 
 

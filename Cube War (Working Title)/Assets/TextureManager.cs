@@ -35,4 +35,16 @@ public class TextureManager : MonoBehaviour {
         else
             print("Can't apply sprite, the texture you passed in is null!");
     }
+
+    public static void activeButton(GameObject obj, bool set)
+    {
+        if (set == true)
+        {
+            obj.GetComponent<Image>().color = new Color(0.75f, 0.75f, 0.75f);
+        }
+        else
+        {
+            obj.GetComponent<Image>().color = new Color(1f, 1f, 1f);
+        }
+    }
 }
