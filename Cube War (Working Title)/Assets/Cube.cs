@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/* Just a basic bit of code to launch a cube
- * (pulled some code from Mission Demolition)
- */
 
 //Enum for the current play state
 
@@ -58,7 +55,11 @@ public class Cube : MonoBehaviour {
 		//playState = StateMachine.playState;  BRING BACK LATER
 		unit = this.gameObject.GetComponent<UnitClass>();
 		flick = false;
-		stun = false; 
+		if (unit.unitClass == className.Paralyze) {
+			stun = true;
+		} else {
+			stun = false;
+		}
 		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
 		cubePos = this.gameObject.transform.position;
 		//mousePos2D = Input.mousePosition;
@@ -196,28 +197,51 @@ public class Cube : MonoBehaviour {
 	}
 
 
-	//TODO: Add messages for each condition.
+	//TODO: Add messages for each condition., rearrange conditions
 	void OnMouseDown(){
-		if ((playState == PlayState.idle) && (StateMachine.currentTurn() == unit.owner) && (flick==false) && (stun==false) && 
-			(StateMachine.turnState != Turn.pause) && (StateMachine.getPhase() == GamePhase.battle)) {
-			//TEMP
-			//this.gameObject.GetComponent<Rigidbody> ().velocity = new Vector3(30f,4f,30f);
-			hitPos = this.gameObject.transform.position;
-			launcherY = this.gameObject.transform.position.y;
-			maxHitPosY = hitPos.y + this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
-			minHitPosY = hitPos.y - this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
-			maxlauncherY = maxHitPosY + this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
-			minlauncherY = minHitPosY - this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
+		if((StateMachine.turnState != Turn.pause) && (StateMachine.getPhase() == GamePhase.battle) &&
+			(playState == PlayState.idle) && (StateMachine.currentTurn() == unit.owner)){
+			//Check for special units
+			if (unit.unitClass == className.Paralyze) {
+				return;
+			}
+			//Slect normal cube to flick
+			if ((flick == false) && (stun == false)) {
+				hitPos = this.gameObject.transform.position;
+				launcherY = this.gameObject.transform.position.y;
+				maxHitPosY = hitPos.y + this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
+				minHitPosY = hitPos.y - this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
+				maxlauncherY = maxHitPosY + this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
+				minlauncherY = minHitPosY - this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
 
-			//TESTING
-			//tempHitMarker = (GameObject)Instantiate(hitPosMarker,hitPos,Quaternion.identity);
+				//TESTING
+				//tempHitMarker = (GameObject)Instantiate(hitPosMarker,hitPos,Quaternion.identity);
 
-			isKinematic = true;
-			UpdatelaunchVelocity ();
-			LaunchLine.launchLine.Enabled (true);
-			playState = PlayState.aiming;
+				isKinematic = true;
+				UpdatelaunchVelocity ();
+				LaunchLine.launchLine.Enabled (true);
+				playState = PlayState.aiming;
+			}
+		}
 
-			//might remove this later
+	}
+
+	void OnCollisionEnter(Collision other){
+		if (unit.unitClass == className.Paralyze) {
+			if (other.gameObject.GetComponent<Cube>() != null){
+				if (other.gameObject.GetComponent<UnitClass> ().owningPlayer != unit.owningPlayer) {
+					other.gameObject.GetComponent<Cube>().stunned = true;
+				}
+			}
+		}
+	}
+
+	void OnCollisionExit(Collision other){
+		if (other.gameObject.GetComponent<Cube> () != null) {
+			if (other.gameObject.GetComponent<UnitClass> ().unitClass == className.Paralyze && 
+				other.gameObject.GetComponent<UnitClass>().owningPlayer != unit.owningPlayer) {
+				stunned = false;
+			}
 		}
 	}
 

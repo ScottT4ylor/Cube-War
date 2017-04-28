@@ -35,6 +35,14 @@ public class StateMachine : MonoBehaviour {
     public static bool p2Setup = false;
     public static bool p1King = false;
     public static bool p2King = false;
+    public static bool p1Paralyze = false;
+    public static bool p2Paralyze = false;
+    public static bool p1Bomb = false;
+    public static bool p2Bomb = false;
+    public static bool p1Healer = false;
+    public static bool p2Healer = false;
+    public static int p1Peasant = 0;
+    public static int p2Peasant = 0;
 
 
 
@@ -56,10 +64,19 @@ public class StateMachine : MonoBehaviour {
         {
             switch (turnState)
             {
-                case Turn.idle:
-                case Turn.player1:
-                    turnState = Turn.player2;
-                    if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
+			case Turn.idle:
+			case Turn.player1:
+				turnState = Turn.player2;
+				if (getPhase () == GamePhase.battle) {
+					GameDriver.clearFlicks ();
+					if (flickableCubesAvailable (2) == 0) {
+						if (flickableCubesAvailable (1) == 0) {
+							GameDriver.resolveStalemate ();
+						} else {
+							passTurn ();
+						}
+					}
+				}
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
                     GameDriver.updateTurnInterface();
                     GameDriver.updateSetupInterface();
@@ -67,7 +84,16 @@ public class StateMachine : MonoBehaviour {
                         break;
                 case Turn.player2:
                     turnState = Turn.player1;
-                    if (getPhase() == GamePhase.battle) GameDriver.clearFlicks();
+					if (getPhase () == GamePhase.battle) {
+						GameDriver.clearFlicks ();
+						if (flickableCubesAvailable (1) == 0) {
+							if (flickableCubesAvailable (2) == 0) {
+							GameDriver.resolveStalemate ();
+							} else {
+								passTurn ();
+							}
+						}
+					}
                     if (getPhase() == GamePhase.setup && p1Setup == false) turnState = Turn.player2;
                     GameDriver.updateTurnInterface();
                     GameDriver.updateSetupInterface();
@@ -108,6 +134,9 @@ public class StateMachine : MonoBehaviour {
         if (state == GameState.active)
         {
             gamePhase = GamePhase.battle;
+			if ((flickableCubesAvailable (1) == 0) && (flickableCubesAvailable (2) == 0)) {
+				GameDriver.resolveStalemate ();
+			}
         }
     }
 
@@ -117,6 +146,16 @@ public class StateMachine : MonoBehaviour {
 		{
 			gamePhase = GamePhase.gameOver;
 		}
+	}
+
+	public static int flickableCubesAvailable(int playerNum){
+		int cubes = 0;
+		foreach (GameObject cb in GameDriver.gameDriver.cubesInPlay) {
+			if (!cb.GetComponent<Cube> ().stunned && cb.GetComponent<UnitClass> ().owningPlayer == playerNum) {
+				cubes += 1;
+			}
+		}
+		return cubes;
 	}
 
     public static void pause()
@@ -178,6 +217,8 @@ public class StateMachine : MonoBehaviour {
         p2Setup = false;
     }
 
+
+    //For setting unit limits//
     public static void p1KingPlaced()
     {
         p1King = true;
@@ -187,6 +228,102 @@ public class StateMachine : MonoBehaviour {
     {
         p2King = true;
     }
+
+    public static void p1ParalyzePlaced()
+    {
+        p1Paralyze = true;
+    }
+
+    public static void p2ParalyzePlaced()
+    {
+        p2Paralyze = true;
+    }
+
+    public static void p1BombPlaced()
+    {
+        p1Bomb = true;
+    }
+
+    public static void p2BombPlaced()
+    {
+        p2Bomb = true;
+    }
+
+    public static void p1HealerPlaced()
+    {
+        p1Healer = true;
+    }
+
+    public static void p2HealerPlaced()
+    {
+        p2Healer = true;
+    }
+
+    public static void p1PeasantPlaced()
+    {
+        p1Peasant += 1;
+    }
+
+    public static void p2PeasantPlaced()
+    {
+        p2Peasant += 1;
+    }
+
+    //And for removing them
+
+    public static void p1KingRemoved()
+    {
+        p1King = false;
+    }
+
+    public static void p2KingRemoved()
+    {
+        p2King = false;
+    }
+
+    public static void p1ParalyzeRemoved()
+    {
+        p1Paralyze = false;
+    }
+
+    public static void p2ParalyzeRemoved()
+    {
+        p2Paralyze = false;
+    }
+
+    public static void p1BombRemoved()
+    {
+        p1Bomb = false;
+    }
+
+    public static void p2BombRemoved()
+    {
+        p2Bomb = false;
+    }
+
+    public static void p1HealerRemoved()
+    {
+        p1Healer = false;
+    }
+
+    public static void p2HealerRemoved()
+    {
+        p2Healer = false;
+    }
+
+    public static void p1PeasantRemoved()
+    {
+        p1Peasant -= 1;
+    }
+
+    public static void p2PeasantRemoved()
+    {
+        p2Peasant -= 1;
+    }
+
+    //End of the unit limit code
+
+
 
     public static void endSetup()
     {

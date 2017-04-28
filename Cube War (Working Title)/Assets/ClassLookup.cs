@@ -6,15 +6,16 @@ using UnityEngine;
 
 public enum className
 {
-    King,
-    Brawler,
-    Sentinel,
+	King,
+	Brawler,
+	Sentinel,
 	Shadow,
 	Grunt,
 	Peasant,
 	Healer,
 	Paralyze,
 	Titan,
+	Bomb,
 	//TODO: Remove these.
 	//These are Temp values I made to fix complie errors --Jason
 	className1,
@@ -85,6 +86,7 @@ public class ClassLookup : MonoBehaviour {
         else if (cName == className.Healer) return "Healer";
         else if (cName == className.Paralyze) return "Paralyze";
         else if (cName == className.Titan) return "Titan";
+        else if (cName == className.Bomb) return "Bomb";
         else return "Derp, it broke.";
     }
 
@@ -97,7 +99,7 @@ public class ClassLookup : MonoBehaviour {
                 cName = className.King;
                 type = classType.classType1;
                 attack = 2;
-                defense = 20;
+                defense = 6;
                 cost = 0;
                 description = "";
                 //If it is knocked off of the board or defeated, it's owner loses the game. Limit: 1 per player per round.
@@ -160,7 +162,7 @@ public class ClassLookup : MonoBehaviour {
 				defense = 1;
 				cost = 1;
                 description = "";
-                //May be flicked twice in the same turn. Limit: 3 per player per round.
+                //May be flicked twice in the same turn. Limit: 4 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
@@ -197,6 +199,18 @@ public class ClassLookup : MonoBehaviour {
 				cost = 7;
                 description = "";
                 //No ability.
+                texture[0] = p1Textures[cName];
+                texture[1] = p2Textures[cName];
+                unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
+                return unitLookup;
+            case "Bomb":
+                cName = className.Bomb;
+                type = classType.classType1;
+                attack = 0;
+                defense = 2;
+                cost = 4;
+                description = "";
+                //Use flick action to detonate, creating an area of effect collision. Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
                 unitLookup.unitSetup(cName, type, attack, defense, StateMachine.currentTurn(), cost, texture);
@@ -312,6 +326,17 @@ public class ClassLookup : MonoBehaviour {
                 cost = 7;
                 description = "";
                 //No ability.
+                texture[0] = p1Textures[cName];
+                texture[1] = p2Textures[cName];
+                break;
+            case "Bomb":
+                cName = className.Bomb;
+                type = classType.classType1;
+                attack = 0;
+                defense = 2;
+                cost = 4;
+                description = "";
+                //Use flicking action to detonate, creating an area of effect collision. Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
                 break;
