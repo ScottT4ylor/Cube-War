@@ -63,6 +63,7 @@ public class StateMachine : MonoBehaviour {
         p2Healer = false;
         p1Peasant = 0;
         p2Peasant = 0;
+        unPause();
     }
 
 

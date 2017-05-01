@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameDriver : MonoBehaviour {
     public static GameDriver gameDriver;
@@ -652,6 +653,19 @@ public class GameDriver : MonoBehaviour {
         {
             if (obj.GetComponent<SetupInterface>() != null) obj.GetComponent<SetupInterface>().textureButtons(StateMachine.currentTurn());
         }
+    }
+
+    //Loads the start menu
+    public void gotoMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
+    //Quits the game.
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 
