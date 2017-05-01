@@ -34,7 +34,7 @@ public class HoverInfoInterface : MonoBehaviour {
     public void updateHoverInfo(string check)
     {
         lookup.Lookup(check);
-        //image.sprite = .... Not sure how to do this yet. Figure it out later.
+        //image.sprite is set elsewhere
         className.text = lookup.name2String();
         attack.text = "Attack: "+lookup.attack;
         defense.text = "Defense: " + lookup.defense;

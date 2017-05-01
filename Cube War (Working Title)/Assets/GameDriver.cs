@@ -228,6 +228,12 @@ public class GameDriver : MonoBehaviour {
             else if (StateMachine.currentTurn() == 2) StateMachine.p2HealerPlaced();
             else print("That king was placed on no particular player's turn!");
         }
+        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Peasant)
+        {
+            if (StateMachine.currentTurn() == 1) StateMachine.p1PeasantPlaced();
+            else if (StateMachine.currentTurn() == 2) StateMachine.p2PeasantPlaced();
+            else print("That king was placed on no particular player's turn!");
+        }
         gameDriver.cubeSelected = null;
         StateMachine.isPlacingCube = false;
         GameDriver.updatePointInterface();

@@ -43,6 +43,7 @@ public class StateMachine : MonoBehaviour {
     public static bool p2Healer = false;
     public static int p1Peasant = 0;
     public static int p2Peasant = 0;
+    public static int peasantLimit = 5;
 
 
 

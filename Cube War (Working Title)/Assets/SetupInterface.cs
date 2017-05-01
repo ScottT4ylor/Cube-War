@@ -19,7 +19,8 @@ public class SetupInterface : MonoBehaviour {
 
 
 
-    public void instantiateNewUnit()
+    //Not currently in use.
+    /*public void instantiateNewUnit()
     {
         if (StateMachine.turnState != Turn.pause)
         {
@@ -33,7 +34,7 @@ public class SetupInterface : MonoBehaviour {
                 driver.placingCube(newUnit);
             }
         }
-    }
+    }*/
 
     public void instantiateNewUnit(string target)      //An overload in case the interface calls it this way
     {
@@ -46,6 +47,34 @@ public class SetupInterface : MonoBehaviour {
                 {
                     if ((StateMachine.currentTurn() == 1 && StateMachine.p1King == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2King == true))
                     {
+                        return;
+                    }
+                }
+                if (target == "Paralyze")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Paralyze == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2Paralyze == true))
+                    {
+                        return;
+                    }
+                }
+                if (target == "Bomb")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Bomb == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2Bomb == true))
+                    {
+                        return;
+                    }
+                }
+                if (target == "Healer")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Healer == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2Healer == true))
+                    {
+                        return;
+                    }
+                }
+                if (target == "Peasant")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Peasant >= StateMachine.peasantLimit) || (StateMachine.currentTurn() == 2 && StateMachine.p2Peasant >= StateMachine.peasantLimit))
+                {
                         return;
                     }
                 }
