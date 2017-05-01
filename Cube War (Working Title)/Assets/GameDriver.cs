@@ -58,6 +58,7 @@ public class GameDriver : MonoBehaviour {
         p1 = new Player(1, playerPointsTesting);
         p2 = new Player(2, playerPointsTesting);
         StateMachine.activate();
+        StateMachine.clearStateMachine();
         pointSlider1.GetComponent<Slider>().maxValue = p1.pointsAvailable;
         pointSlider2.GetComponent<Slider>().maxValue = p2.pointsAvailable;
         foreach(GameObject obj in hoverInfoInterfaceObjects)
