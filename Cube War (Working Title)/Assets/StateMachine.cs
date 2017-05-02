@@ -21,6 +21,7 @@ public enum GamePhase
 {
     setup,
     battle,
+    healer,
 	gameOver
 }
 
@@ -30,7 +31,7 @@ public class StateMachine : MonoBehaviour {
     public static Turn turnState;
     public static Turn holdTurn;
     public static GamePhase gamePhase;
-	public static bool cubePlace = false;
+    public static bool cubePlace = false;
     public static bool p1Setup = false;
     public static bool p2Setup = false;
     public static bool p1King = false;
@@ -43,8 +44,28 @@ public class StateMachine : MonoBehaviour {
     public static bool p2Healer = false;
     public static int p1Peasant = 0;
     public static int p2Peasant = 0;
+    public static int peasantLimit = 5;
 
 
+
+
+    public static void clearStateMachine()
+    {
+        cubePlace = false;
+        p1Setup = false;
+        p2Setup = false;
+        p1King = false;
+        p2King = false;
+        p1Paralyze = false;
+        p2Paralyze = false;
+        p1Bomb = false;
+        p2Bomb = false;
+        p1Healer = false;
+        p2Healer = false;
+        p1Peasant = 0;
+        p2Peasant = 0;
+        unPause();
+    }
 
 
 
@@ -138,6 +159,17 @@ public class StateMachine : MonoBehaviour {
 				GameDriver.resolveStalemate ();
 			}
         }
+    }
+
+    public static void healerPhase()
+    {
+        gamePhase = GamePhase.healer;
+    }
+
+    public static void endHealerPhase()
+    {
+        gamePhase = GamePhase.battle;
+        passTurn();
     }
 
 	public static void gameOverPhase()
