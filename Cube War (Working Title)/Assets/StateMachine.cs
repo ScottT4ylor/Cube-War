@@ -21,6 +21,7 @@ public enum GamePhase
 {
     setup,
     battle,
+    healer,
 	gameOver
 }
 
@@ -158,6 +159,17 @@ public class StateMachine : MonoBehaviour {
 				GameDriver.resolveStalemate ();
 			}
         }
+    }
+
+    public static void healerPhase()
+    {
+        gamePhase = GamePhase.healer;
+    }
+
+    public static void endHealerPhase()
+    {
+        gamePhase = GamePhase.battle;
+        passTurn();
     }
 
 	public static void gameOverPhase()
