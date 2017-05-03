@@ -412,6 +412,7 @@ public class GameDriver : MonoBehaviour {
     public void endHeal()
     {
         StateMachine.endHealerPhase();
+        GameDriver.hideHealerInterface();
     }
 
     
