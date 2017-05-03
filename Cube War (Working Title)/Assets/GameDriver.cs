@@ -315,12 +315,23 @@ public class GameDriver : MonoBehaviour {
         }
         if (allStopped == true)
         {
+			StateMachine.isCubeLaunched = false;
             return true; //All are stopped, it can call for next turn.
         }
 		return false; //just so it doesn't yell at me. Changing it later.
     }
 
+	public static void PauseCubes(){
+		foreach (GameObject c in gameDriver.cubesInPlay) {
+			c.GetComponent<Rigidbody> ().maxDepenetrationVelocity = 0.5f;
+		}
+	}
 
+	public static void UnPauseCubes(){
+		foreach (GameObject c in gameDriver.cubesInPlay) {
+			c.GetComponent<Rigidbody> ().maxDepenetrationVelocity = c.GetComponent<Rigidbody> ().velocity.magnitude;
+		}
+	}
 
     public static void removeCubeFromPlay(GameObject obj)
     {

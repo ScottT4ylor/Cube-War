@@ -35,6 +35,7 @@ public class Cube : MonoBehaviour {
 	private float maxlauncherY;
 	private float minlauncherY;
 	private Collider[] colliders;
+	private bool changeToAiming = false;
 	//private GameObject lineRendererObject;
 	//private LineRenderer lineRenderer;
 
@@ -70,16 +71,14 @@ public class Cube : MonoBehaviour {
 		//cubeBody = this.gameObject.GetComponent<Rigidbody>();
 		//StateMachine.battlePhase(); //For turning batttle on/off
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-			
-		//StateMachine.playState = playState; //TODO: have the state machine called later
-		//TODO: change Kine different way
 
-
+	void Update(){
 		switch (playState) {
 		case PlayState.idle:
+			if (changeToAiming) {
+				changeToAiming = false;
+				playState = PlayState.aiming;
+			}
 			break;
 		case PlayState.aiming:
 			if (Input.GetAxis ("Cancel") == 1) {
@@ -90,7 +89,7 @@ public class Cube : MonoBehaviour {
 				break;
 			}
 			//alter hit position
-			if(Input.GetAxis("TargetUp") == 1){
+			if (Input.GetAxis ("TargetUp") == 1) {
 				if (hitPos.y < maxHitPosY) {
 					hitPos.y += hitPosMod;
 					launcherY += hitPosMod;
@@ -103,7 +102,7 @@ public class Cube : MonoBehaviour {
 					//tempHitMarker.transform.position = hitPos;
 				}
 			}
-			if(Input.GetAxis("TargetDown") == 1){
+			if (Input.GetAxis ("TargetDown") == 1) {
 				if (hitPos.y > minHitPosY) {
 					hitPos.y -= hitPosMod;
 					launcherY -= hitPosMod;
@@ -118,7 +117,7 @@ public class Cube : MonoBehaviour {
 			}
 
 			//alter launcher pos
-			if(Input.GetAxis("ForceUp") == 1){
+			if (Input.GetAxis ("ForceUp") == 1) {
 				if (launcherY < maxlauncherY) {
 					launcherY += hitPosMod;
 					if (hitPos.y > maxlauncherY) {
@@ -126,7 +125,7 @@ public class Cube : MonoBehaviour {
 					}
 				}
 			}
-			if(Input.GetAxis("ForceDown") == 1){
+			if (Input.GetAxis ("ForceDown") == 1) {
 				if (hitPos.y > minlauncherY) {
 					launcherY -= hitPosMod;
 					if (hitPos.y < minlauncherY) {
@@ -136,7 +135,6 @@ public class Cube : MonoBehaviour {
 			}
 			UpdatelaunchVelocity ();
 
-			//launch 
 			if (Input.GetMouseButtonDown(0)) {
 				isKinematic = false;
 				flick = true;
@@ -145,22 +143,12 @@ public class Cube : MonoBehaviour {
 					this.gameObject.GetComponent<Rigidbody>().mass * velocityMulti,hitPos);
 				//DestroyLaunchingObjects ();
 				LaunchLine.launchLine.Enabled(false);
+				StateMachine.isCubeLaunched = true;
 				playState = PlayState.launch;
 			}
+
 			break;
 		case PlayState.launch:
-
-			if (this.gameObject.GetComponent<Rigidbody> ().IsSleeping()) {
-
-				//this.gameObject.transform.rotation = Quaternion.Euler (0, 0, 0);
-				velocity = Vector3.zero;
-				//cubePos = this.gameObject.transform.position;
-				hitPos = this.gameObject.transform.position;
-				launcherY = this.gameObject.transform.position.y;
-				unit.startDefense ();
-				playState = PlayState.idle;
-				GameDriver.checkCubeMovement();
-			}
 			break;
 		case PlayState.placing:
 			if (Input.GetAxis ("Cancel") == 1) {
@@ -172,8 +160,8 @@ public class Cube : MonoBehaviour {
 			if (Input.GetAxis("TargetDown") == 1) {
 				cubePos.y -= hitPosMod;
 			}
+			//UpdatePlacingPosition ();
 			UpdatePlacingPosition ();
-		
 
 			if (Input.GetMouseButtonDown(0)) {
 				colliders = Physics.OverlapBox(cubePos,this.gameObject.GetComponent<Renderer>().bounds.extents,Quaternion.identity);
@@ -188,6 +176,38 @@ public class Cube : MonoBehaviour {
 			}
 			break;
 		case PlayState.placed:
+			break;
+		}
+	}
+
+	// Update is called once per frame
+	void FixedUpdate () {
+			
+		//StateMachine.playState = playState; //TODO: have the state machine called later
+		//TODO: change Kine different way
+
+
+		switch (playState) {
+		case PlayState.idle:
+			break;
+		case PlayState.aiming:
+			break;
+		case PlayState.launch:
+			if (this.gameObject.GetComponent<Rigidbody> ().IsSleeping()) {
+
+				//this.gameObject.transform.rotation = Quaternion.Euler (0, 0, 0);
+				velocity = Vector3.zero;
+				//cubePos = this.gameObject.transform.position;
+				hitPos = this.gameObject.transform.position;
+				launcherY = this.gameObject.transform.position.y;
+				unit.startDefense ();
+				playState = PlayState.idle;
+				GameDriver.checkCubeMovement();
+			}
+			break;
+		case PlayState.placing:
+			break;
+		case PlayState.placed:
 			if (this.gameObject.GetComponent<Rigidbody> ().IsSleeping ()) {
 				playState = PlayState.idle;
 				GameDriver.placedCube ();
@@ -200,7 +220,7 @@ public class Cube : MonoBehaviour {
 	//TODO: Add messages for each condition., rearrange conditions
 	void OnMouseDown(){
 		if((StateMachine.turnState != Turn.pause) && (StateMachine.getPhase() == GamePhase.battle) &&
-			(playState == PlayState.idle) && (StateMachine.currentTurn() == unit.owner)){
+			(playState == PlayState.idle) && (!StateMachine.isCubeLaunched) && (StateMachine.currentTurn() == unit.owner)){
 			//Check for special units
 			if (unit.unitClass == className.Paralyze) {
 				return;
@@ -220,7 +240,8 @@ public class Cube : MonoBehaviour {
 				isKinematic = true;
 				UpdatelaunchVelocity ();
 				LaunchLine.launchLine.Enabled (true);
-				playState = PlayState.aiming;
+				changeToAiming = true;
+				//playState = PlayState.aiming;
 			}
 		}
 
