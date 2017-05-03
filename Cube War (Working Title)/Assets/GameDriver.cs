@@ -20,6 +20,7 @@ public class GameDriver : MonoBehaviour {
     public List<GameObject> turnInterfaceObjects;
     public List<GameObject> pointInterfaceObjects;
     public List<GameObject> healerInterfaceObjects;
+    public GameObject popupInterfaceObject;
     public GameObject pointSlider1;
     public GameObject pointSlider2;
     public GameObject pointText1;
@@ -39,6 +40,9 @@ public class GameDriver : MonoBehaviour {
     public int healMax = 6; //Max points a healer can heal. Needs tuning.
     public GameObject healerSlider;
     public GameObject healerText;
+    public GameObject explosionObject;
+    public GameObject selectionLight;
+    public GameObject musicPlayer;
 
 
 
@@ -80,7 +84,13 @@ public class GameDriver : MonoBehaviour {
             obj.SetActive(false);
         }
         StateMachine.initiateTurns();
+        showPointInterface();
+        showSetupInterface();
+        showSetupHider();
+        showPointHider();
+        hideHoverInfoHider();
         updatePointInterface();
+
     }
 
     public int addPlayerPoints(int player, int points)
@@ -326,6 +336,7 @@ public class GameDriver : MonoBehaviour {
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
+        Instantiate(gameDriver.explosionObject,obj.transform.position,Quaternion.identity);
         if (StateMachine.gamePhase == GamePhase.setup)
         {
             if (obj.GetComponent<Cube>().playState == PlayState.idle)
@@ -394,6 +405,7 @@ public class GameDriver : MonoBehaviour {
         {
             gameDriver.cubesDeadP2.Add(obj.GetComponent<UnitClass>().unitClass);
         }
+        
         GameObject.Destroy(obj);
     }
 
@@ -411,6 +423,7 @@ public class GameDriver : MonoBehaviour {
     public void endHeal()
     {
         StateMachine.endHealerPhase();
+        GameDriver.hideHealerInterface();
     }
 
     
@@ -488,6 +501,17 @@ public class GameDriver : MonoBehaviour {
 			gameDriver.startGameOver (2);
 		}
 	}
+
+    public static void selectLightOn(GameObject obj)
+    {
+        gameDriver.selectionLight.SetActive(true);
+        gameDriver.selectionLight.transform.position = obj.transform.position;
+    }
+
+    public static void selectLightOff()
+    {
+        gameDriver.selectionLight.SetActive(false);
+    }
 
 
 
@@ -680,6 +704,11 @@ public class GameDriver : MonoBehaviour {
         gameDriver.hoverInfoInterfaceHide.SetActive(false);
     }
 
+    public static void popup(string message, float time)
+    {
+        gameDriver.popupInterfaceObject.GetComponent<PopupInterface>().showPopupMessage(message, time);
+    }
+
 
 
     public void toggleInterface(string n)
@@ -729,7 +758,11 @@ public class GameDriver : MonoBehaviour {
 
 
 
-
+    public void toggleMusic()
+    {
+        if (musicPlayer.activeInHierarchy) musicPlayer.SetActive(false);
+        else if (!musicPlayer.activeInHierarchy) musicPlayer.SetActive(true);
+    }
 
 
     public static void updateTurnInterface()
