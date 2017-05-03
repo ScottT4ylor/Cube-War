@@ -32,6 +32,7 @@ public class StateMachine : MonoBehaviour {
     public static Turn holdTurn;
     public static GamePhase gamePhase;
     public static bool cubePlace = false;
+	public static bool cubeLaunch = false;
     public static bool p1Setup = false;
     public static bool p2Setup = false;
     public static bool p1King = false;
@@ -52,6 +53,7 @@ public class StateMachine : MonoBehaviour {
     public static void clearStateMachine()
     {
         cubePlace = false;
+		cubeLaunch = false;
         p1Setup = false;
         p2Setup = false;
         p1King = false;
@@ -198,6 +200,7 @@ public class StateMachine : MonoBehaviour {
             turnState = Turn.pause;
             Time.timeScale = 0;
             Time.fixedDeltaTime = 0;
+			GameDriver.PauseCubes();
             GameDriver.showMenuInterface();
         }
         else
@@ -215,6 +218,7 @@ public class StateMachine : MonoBehaviour {
             holdTurn = Turn.idle;
             Time.timeScale = 1;
             Time.fixedDeltaTime = 0.02f * Time.timeScale;
+			GameDriver.UnPauseCubes ();
             GameDriver.hideMenuInterface();
         }
         else
@@ -373,6 +377,18 @@ public class StateMachine : MonoBehaviour {
             cubePlace = value;
         }
     }
+
+	public static bool isCubeLaunched
+	{
+		get
+		{
+			return cubeLaunch;
+		}
+		set 
+		{
+			cubeLaunch = value;
+		}
+	}
 
 
     public static void activate()
