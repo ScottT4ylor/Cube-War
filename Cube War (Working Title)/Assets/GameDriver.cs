@@ -20,6 +20,7 @@ public class GameDriver : MonoBehaviour {
     public List<GameObject> turnInterfaceObjects;
     public List<GameObject> pointInterfaceObjects;
     public List<GameObject> healerInterfaceObjects;
+    public GameObject popupInterfaceObject;
     public GameObject pointSlider1;
     public GameObject pointSlider2;
     public GameObject pointText1;
@@ -39,6 +40,7 @@ public class GameDriver : MonoBehaviour {
     public int healMax = 6; //Max points a healer can heal. Needs tuning.
     public GameObject healerSlider;
     public GameObject healerText;
+    public GameObject explosionObject;
 
 
 
@@ -315,6 +317,7 @@ public class GameDriver : MonoBehaviour {
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
+        Instantiate(gameDriver.explosionObject,obj.transform.position,Quaternion.identity);
         if (StateMachine.gamePhase == GamePhase.setup)
         {
             if (obj.GetComponent<Cube>().playState == PlayState.idle)
@@ -383,6 +386,7 @@ public class GameDriver : MonoBehaviour {
         {
             gameDriver.cubesDeadP2.Add(obj.GetComponent<UnitClass>().unitClass);
         }
+        
         GameObject.Destroy(obj);
     }
 
@@ -667,6 +671,11 @@ public class GameDriver : MonoBehaviour {
     public static void hideHoverInfoHider()
     {
         gameDriver.hoverInfoInterfaceHide.SetActive(false);
+    }
+
+    public static void popup(string message, float time)
+    {
+        gameDriver.popupInterfaceObject.GetComponent<PopupInterface>().showPopupMessage(message, time);
     }
 
 
