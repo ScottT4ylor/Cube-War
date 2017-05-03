@@ -90,6 +90,10 @@ public class StateMachine : MonoBehaviour {
 			case Turn.idle:
 			case Turn.player1:
 				turnState = Turn.player2;
+				if (getPhase () == GamePhase.setup) {
+					GameDriver.gameDriver.p1Side.SetActive (true);
+					GameDriver.gameDriver.p2Side.SetActive (false);
+				}
 				if (getPhase () == GamePhase.battle) {
 					GameDriver.clearFlicks ();
 					if (flickableCubesAvailable (2) == 0) {
@@ -103,10 +107,16 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
                     GameDriver.updateTurnInterface();
                     GameDriver.updateSetupInterface();
+					GameDriver.gameDriver.p1Side.SetActive (true);
+					GameDriver.gameDriver.p2Side.SetActive (false);
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                         break;
                 case Turn.player2:
                     turnState = Turn.player1;
+					if (getPhase () == GamePhase.setup) {
+						GameDriver.gameDriver.p1Side.SetActive (false);
+						GameDriver.gameDriver.p2Side.SetActive (true);
+					}
 					if (getPhase () == GamePhase.battle) {
 						GameDriver.clearFlicks ();
 						if (flickableCubesAvailable (1) == 0) {
@@ -149,6 +159,7 @@ public class StateMachine : MonoBehaviour {
             gamePhase = GamePhase.setup;
             p1Setup = true;
             p2Setup = true;
+			GameDriver.gameDriver.p2Side.SetActive (true);
         }
     }
 
@@ -157,6 +168,8 @@ public class StateMachine : MonoBehaviour {
         if (state == GameState.active)
         {
             gamePhase = GamePhase.battle;
+			GameDriver.gameDriver.p1Side.SetActive (false);
+			GameDriver.gameDriver.p2Side.SetActive (false);
 			if ((flickableCubesAvailable (1) == 0) && (flickableCubesAvailable (2) == 0)) {
 				GameDriver.resolveStalemate ();
 			}

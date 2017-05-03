@@ -43,6 +43,8 @@ public class GameDriver : MonoBehaviour {
     public GameObject explosionObject;
     public GameObject selectionLight;
     public GameObject musicPlayer;
+	public GameObject p1Side;
+	public GameObject p2Side;
 
 
 
@@ -51,6 +53,7 @@ public class GameDriver : MonoBehaviour {
     {
         gameDriver = this;
         beginGameSetup();
+		musicPlayer = GameObject.FindGameObjectWithTag ("MusicPlayer");
     }
 
     public void FixedUpdate()

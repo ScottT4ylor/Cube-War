@@ -143,6 +143,7 @@ public class Cube : MonoBehaviour {
 					this.gameObject.GetComponent<Rigidbody>().mass * velocityMulti,hitPos);
 				//DestroyLaunchingObjects ();
 				LaunchLine.launchLine.Enabled(false);
+				GameDriver.selectLightOff ();
 				StateMachine.isCubeLaunched = true;
 				playState = PlayState.launch;
 			}
@@ -240,6 +241,7 @@ public class Cube : MonoBehaviour {
 				isKinematic = true;
 				UpdatelaunchVelocity ();
 				LaunchLine.launchLine.Enabled (true);
+				GameDriver.selectLightOn (this.gameObject);
 				changeToAiming = true;
 				//playState = PlayState.aiming;
 			}
