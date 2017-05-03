@@ -41,6 +41,8 @@ public class GameDriver : MonoBehaviour {
     public GameObject healerSlider;
     public GameObject healerText;
     public GameObject explosionObject;
+    public GameObject selectionLight;
+    public GameObject musicPlayer;
 
 
 
@@ -82,7 +84,13 @@ public class GameDriver : MonoBehaviour {
             obj.SetActive(false);
         }
         StateMachine.initiateTurns();
+        showPointInterface();
+        showSetupInterface();
+        showSetupHider();
+        showPointHider();
+        hideHoverInfoHider();
         updatePointInterface();
+
     }
 
     public int addPlayerPoints(int player, int points)
@@ -482,6 +490,17 @@ public class GameDriver : MonoBehaviour {
 		}
 	}
 
+    public static void selectLightOn(GameObject obj)
+    {
+        gameDriver.selectionLight.SetActive(true);
+        gameDriver.selectionLight.transform.position = obj.transform.position;
+    }
+
+    public static void selectLightOff()
+    {
+        gameDriver.selectionLight.SetActive(false);
+    }
+
 
 
 
@@ -727,7 +746,11 @@ public class GameDriver : MonoBehaviour {
 
 
 
-
+    public void toggleMusic()
+    {
+        if (musicPlayer.activeInHierarchy) musicPlayer.SetActive(false);
+        else if (!musicPlayer.activeInHierarchy) musicPlayer.SetActive(true);
+    }
 
 
     public static void updateTurnInterface()
