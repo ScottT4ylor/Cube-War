@@ -111,3 +111,4 @@ C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\D
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\Temp\bin\Debug\UnityEngine.VR.xml
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\obj\Debug\Assembly-CSharp.dll
 C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\obj\Debug\Assembly-CSharp.pdb
+C:\Users\G00136378\Documents\GitHub\Cube-War\Cube War (Working Title)\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
