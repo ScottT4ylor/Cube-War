@@ -34,7 +34,8 @@ public class HoverInfoInterface : MonoBehaviour {
     public void updateHoverInfo(string check)
     {
         lookup.Lookup(check);
-        //image.sprite = .... Not sure how to do this yet. Figure it out later.
+        foreach(Transform t in this.transform)
+            if(t.gameObject.name == "Image") TextureManager.applySprite(t.gameObject, lookup.texture[StateMachine.currentTurn() - 1]);
         className.text = lookup.name2String();
         attack.text = "Attack: "+lookup.attack;
         defense.text = "Defense: " + lookup.defense;

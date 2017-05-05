@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Cube
   - LaunchPointer
+  - MusicPlayer
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - placing
   - cube
   - RaycastGround
-  - 
+  - Sides
   - 
   - 
   - 

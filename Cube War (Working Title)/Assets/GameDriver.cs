@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameDriver : MonoBehaviour {
     public static GameDriver gameDriver;
@@ -18,6 +19,8 @@ public class GameDriver : MonoBehaviour {
     public List<GameObject> gameOverInterfaceObjects;
     public List<GameObject> turnInterfaceObjects;
     public List<GameObject> pointInterfaceObjects;
+    public List<GameObject> healerInterfaceObjects;
+    public GameObject popupInterfaceObject;
     public GameObject pointSlider1;
     public GameObject pointSlider2;
     public GameObject pointText1;
@@ -33,6 +36,16 @@ public class GameDriver : MonoBehaviour {
     public bool pointVis = true;
     public bool hoverInfoVis = false;
     public bool hoverInfoVisLock = false;
+    public int healerPoints = 0;
+    public int healMax = 6; //Max points a healer can heal. Needs tuning.
+    public GameObject healerSlider;
+    public GameObject healerText;
+    public GameObject explosionObject;
+    public GameObject selectionLight;
+    public GameObject musicPlayer;
+	public GameObject p1Side;
+	public GameObject p2Side;
+
 
 
 
@@ -40,6 +53,7 @@ public class GameDriver : MonoBehaviour {
     {
         gameDriver = this;
         beginGameSetup();
+		musicPlayer = GameObject.FindGameObjectWithTag ("MusicPlayer");
     }
 
     public void FixedUpdate()
@@ -58,6 +72,7 @@ public class GameDriver : MonoBehaviour {
         p1 = new Player(1, playerPointsTesting);
         p2 = new Player(2, playerPointsTesting);
         StateMachine.activate();
+        StateMachine.clearStateMachine();
         pointSlider1.GetComponent<Slider>().maxValue = p1.pointsAvailable;
         pointSlider2.GetComponent<Slider>().maxValue = p2.pointsAvailable;
         foreach(GameObject obj in hoverInfoInterfaceObjects)
@@ -72,7 +87,13 @@ public class GameDriver : MonoBehaviour {
             obj.SetActive(false);
         }
         StateMachine.initiateTurns();
+        showPointInterface();
+        showSetupInterface();
+        showSetupHider();
+        showPointHider();
+        hideHoverInfoHider();
         updatePointInterface();
+
     }
 
     public int addPlayerPoints(int player, int points)
@@ -181,6 +202,7 @@ public class GameDriver : MonoBehaviour {
             if (obj.name.Equals("GameOverWinner"))
             {
                 obj.GetComponent<Text>().text = ("Player " + winner + " wins!");
+                if (winner == 3) obj.GetComponent<Text>().text = ("It's a draw!");
             }
         }
 		print ("Game Over! Player " + StateMachine.currentTurn () + " Wins!");
@@ -201,37 +223,53 @@ public class GameDriver : MonoBehaviour {
     //
     public static void placedCube()
     {
-        if (gameDriver.addPlayerPoints(StateMachine.currentTurn(), gameDriver.cubeSelected.GetComponent<UnitClass>().cost) == -1)
-            print("Something went wrong with the player point counts!");
-        gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
-        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.King)
+        if (StateMachine.gamePhase == GamePhase.setup)
         {
-            if (StateMachine.currentTurn() == 1) StateMachine.p1KingPlaced();
-            else if (StateMachine.currentTurn() == 2) StateMachine.p2KingPlaced();
-            else print("That king was placed on no particular player's turn!");
+            if (gameDriver.addPlayerPoints(StateMachine.currentTurn(), gameDriver.cubeSelected.GetComponent<UnitClass>().cost) == -1)
+                print("Something went wrong with the player point counts!");
+            gameDriver.cubesInPlay.Add(gameDriver.cubeSelected);
+            if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.King)
+            {
+                if (StateMachine.currentTurn() == 1) StateMachine.p1KingPlaced();
+                else if (StateMachine.currentTurn() == 2) StateMachine.p2KingPlaced();
+                else print("That king was placed on no particular player's turn!");
+            }
+            if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Paralyze)
+            {
+                if (StateMachine.currentTurn() == 1) StateMachine.p1ParalyzePlaced();
+                else if (StateMachine.currentTurn() == 2) StateMachine.p2ParalyzePlaced();
+                else print("That Paralyze was placed on no particular player's turn!");
+            }
+            if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Bomb)
+            {
+                if (StateMachine.currentTurn() == 1) StateMachine.p1BombPlaced();
+                else if (StateMachine.currentTurn() == 2) StateMachine.p2BombPlaced();
+                else print("That Bomb was placed on no particular player's turn!");
+            }
+            if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Healer)
+            {
+                if (StateMachine.currentTurn() == 1) StateMachine.p1HealerPlaced();
+                else if (StateMachine.currentTurn() == 2) StateMachine.p2HealerPlaced();
+                else print("That king was placed on no particular player's turn!");
+            }
+            if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Peasant)
+            {
+                if (StateMachine.currentTurn() == 1) StateMachine.p1PeasantPlaced();
+                else if (StateMachine.currentTurn() == 2) StateMachine.p2PeasantPlaced();
+                else print("That king was placed on no particular player's turn!");
+            }
+            gameDriver.cubeSelected = null;
+            StateMachine.isPlacingCube = false;
+            GameDriver.updatePointInterface();
+            StateMachine.passTurn();
         }
-        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Paralyze)
+        else if (StateMachine.gamePhase == GamePhase.healer)
         {
-            if (StateMachine.currentTurn() == 1) StateMachine.p1ParalyzePlaced();
-            else if (StateMachine.currentTurn() == 2) StateMachine.p2ParalyzePlaced();
-            else print("That Paralyze was placed on no particular player's turn!");
+            returnToPlay(gameDriver.cubeSelected);
+            gameDriver.cubeSelected = null;
+            StateMachine.isPlacingCube = false;
+            updateHealerInterface();
         }
-        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Bomb)
-        {
-            if (StateMachine.currentTurn() == 1) StateMachine.p1BombPlaced();
-            else if (StateMachine.currentTurn() == 2) StateMachine.p2BombPlaced();
-            else print("That Bomb was placed on no particular player's turn!");
-        }
-        if (gameDriver.cubeSelected.GetComponent<UnitClass>().unitClass == className.Healer)
-        {
-            if (StateMachine.currentTurn() == 1) StateMachine.p1HealerPlaced();
-            else if (StateMachine.currentTurn() == 2) StateMachine.p2HealerPlaced();
-            else print("That king was placed on no particular player's turn!");
-        }
-        gameDriver.cubeSelected = null;
-        StateMachine.isPlacingCube = false;
-        GameDriver.updatePointInterface();
-        StateMachine.passTurn();
     }
 
 
@@ -280,16 +318,28 @@ public class GameDriver : MonoBehaviour {
         }
         if (allStopped == true)
         {
+			StateMachine.isCubeLaunched = false;
             return true; //All are stopped, it can call for next turn.
         }
 		return false; //just so it doesn't yell at me. Changing it later.
     }
 
+	public static void PauseCubes(){
+		foreach (GameObject c in gameDriver.cubesInPlay) {
+			c.GetComponent<Rigidbody> ().maxDepenetrationVelocity = 0.5f;
+		}
+	}
 
+	public static void UnPauseCubes(){
+		foreach (GameObject c in gameDriver.cubesInPlay) {
+			c.GetComponent<Rigidbody> ().maxDepenetrationVelocity = c.GetComponent<Rigidbody> ().velocity.magnitude;
+		}
+	}
 
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
+        Instantiate(gameDriver.explosionObject,obj.transform.position,Quaternion.identity);
         if (StateMachine.gamePhase == GamePhase.setup)
         {
             if (obj.GetComponent<Cube>().playState == PlayState.idle)
@@ -358,9 +408,65 @@ public class GameDriver : MonoBehaviour {
         {
             gameDriver.cubesDeadP2.Add(obj.GetComponent<UnitClass>().unitClass);
         }
+        
         GameObject.Destroy(obj);
     }
 
+
+
+    //Dealing with Healer interactions
+
+    public static void healerActivated()
+    {
+        gameDriver.healerPoints = 0;
+        GameDriver.showHealerInterface();
+        StateMachine.healerPhase();
+    }
+
+    public void endHeal()
+    {
+        StateMachine.endHealerPhase();
+        GameDriver.hideHealerInterface();
+    }
+
+    
+
+    public static bool checkDeadCubes(int playerNum, className check)
+    {
+        if (playerNum == 1)
+        {
+            foreach (className uC in gameDriver.cubesDeadP1)
+                if (uC == check) return true;
+            return false;
+        }
+        else if (playerNum == 2)
+        {
+            foreach (className uC in gameDriver.cubesDeadP2)
+                if (uC == check) return true;
+            return false;
+        }
+        print("Something broke, tried to check for a dead cube that didn't belong to a player?");
+        return false;
+    }
+
+    public static bool checkDeadCubes(int playerNum, string check)
+    {
+        if (check == "King") return checkDeadCubes(playerNum, className.King);
+        else if (check == "Brawler") return checkDeadCubes(playerNum, className.Brawler);
+        else if (check == "Sentinel") return checkDeadCubes(playerNum, className.Sentinel);
+        else if (check == "Shadow") return checkDeadCubes(playerNum, className.Brawler);
+        else if (check == "Grunt") return checkDeadCubes(playerNum, className.Grunt);
+        else if (check == "Peasant") return checkDeadCubes(playerNum, className.Peasant);
+        else if (check == "Healer") return checkDeadCubes(playerNum, className.Healer);
+        else if (check == "Paralyze") return checkDeadCubes(playerNum, className.Paralyze);
+        else if (check == "Titan") return checkDeadCubes(playerNum, className.Titan);
+        else if (check == "Bomb") return checkDeadCubes(playerNum, className.Bomb);
+        else
+        {
+            print("Called to check dead pile for a class that doesn't exist!");
+            return false;
+        }
+    }
 
     public static void returnToPlay(GameObject obj)
     {
@@ -373,6 +479,7 @@ public class GameDriver : MonoBehaviour {
             gameDriver.cubesDeadP2.Remove(obj.GetComponent<UnitClass>().unitClass);
         }
         gameDriver.cubesInPlay.Add(obj);
+        gameDriver.healerPoints += gameDriver.cubeSelected.GetComponent<UnitClass>().cost;
     }
 
 	public static void resolveStalemate(){
@@ -389,7 +496,7 @@ public class GameDriver : MonoBehaviour {
 			}
 		}
 		if (p1Cubes == p2Cubes) {
-			//draw
+            gameDriver.startGameOver(3);
 			print ("draw");
 		} else if (p1Cubes > p2Cubes) {
 			gameDriver.startGameOver (1);
@@ -398,8 +505,16 @@ public class GameDriver : MonoBehaviour {
 		}
 	}
 
+    public static void selectLightOn(GameObject obj)
+    {
+        gameDriver.selectionLight.SetActive(true);
+        gameDriver.selectionLight.transform.position = obj.transform.position;
+    }
 
-
+    public static void selectLightOff()
+    {
+        gameDriver.selectionLight.SetActive(false);
+    }
 
 
 
@@ -539,6 +654,29 @@ public class GameDriver : MonoBehaviour {
         }
     }
 
+    public static void showHealerInterface()
+    {
+        gameDriver.menuVis = true;
+        foreach (GameObject obj in gameDriver.healerInterfaceObjects)
+        {
+            obj.SetActive(true);
+        }
+        foreach (GameObject obj in gameDriver.setupInterfaceObjects)
+        {
+            obj.SetActive(true);
+            if (obj.name == "EndPlayerSetup" || obj.name == "EndPlayerSetupText")
+                obj.SetActive(false);
+        }
+    }
+    public static void hideHealerInterface()
+    {
+        gameDriver.menuVis = false;
+        foreach (GameObject obj in gameDriver.healerInterfaceObjects)
+        {
+            obj.SetActive(false);
+        }
+    }
+
 
     public static void showSetupHider()
     {
@@ -567,6 +705,11 @@ public class GameDriver : MonoBehaviour {
     public static void hideHoverInfoHider()
     {
         gameDriver.hoverInfoInterfaceHide.SetActive(false);
+    }
+
+    public static void popup(string message, float time)
+    {
+        gameDriver.popupInterfaceObject.GetComponent<PopupInterface>().showPopupMessage(message, time);
     }
 
 
@@ -618,7 +761,11 @@ public class GameDriver : MonoBehaviour {
 
 
 
-
+    public void toggleMusic()
+    {
+        if (musicPlayer.activeInHierarchy) musicPlayer.SetActive(false);
+        else if (!musicPlayer.activeInHierarchy) musicPlayer.SetActive(true);
+    }
 
 
     public static void updateTurnInterface()
@@ -639,12 +786,32 @@ public class GameDriver : MonoBehaviour {
         gameDriver.pointText2.GetComponent<Text>().text = p2Points + "/" + gameDriver.p2.pointsAvailable;
     }
 
+    public static void updateHealerInterface()
+    {
+        gameDriver.healerSlider.GetComponent<Slider>().value = gameDriver.healerPoints;
+        gameDriver.healerText.GetComponent<Text>().text = gameDriver.healerPoints + "/" + gameDriver.healMax;
+        updateSetupInterface();
+    }
+
     public static void updateSetupInterface()
     {
         foreach(GameObject obj in gameDriver.setupInterfaceObjects)
         {
             if (obj.GetComponent<SetupInterface>() != null) obj.GetComponent<SetupInterface>().textureButtons(StateMachine.currentTurn());
         }
+    }
+
+    //Loads the start menu
+    public void gotoMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+
+    //Quits the game.
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 

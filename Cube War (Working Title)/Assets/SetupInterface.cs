@@ -19,7 +19,8 @@ public class SetupInterface : MonoBehaviour {
 
 
 
-    public void instantiateNewUnit()
+    //Not currently in use.
+    /*public void instantiateNewUnit()
     {
         if (StateMachine.turnState != Turn.pause)
         {
@@ -33,14 +34,14 @@ public class SetupInterface : MonoBehaviour {
                 driver.placingCube(newUnit);
             }
         }
-    }
+    }*/
 
     public void instantiateNewUnit(string target)      //An overload in case the interface calls it this way
     {
         if (StateMachine.turnState != Turn.pause)
         {
             classInfo.Lookup(target);
-            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() >= classInfo.cost)
+            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() >= classInfo.cost && StateMachine.gamePhase == GamePhase.setup)
             {
                 if (target == "King")
                 {
@@ -49,6 +50,41 @@ public class SetupInterface : MonoBehaviour {
                         return;
                     }
                 }
+                if (target == "Paralyze")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Paralyze == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2Paralyze == true))
+                    {
+                        return;
+                    }
+                }
+                if (target == "Bomb")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Bomb == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2Bomb == true))
+                    {
+                        return;
+                    }
+                }
+                if (target == "Healer")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Healer == true) || (StateMachine.currentTurn() == 2 && StateMachine.p2Healer == true))
+                    {
+                        return;
+                    }
+                }
+                if (target == "Peasant")
+                {
+                    if ((StateMachine.currentTurn() == 1 && StateMachine.p1Peasant >= StateMachine.peasantLimit) || (StateMachine.currentTurn() == 2 && StateMachine.p2Peasant >= StateMachine.peasantLimit))
+                    {
+                        return;
+                    }
+                }
+                newUnit = Instantiate(cubePrefab) as GameObject;
+                newUnit.GetComponent<Cube>().SetToPlacing();
+                newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, newUnit.GetComponent<UnitClass>()));
+                driver.placingCube(newUnit);
+            }
+            else if (!StateMachine.isPlacingCube && StateMachine.gamePhase == GamePhase.healer && classInfo.cost + driver.healerPoints <= driver.healMax && GameDriver.checkDeadCubes(StateMachine.currentTurn(), target))
+            {
                 newUnit = Instantiate(cubePrefab) as GameObject;
                 newUnit.GetComponent<Cube>().SetToPlacing();
                 newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, newUnit.GetComponent<UnitClass>()));
@@ -86,33 +122,93 @@ public class SetupInterface : MonoBehaviour {
             {
                 case "King":
                     classInfo.Lookup("King");
+                    if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 1) TextureManager.activeButton(t.gameObject, !StateMachine.p1King);
+                    else if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 2) TextureManager.activeButton(t.gameObject, !StateMachine.p2King);
+                    else if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.King)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Brawler":
                     classInfo.Lookup("Brawler");
+                    if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Brawler)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Sentinel":
                     classInfo.Lookup("Sentinel");
+                    if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Sentinel)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Shadow":
                     classInfo.Lookup("Shadow");
+                    if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Shadow)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Grunt":
                     classInfo.Lookup("Grunt");
+                    if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Grunt)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Peasant":
                     classInfo.Lookup("Peasant");
+                    if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 1) TextureManager.activeButton(t.gameObject, !(StateMachine.p1Peasant == StateMachine.peasantLimit));
+                    else if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 2) TextureManager.activeButton(t.gameObject, !(StateMachine.p2Peasant == StateMachine.peasantLimit));
+                    else if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Peasant)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Healer":
                     classInfo.Lookup("Healer");
+                    if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 1) TextureManager.activeButton(t.gameObject, !StateMachine.p1Healer);
+                    else if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 2) TextureManager.activeButton(t.gameObject, !StateMachine.p2Healer);
+                    else if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Healer)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Paralyze":
                     classInfo.Lookup("Paralyze");
+                    if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 1) TextureManager.activeButton(t.gameObject, !StateMachine.p1Paralyze);
+                    else if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 2) TextureManager.activeButton(t.gameObject, !StateMachine.p2Paralyze);
+                    else if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Paralyze)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Titan":
                     classInfo.Lookup("Titan");
+                    if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Titan)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 case "Bomb":
                     classInfo.Lookup("Bomb");
+                    if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 1) TextureManager.activeButton(t.gameObject, !StateMachine.p1Bomb);
+                    else if (StateMachine.gamePhase == GamePhase.setup && StateMachine.currentTurn() == 2) TextureManager.activeButton(t.gameObject, !StateMachine.p2Bomb);
+                    else if (StateMachine.gamePhase == GamePhase.healer)
+                    {
+                        if (GameDriver.checkDeadCubes(StateMachine.currentTurn(), className.Bomb)) TextureManager.activeButton(t.gameObject, true);
+                        else TextureManager.activeButton(t.gameObject, false);
+                    }
                     break;
                 default:
                     classInfo.Lookup("blank");
@@ -124,4 +220,6 @@ public class SetupInterface : MonoBehaviour {
             }
         }
     }
+
+
 }
