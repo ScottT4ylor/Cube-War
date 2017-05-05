@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0025718969, g: 0.0014536792, b: 0.0024218885, a: 1}
+  m_IndirectSpecularColor: {r: 0.002590668, g: 0.0014617915, b: 0.002460183, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -434,44 +434,30 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: All the instructions goes here!All the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instruAll the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instructions goes here!All the instruAll the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instructions goes here!All the instructions goes
-    here!All the instruAll the instructions goes here!All the instructions goes here!All
-    the instructions goes here!All the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instruAll the instructions goes
-    here!All the instructions goes here!All the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instruAll the instructions goes here!All the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instruAll the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instructions goes here!All the instruAll the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instructions goes here!All the instructions goes
-    here!All the instruAll the instructions goes here!All the instructions goes here!All
-    the instructions goes here!All the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instruAll the instructions goes
-    here!All the instructions goes here!All the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instruAll the instructions goes here!All the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instruAll the instructions goes here!All the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instructions goes here!All the instruAll the instructions
-    goes here!All the instructions goes here!All the instructions goes here!All the
-    instructions goes here!All the instructions goes here!All the instructions goes
-    here!All the instru
+  m_Text: 'Welcome to Cube Wars!
+
+
+    Rule #1: There are no rules.
+
+
+    Rule #2: Disregard the shit out of Rule #1. There are totally rules.
+
+
+    Rule #3: The main objective of the game is to knock your opponent''s king off
+    of the level by flicking your own cubes at it.
+
+
+    Rule #4: NOW there are no more rules. Some of the cubes you use can do some cool
+    things, but we''ll let you figure that out on your own.
+
+
+    Have Fun!'
 --- !u!222 &444636644
 CanvasRenderer:
   m_ObjectHideFlags: 0

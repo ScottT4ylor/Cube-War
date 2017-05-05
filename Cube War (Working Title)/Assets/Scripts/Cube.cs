@@ -57,11 +57,7 @@ public class Cube : MonoBehaviour {
 		//playState = StateMachine.playState;  BRING BACK LATER
 		unit = this.gameObject.GetComponent<UnitClass>();
 		flick = false;
-		if (unit.unitClass == className.Paralyze) {
-			stun = true;
-		} else {
-			stun = false;
-		}
+		stun = false;
 		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
 		cubePos = this.gameObject.transform.position;
 		//mousePos2D = Input.mousePosition;
@@ -85,6 +81,8 @@ public class Cube : MonoBehaviour {
 			if (Input.GetAxis ("Cancel") == 1) {
 				isKinematic = false;
 				LaunchLine.launchLine.Enabled (false);
+				GameDriver.selectLightOff ();
+				GameDriver.gameDriver.isCubeSelected = false;
 				playState = PlayState.idle;
                     GameDriver.selectLightOff();
 				break;
@@ -173,7 +171,7 @@ public class Cube : MonoBehaviour {
 			if (Input.GetMouseButtonDown(0)) {
 				colliders = Physics.OverlapBox(cubePos,this.gameObject.GetComponent<Renderer>().bounds.extents,Quaternion.identity);
 				if (colliders.Length > 1) {
-					print ("You cannot place a cube there!");
+					GameDriver.popup ("You can't place a cube there", 1000);
 				}
 				else{
 					isKinematic = false;
@@ -227,11 +225,12 @@ public class Cube : MonoBehaviour {
 	//TODO: Add messages for each condition., rearrange conditions
 	void OnMouseDown(){
 		if((StateMachine.turnState != Turn.pause) && (StateMachine.getPhase() == GamePhase.battle) &&
-			(playState == PlayState.idle) && (!StateMachine.isCubeLaunched) && (StateMachine.currentTurn() == unit.owner)){
+			(playState == PlayState.idle) && (!GameDriver.gameDriver.isCubeSelected) && 
+			(!StateMachine.isCubeLaunched) && (StateMachine.currentTurn() == unit.owner)){
 			//Check for special units
 			if (unit.unitClass == className.Healer) {
 				GameDriver.healerActivated ();
-			    GameDriver.removeCubeFromPlay(this.gameObject);
+				GameDriver.removeCubeFromPlay (this.gameObject);
 			}
 			//Slect normal cube to flick
 			else if ((flick == false) && (stun == false)) {
@@ -247,8 +246,11 @@ public class Cube : MonoBehaviour {
 				UpdatelaunchVelocity ();
 				LaunchLine.launchLine.Enabled (true);
 				GameDriver.selectLightOn (this.gameObject);
+				GameDriver.gameDriver.isCubeSelected = true;
 				changeToAiming = true;
 				//playState = PlayState.aiming;
+			} else {
+				GameDriver.popup ("That cube is stunned!", 1000);
 			}
 		}
 
