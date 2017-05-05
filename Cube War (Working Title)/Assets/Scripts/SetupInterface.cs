@@ -41,7 +41,7 @@ public class SetupInterface : MonoBehaviour {
         if (StateMachine.turnState != Turn.pause)
         {
             classInfo.Lookup(target);
-            if (!StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() >= classInfo.cost && StateMachine.gamePhase == GamePhase.setup)
+            if (StateMachine.gamePhase == GamePhase.setup && !StateMachine.isPlacingCube && driver.getPlayerPointsRemaining() >= classInfo.cost)
             {
                 if (target == "King")
                 {
@@ -83,7 +83,7 @@ public class SetupInterface : MonoBehaviour {
                 newUnit.GetComponent<UnitClass>().unitSetup(classInfo.Lookup(target, newUnit.GetComponent<UnitClass>()));
                 driver.placingCube(newUnit);
             }
-            else if (!StateMachine.isPlacingCube && StateMachine.gamePhase == GamePhase.healer && classInfo.cost + driver.healerPoints <= driver.healMax && GameDriver.checkDeadCubes(StateMachine.currentTurn(), target))
+            else if (StateMachine.gamePhase == GamePhase.healer && !StateMachine.isPlacingCube && classInfo.cost + driver.healerPoints <= driver.healMax && GameDriver.checkDeadCubes(StateMachine.currentTurn(), target))
             {
                 newUnit = Instantiate(cubePrefab) as GameObject;
                 newUnit.GetComponent<Cube>().SetToPlacing();

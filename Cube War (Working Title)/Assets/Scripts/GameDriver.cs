@@ -340,7 +340,7 @@ public class GameDriver : MonoBehaviour {
     public static void removeCubeFromPlay(GameObject obj)
     {
         gameDriver.cubesInPlay.Remove(obj);
-        Instantiate(gameDriver.explosionObject,obj.transform.position,Quaternion.identity);
+        if (obj.GetComponent<UnitClass>().unitClass != className.Healer) Instantiate(gameDriver.explosionObject, obj.transform.position, Quaternion.identity);
         if (StateMachine.gamePhase == GamePhase.setup)
         {
             if (obj.GetComponent<Cube>().playState == PlayState.idle)
@@ -381,7 +381,7 @@ public class GameDriver : MonoBehaviour {
                             StateMachine.p2PeasantRemoved();
                             break;
                     }
-                }  
+                }
             }
             StateMachine.isPlacingCube = false;
             if (StateMachine.currentTurn() != obj.GetComponent<UnitClass>().owner)
@@ -389,29 +389,41 @@ public class GameDriver : MonoBehaviour {
                 StateMachine.passTurn();
             }
             updatePointInterface();
+            Destroy(obj);
         }
-        else if (obj.GetComponent<UnitClass>().unitClass.Equals(className.King))
+        else
         {
-            if (obj.GetComponent<UnitClass>().owner == 1)
+            if (StateMachine.gamePhase == GamePhase.healer && obj.GetComponent<Cube>().playState == PlayState.placed)
             {
-                gameDriver.startGameOver(2);
+                StateMachine.isPlacingCube = false;
+                updateHealerInterface();
+                Destroy(obj);
+                return;
             }
-            else
+
+            if (obj.GetComponent<UnitClass>().unitClass.Equals(className.King))
             {
-                gameDriver.startGameOver(1);
+                if (obj.GetComponent<UnitClass>().owner == 1)
+                {
+                    gameDriver.startGameOver(2);
+                }
+                else
+                {
+                    gameDriver.startGameOver(1);
+                }
             }
+            else if (obj.GetComponent<UnitClass>().owner == 1 && obj.GetComponent<UnitClass>().unitClass != className.Healer)
+            {
+                gameDriver.cubesDeadP1.Add(obj.GetComponent<UnitClass>().unitClass);
+            }
+            else if (obj.GetComponent<UnitClass>().owner == 2 && obj.GetComponent<UnitClass>().unitClass != className.Healer)
+            {
+                gameDriver.cubesDeadP2.Add(obj.GetComponent<UnitClass>().unitClass);
+            }
+            GameObject.Destroy(obj);
         }
-        else if (obj.GetComponent<UnitClass>().owner == 1)
-        {
-            gameDriver.cubesDeadP1.Add(obj.GetComponent<UnitClass>().unitClass);
-        }
-        else if (obj.GetComponent<UnitClass>().owner == 2)
-        {
-            gameDriver.cubesDeadP2.Add(obj.GetComponent<UnitClass>().unitClass);
-        }
-        
-        GameObject.Destroy(obj);
     }
+        
 
 
 
@@ -421,14 +433,15 @@ public class GameDriver : MonoBehaviour {
     {
         gameDriver.healerPoints = 0;
         GameDriver.showHealerInterface();
-		updateHealerInterface ();
         StateMachine.healerPhase();
+        updateHealerInterface();
     }
 
     public void endHeal()
     {
         StateMachine.endHealerPhase();
         GameDriver.hideHealerInterface();
+        GameDriver.hideSetupInterface();
     }
 
     

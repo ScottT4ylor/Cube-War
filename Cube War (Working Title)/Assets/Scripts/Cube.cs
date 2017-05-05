@@ -227,10 +227,10 @@ public class Cube : MonoBehaviour {
 			//Check for special units
 			if (unit.unitClass == className.Healer) {
 				GameDriver.healerActivated ();
-				DestroyImmediate(this.gameObject);
+			    GameDriver.removeCubeFromPlay(this.gameObject);
 			}
 			//Slect normal cube to flick
-			if ((flick == false) && (stun == false)) {
+			else if ((flick == false) && (stun == false)) {
 				hitPos = this.gameObject.transform.position;
 				launcherY = this.gameObject.transform.position.y;
 				maxHitPosY = hitPos.y + this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
