@@ -225,8 +225,9 @@ public class Cube : MonoBehaviour {
 		if((StateMachine.turnState != Turn.pause) && (StateMachine.getPhase() == GamePhase.battle) &&
 			(playState == PlayState.idle) && (!StateMachine.isCubeLaunched) && (StateMachine.currentTurn() == unit.owner)){
 			//Check for special units
-			if (unit.unitClass == className.Paralyze) {
-				return;
+			if (unit.unitClass == className.Healer) {
+				GameDriver.healerActivated ();
+				DestroyImmediate(this.gameObject);
 			}
 			//Slect normal cube to flick
 			if ((flick == false) && (stun == false)) {
@@ -252,7 +253,8 @@ public class Cube : MonoBehaviour {
 	void OnCollisionEnter(Collision other){
 		if (unit.unitClass == className.Paralyze) {
 			if (other.gameObject.GetComponent<Cube>() != null){
-				if (other.gameObject.GetComponent<UnitClass> ().owningPlayer != unit.owningPlayer) {
+				if (other.gameObject.GetComponent<UnitClass> ().owningPlayer != unit.owningPlayer 
+					&& unit.unitClass != className.Paralyze) {
 					other.gameObject.GetComponent<Cube>().stunned = true;
 				}
 			}

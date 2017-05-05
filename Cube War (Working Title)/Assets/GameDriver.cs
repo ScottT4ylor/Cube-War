@@ -420,6 +420,7 @@ public class GameDriver : MonoBehaviour {
     {
         gameDriver.healerPoints = 0;
         GameDriver.showHealerInterface();
+		updateHealerInterface ();
         StateMachine.healerPhase();
     }
 
