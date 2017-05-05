@@ -173,7 +173,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 0;
 				defense = 6;
 				cost = 4;
-                description = "This piece can be sacrificed in order too return destroyed pieces to your side of the field.";
+                description = "This piece can be sacrificed in order to return destroyed pieces to your side of the field.";
                 //Can not be flicked. Can be sacrificed to return up to 6 cost worth of troops from the dead to your side of the field (depends on coin toss per attempted piece). Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -183,9 +183,9 @@ public class ClassLookup : MonoBehaviour {
 				cName = className.Paralyze;
 				type = classType.classType1;
 				attack = 0;
-				defense = 1;
+				defense = 3;
 				cost = 2;
-                description = "A spell to stop your opponent from utilizing any unit it is in combat with.";
+                description = "Stops your opponent from utilizing any unit touching it. Immune to other Paralyze units.";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
