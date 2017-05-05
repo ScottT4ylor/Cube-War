@@ -309,7 +309,11 @@ public class GameDriver : MonoBehaviour {
 
     public static bool checkCubeMovement()
     {
-        gameDriver.checkingCubeMovement = true;
+        if (gameDriver.checkingCubeMovement == false)
+        {
+            gameDriver.checkingCubeMovement = true;
+            return false;
+        }
         bool allStopped = true;
         foreach (GameObject c in gameDriver.cubesInPlay)
         {

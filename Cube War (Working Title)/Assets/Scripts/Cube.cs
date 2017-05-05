@@ -38,6 +38,7 @@ public class Cube : MonoBehaviour {
 	private bool changeToAiming = false;
 	//private GameObject lineRendererObject;
 	//private LineRenderer lineRenderer;
+    private float bombDelay = 0;
 
 
 	private bool flick;
@@ -143,6 +144,7 @@ public class Cube : MonoBehaviour {
                     LaunchLine.launchLine.Enabled(false);
                     GameDriver.selectLightOff();
                     StateMachine.isCubeLaunched = true;
+                    if (GetComponent<UnitClass>().unitClass == className.Bomb) bombDelay = Time.time;
                     playState = PlayState.launch;
                 }
 
@@ -261,7 +263,7 @@ public class Cube : MonoBehaviour {
 				}
 			}
 		}
-        else if (unit.unitClass == className.Bomb && StateMachine.gamePhase == GamePhase.battle)
+        else if (unit.unitClass == className.Bomb && StateMachine.gamePhase == GamePhase.battle && other.collider.isTrigger == false && Time.time-bombDelay > 0.25)
         {
             Collider[] explosionHit = Physics.OverlapSphere(this.gameObject.transform.position, GetComponent<UnitClass>().attack);
             foreach(Collider hit in explosionHit)
@@ -271,7 +273,7 @@ public class Cube : MonoBehaviour {
                     hit.gameObject.GetComponent<Rigidbody>().AddExplosionForce(GetComponent<UnitClass>().attack*215, this.gameObject.transform.position, GetComponent<UnitClass>().attack);
                 }
             }
-            GameDriver.checkCubeMovement();
+            if(playState == PlayState.launch) GameDriver.checkCubeMovement();
             GameDriver.removeCubeFromPlay(this.gameObject);
         }
 	}
