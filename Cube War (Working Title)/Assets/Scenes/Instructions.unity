@@ -434,7 +434,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 1
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -445,19 +445,23 @@ MonoBehaviour:
 
     Rule #1: There are no rules.
 
-
     Rule #2: Disregard the shit out of Rule #1. There are totally rules.
-
 
     Rule #3: The main objective of the game is to knock your opponent''s king off
     of the level by flicking your own cubes at it.
 
+    Rule #4: We require you to create at least 2 additional "House Rules" to play
+    our game. (ex. ''If a player''s cube is destroyed, that player must run a lap
+    around the room.)
 
-    Rule #4: NOW there are no more rules. Some of the cubes you use can do some cool
-    things, but we''ll let you figure that out on your own.
+    Rule #5: Have Fun! And don''t forget to experiment with the different types of
+    cubes!
 
 
-    Have Fun!'
+    Controls: Move with ''WASD''. Zoom the camera with the Mouse Wheel. Pivot the
+    camera with Middle Click. Select and Flick with Left Click. Move point of impact
+    on selected cubes with ''Z'' and ''X''. Move angle of impact on selected cubes
+    with ''C'' and ''V''.'
 --- !u!222 &444636644
 CanvasRenderer:
   m_ObjectHideFlags: 0
