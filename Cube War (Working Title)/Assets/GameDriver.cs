@@ -283,6 +283,7 @@ public class GameDriver : MonoBehaviour {
         GameObject.Destroy(gameDriver.cubeSelected);
         gameDriver.cubeSelected = null;
         StateMachine.isPlacingCube = false;
+        GameDriver.selectLightOff();
     }
 
     //

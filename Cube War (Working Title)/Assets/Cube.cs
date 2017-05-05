@@ -259,6 +259,19 @@ public class Cube : MonoBehaviour {
 				}
 			}
 		}
+        else if (unit.unitClass == className.Bomb && StateMachine.gamePhase == GamePhase.battle)
+        {
+            Collider[] explosionHit = Physics.OverlapSphere(this.gameObject.transform.position, GetComponent<UnitClass>().attack);
+            foreach(Collider hit in explosionHit)
+            {
+                if(hit.gameObject.GetComponent<Rigidbody>() != null)
+                {
+                    hit.gameObject.GetComponent<Rigidbody>().AddExplosionForce(GetComponent<UnitClass>().attack*250, this.gameObject.transform.position, GetComponent<UnitClass>().attack);
+                }
+            }
+            GameDriver.checkCubeMovement();
+            GameDriver.removeCubeFromPlay(this.gameObject);
+        }
 	}
 
 	void OnCollisionExit(Collision other){
