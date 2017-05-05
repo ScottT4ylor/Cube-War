@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.95517236, g: 0.95517236, b: 0.95517236, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -159,7 +159,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Cube War
+  m_Text: Cube Wars
 --- !u!114 &114067053865858990
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -451,7 +451,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 183.1}
-  m_SizeDelta: {x: 281.8, y: 66.7}
+  m_SizeDelta: {x: 288.74, y: 66.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224321665175940742
 RectTransform:
