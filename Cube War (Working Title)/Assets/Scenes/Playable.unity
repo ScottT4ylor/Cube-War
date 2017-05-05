@@ -615,7 +615,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.41568628, g: 0.80784315, b: 1, a: 1}
     m_HighlightedColor: {r: 0.16078432, g: 1, b: 0.61960787, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1417,12 +1417,12 @@ Prefab:
     - target: {fileID: 224355728360559772, guid: 4eb37725bafafbb4c8c3bbd21e65a2a1,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -35.1
       objectReference: {fileID: 0}
     - target: {fileID: 224355728360559772, guid: 4eb37725bafafbb4c8c3bbd21e65a2a1,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 224355728360559772, guid: 4eb37725bafafbb4c8c3bbd21e65a2a1,
         type: 2}
@@ -1437,7 +1437,7 @@ Prefab:
     - target: {fileID: 224355728360559772, guid: 4eb37725bafafbb4c8c3bbd21e65a2a1,
         type: 2}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224355728360559772, guid: 4eb37725bafafbb4c8c3bbd21e65a2a1,
         type: 2}
@@ -1447,7 +1447,7 @@ Prefab:
     - target: {fileID: 224355728360559772, guid: 4eb37725bafafbb4c8c3bbd21e65a2a1,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224355728360559772, guid: 4eb37725bafafbb4c8c3bbd21e65a2a1,
         type: 2}
@@ -2764,7 +2764,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.41568628, g: 0.80784315, b: 1, a: 1}
     m_HighlightedColor: {r: 0.16078432, g: 1, b: 0.61960787, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -4347,7 +4347,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.41568628, g: 0.80784315, b: 1, a: 1}
     m_HighlightedColor: {r: 0.16078432, g: 1, b: 0.61960787, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}

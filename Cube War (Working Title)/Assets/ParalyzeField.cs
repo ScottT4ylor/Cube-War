@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParalyzeField : MonoBehaviour {
 	public UnitClass unit; 
-
+	/*
 	// Use this for initialization
 	void Start () {
 		unit = this.gameObject.GetComponentInParent<UnitClass> ();
@@ -20,5 +20,5 @@ public class ParalyzeField : MonoBehaviour {
 				other.gameObject.GetComponent<Cube> ().stunned = true;
 			}
 		}
-	}
+	}*/
 }

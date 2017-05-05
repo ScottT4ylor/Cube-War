@@ -90,7 +90,7 @@ public class StateMachine : MonoBehaviour {
 			case Turn.idle:
 			case Turn.player1:
 				turnState = Turn.player2;
-				if (getPhase () == GamePhase.setup) {
+				if (getPhase () == GamePhase.setup && p2Setup == true) {
 					GameDriver.gameDriver.p1Side.SetActive (true);
 					GameDriver.gameDriver.p2Side.SetActive (false);
 				}
@@ -111,7 +111,7 @@ public class StateMachine : MonoBehaviour {
                         break;
                 case Turn.player2:
                     turnState = Turn.player1;
-					if (getPhase () == GamePhase.setup) {
+					if (getPhase () == GamePhase.setup && p1Setup == true) {
 						GameDriver.gameDriver.p1Side.SetActive (false);
 						GameDriver.gameDriver.p2Side.SetActive (true);
 					}

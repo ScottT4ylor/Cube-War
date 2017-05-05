@@ -279,10 +279,10 @@ public class Cube : MonoBehaviour {
         }
 	}
 
-	void OnTriggerExit(Collision other){
-		if (other.gameObject.GetComponent<ParalyzeField> () != null) {
-			if (other.gameObject.GetComponent<ParalyzeField> ().unit.unitClass == className.Paralyze && 
-				other.gameObject.GetComponent<ParalyzeField> ().unit.owningPlayer != unit.owningPlayer) {
+	void OnCollisionExit(Collision other){
+		if (other.gameObject.GetComponent<Cube> () != null) {
+			if (other.gameObject.GetComponent<UnitClass> ().unitClass == className.Paralyze && 
+				other.gameObject.GetComponent<UnitClass> ().owningPlayer != unit.owningPlayer) {
 				stunned = false;
 			}
 		}

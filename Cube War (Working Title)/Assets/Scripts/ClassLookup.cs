@@ -93,7 +93,7 @@ public class ClassLookup : MonoBehaviour {
 
     public UnitClass Lookup(string n, UnitClass unitLookup)
     {
-        switch (n)
+       /* switch (n)
         {
             case "King":
                 cName = className.King;
@@ -217,7 +217,7 @@ public class ClassLookup : MonoBehaviour {
                 return unitLookup;
             default:
                 return null;
-        }
+        }*/
 		  Lookup (n);
 		  if (cName == className.Null) {
 			return null;
@@ -311,9 +311,9 @@ public class ClassLookup : MonoBehaviour {
                 cName = className.Paralyze;
                 type = classType.classType1;
                 attack = 0;
-                defense = 1;
+                defense = 3;
                 cost = 2;
-				description = "A spell to stop your opponent from utilizing any unit it is in combat with.";
+				description = "Stops your opponent from utilizing any unit touching it. Immune to other Paralyze units.";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
