@@ -283,7 +283,7 @@ public class Cube : MonoBehaviour {
 	void OnCollisionExit(Collision other){
 		if (other.gameObject.GetComponent<Cube> () != null) {
 			if (other.gameObject.GetComponent<UnitClass> ().unitClass == className.Paralyze && 
-				other.gameObject.GetComponent<UnitClass>().owningPlayer != unit.owningPlayer) {
+				other.gameObject.GetComponent<UnitClass> ().owningPlayer != unit.owningPlayer) {
 				stunned = false;
 			}
 		}

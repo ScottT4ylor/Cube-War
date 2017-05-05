@@ -93,7 +93,7 @@ public class ClassLookup : MonoBehaviour {
 
     public UnitClass Lookup(string n, UnitClass unitLookup)
     {
-        switch (n)
+       /* switch (n)
         {
             case "King":
                 cName = className.King;
@@ -111,7 +111,7 @@ public class ClassLookup : MonoBehaviour {
                 cName = className.Brawler;
                 type = classType.classType1;
                 attack = 3;
-                defense = 1;
+                defense = 2;
                 cost = 3;
                 description = "A decent attacking unit. Good for throwing at your opponent repeatedly.";
                 //If it lands on your side of the field after the initial flick, it can be flicked a second time in the same turn.
@@ -123,7 +123,7 @@ public class ClassLookup : MonoBehaviour {
 				cName = className.Sentinel;
 				type = classType.classType1;
 				attack = 2;
-				defense = 3;
+				defense = 4;
 				cost = 4;
                 description = "An excellent defender. Holds the line and can clear your side of the field.";
                 // No ability.
@@ -134,8 +134,8 @@ public class ClassLookup : MonoBehaviour {
 			case "Shadow":
 				cName = className.Shadow;
 				type = classType.classType1;
-				attack = 1;
-				defense = 2;
+				attack = 4;
+				defense = 1;
 				cost = 3;
                 description = "An espionage expert. This piece can disappear if it lands on your opponent's side, and reappear later!";
                 //If it lands on opponent's side of the field at the end of your turn, you may remove from play. Use your flick action to place on board on a later turn.
@@ -146,9 +146,9 @@ public class ClassLookup : MonoBehaviour {
 			case "Grunt":
 				cName = className.Grunt;
 				type = classType.classType1;
-				attack = 1;
-				defense = 1;
-				cost = 2;
+				attack = 2;
+				defense = 2;
+				cost = 3;
                 description = "A basic utility unit that is cheap and effective.";
                 //No ability.
                 texture[0] = p1Textures[cName];
@@ -158,7 +158,7 @@ public class ClassLookup : MonoBehaviour {
 			case "Peasant":
 				cName = className.Peasant;
 				type = classType.classType1;
-				attack = 0;
+				attack = 1;
 				defense = 1;
 				cost = 1;
                 description = "Not intended for combat, but very expendable. These units are best used as a wall from enemy attacks.";
@@ -173,7 +173,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 0;
 				defense = 6;
 				cost = 4;
-                description = "This piece can be sacrificed in order too return destroyed pieces to your side of the field.";
+                description = "This piece can be sacrificed in order to return destroyed pieces to your side of the field.";
                 //Can not be flicked. Can be sacrificed to return up to 6 cost worth of troops from the dead to your side of the field (depends on coin toss per attempted piece). Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -183,9 +183,9 @@ public class ClassLookup : MonoBehaviour {
 				cName = className.Paralyze;
 				type = classType.classType1;
 				attack = 0;
-				defense = 1;
+				defense = 3;
 				cost = 2;
-                description = "A spell to stop your opponent from utilizing any unit it is in combat with.";
+                description = "Stops your opponent from utilizing any unit touching it. Immune to other Paralyze units.";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -217,7 +217,7 @@ public class ClassLookup : MonoBehaviour {
                 return unitLookup;
             default:
                 return null;
-        }
+        }*/
 		  Lookup (n);
 		  if (cName == className.Null) {
 			return null;
@@ -245,7 +245,7 @@ public class ClassLookup : MonoBehaviour {
                 cName = className.Brawler;
                 type = classType.classType1;
                 attack = 3;
-                defense = 1;
+                defense = 2;
                 cost = 3;
 				description = "Your basic attacking unit. Good for throwing at your opponent repeatedly.";
                 //If it lands on your side of the field after the initial flick, it can be flicked a second time in the same turn.
@@ -256,7 +256,7 @@ public class ClassLookup : MonoBehaviour {
                 cName = className.Sentinel;
                 type = classType.classType1;
                 attack = 2;
-                defense = 3;
+                defense = 4;
                 cost = 4;
 				description = "An excellent defender. Holds the line and can clear your side of the field.";
                 // No ability.
@@ -266,8 +266,8 @@ public class ClassLookup : MonoBehaviour {
             case "Shadow":
                 cName = className.Shadow;
                 type = classType.classType1;
-                attack = 1;
-                defense = 2;
+                attack = 4;
+                defense = 1;
                 cost = 3;
 				description = "An espionage expert. This piece can disappear if it lands on your opponent's side, and reappear later!";
                 //If it lands on opponent's side of the field at the end of your turn, you may remove from play. Use your flick action to place on board on a later turn.
@@ -277,9 +277,9 @@ public class ClassLookup : MonoBehaviour {
             case "Grunt":
                 cName = className.Grunt;
                 type = classType.classType1;
-                attack = 1;
-                defense = 1;
-                cost = 2;
+                attack = 2;
+                defense = 2;
+                cost = 3;
 				description = "A basic utility unit that is cheap and effective.";
                 //No ability.
                 texture[0] = p1Textures[cName];
@@ -288,7 +288,7 @@ public class ClassLookup : MonoBehaviour {
             case "Peasant":
                 cName = className.Peasant;
                 type = classType.classType1;
-                attack = 0;
+                attack = 1;
                 defense = 1;
                 cost = 1;
 				description = "Not intended for combat, but very expendable. These units are best used as a wall from enemy attacks.";
@@ -311,9 +311,9 @@ public class ClassLookup : MonoBehaviour {
                 cName = className.Paralyze;
                 type = classType.classType1;
                 attack = 0;
-                defense = 1;
+                defense = 3;
                 cost = 2;
-				description = "A spell to stop your opponent from utilizing any unit it is in combat with.";
+				description = "Stops your opponent from utilizing any unit touching it. Immune to other Paralyze units.";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
