@@ -38,6 +38,7 @@ public class Cube : MonoBehaviour {
 	private bool changeToAiming = false;
 	//private GameObject lineRendererObject;
 	//private LineRenderer lineRenderer;
+    private float bombDelay = 0;
 
 
 	private bool flick;
@@ -131,19 +132,20 @@ public class Cube : MonoBehaviour {
 			}
 			UpdatelaunchVelocity ();
 
-
-			if (Input.GetMouseButtonDown(0)) {
-				isKinematic = false;
-				flick = true;
-				unit.startAttack ();
-				this.gameObject.GetComponent<Rigidbody> ().AddForceAtPosition (-velocity * 
-					this.gameObject.GetComponent<Rigidbody>().mass * velocityMulti,hitPos);
-				LaunchLine.launchLine.Enabled(false);
-				GameDriver.selectLightOff ();
-				GameDriver.gameDriver.isCubeSelected = false;
-				StateMachine.isCubeLaunched = true;
-				playState = PlayState.launch;
-			}
+                if (Input.GetMouseButtonDown(0))
+                {
+                    isKinematic = false;
+                    flick = true;
+                    unit.startAttack();
+                    this.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(-velocity *
+                        this.gameObject.GetComponent<Rigidbody>().mass * velocityMulti, hitPos);
+                    LaunchLine.launchLine.Enabled(false);
+                    GameDriver.selectLightOff();
+					GameDriver.gameDriver.isCubeSelected = false;
+                    StateMachine.isCubeLaunched = true;
+                    if (GetComponent<UnitClass>().unitClass == className.Bomb) bombDelay = Time.time;
+                    playState = PlayState.launch;
+                }
 
 			break;
 		case PlayState.launch:
@@ -264,7 +266,8 @@ public class Cube : MonoBehaviour {
 				}
 			}
 		}
-		else if (unit.unitClass == className.Bomb && StateMachine.gamePhase == GamePhase.battle)
+        else if (unit.unitClass == className.Bomb && StateMachine.gamePhase == GamePhase.battle && other.collider.isTrigger == false && Time.time-bombDelay > 0.25)
+
         {
             Collider[] explosionHit = Physics.OverlapSphere(this.gameObject.transform.position, GetComponent<UnitClass>().attack);
             foreach(Collider hit in explosionHit)
@@ -274,7 +277,7 @@ public class Cube : MonoBehaviour {
                     hit.gameObject.GetComponent<Rigidbody>().AddExplosionForce(GetComponent<UnitClass>().attack*215, this.gameObject.transform.position, GetComponent<UnitClass>().attack);
                 }
             }
-            GameDriver.checkCubeMovement();
+            if(playState == PlayState.launch) GameDriver.checkCubeMovement();
             GameDriver.removeCubeFromPlay(this.gameObject);
         }
 	}
