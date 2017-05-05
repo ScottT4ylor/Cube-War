@@ -41,7 +41,7 @@ public class Cube : MonoBehaviour {
 
 
 	private bool flick;
-	private bool stun;
+	public bool stun;
 
 
 
@@ -258,13 +258,13 @@ public class Cube : MonoBehaviour {
 	void OnCollisionEnter(Collision other){
 		if (unit.unitClass == className.Paralyze) {
 			if (other.gameObject.GetComponent<Cube>() != null){
-				if (other.gameObject.GetComponent<UnitClass> ().owningPlayer != unit.owningPlayer 
-					&& unit.unitClass != className.Paralyze) {
+				if ((other.gameObject.GetComponent<UnitClass> ().owningPlayer != unit.owningPlayer) 
+					&& (other.gameObject.GetComponent<UnitClass> ().unitClass != className.Paralyze)) {
 					other.gameObject.GetComponent<Cube>().stunned = true;
 				}
 			}
 		}
-        else if (unit.unitClass == className.Bomb && StateMachine.gamePhase == GamePhase.battle)
+		else if (unit.unitClass == className.Bomb && StateMachine.gamePhase == GamePhase.battle)
         {
             Collider[] explosionHit = Physics.OverlapSphere(this.gameObject.transform.position, GetComponent<UnitClass>().attack);
             foreach(Collider hit in explosionHit)
