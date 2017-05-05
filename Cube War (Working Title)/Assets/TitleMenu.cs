@@ -39,4 +39,12 @@ public class TitleMenu : MonoBehaviour {
 	public void StartGame(){
 		SceneManager.LoadScene ("Playable", LoadSceneMode.Single);
 	}
+
+	public void ViewRules(){
+		SceneManager.LoadScene ("Instructions", LoadSceneMode.Single);
+	}
+
+	public void QuitGame(){
+		Application.Quit();
+	}
 }

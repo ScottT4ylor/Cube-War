@@ -24,8 +24,6 @@ public class Cube : MonoBehaviour {
 	private Vector3 launcherPos;
 	private float launcherY = 0.0f;
 	private Vector3 cubePos;
-	private GameObject templauncher;
-	private GameObject tempHitMarker;
 	private GameObject ground;
 	private RaycastHit hit;
 	private Ray ray;
@@ -34,6 +32,8 @@ public class Cube : MonoBehaviour {
 	private float minHitPosY;
 	private float maxlauncherY;
 	private float minlauncherY;
+	private float maxPlaceY = 6.0f;
+	private float minPlaceY = -1.0f;
 	private Collider[] colliders;
 	private bool changeToAiming = false;
 	//private GameObject lineRendererObject;
@@ -83,7 +83,6 @@ public class Cube : MonoBehaviour {
 		case PlayState.aiming:
 			if (Input.GetAxis ("Cancel") == 1) {
 				isKinematic = false;
-				//DestroyLaunchingObjects ();
 				LaunchLine.launchLine.Enabled (false);
 				playState = PlayState.idle;
 				break;
@@ -99,7 +98,6 @@ public class Cube : MonoBehaviour {
 					if (hitPos.y > maxlauncherY) {
 						launcherY = maxlauncherY;
 					}
-					//tempHitMarker.transform.position = hitPos;
 				}
 			}
 			if (Input.GetAxis ("TargetDown") == 1) {
@@ -112,7 +110,6 @@ public class Cube : MonoBehaviour {
 					if (hitPos.y < minlauncherY) {
 						launcherY = minlauncherY;
 					}
-					//tempHitMarker.transform.position = hitPos;
 				}
 			}
 
@@ -141,7 +138,6 @@ public class Cube : MonoBehaviour {
 				unit.startAttack ();
 				this.gameObject.GetComponent<Rigidbody> ().AddForceAtPosition (-velocity * 
 					this.gameObject.GetComponent<Rigidbody>().mass * velocityMulti,hitPos);
-				//DestroyLaunchingObjects ();
 				LaunchLine.launchLine.Enabled(false);
 				GameDriver.selectLightOff ();
 				StateMachine.isCubeLaunched = true;
@@ -157,9 +153,15 @@ public class Cube : MonoBehaviour {
 			}
 			if (Input.GetAxis("TargetUp") == 1) {
 				cubePos.y += hitPosMod;
+				if (cubePos.y > maxPlaceY) {
+					cubePos.y = maxPlaceY;
+				}
 			}
 			if (Input.GetAxis("TargetDown") == 1) {
 				cubePos.y -= hitPosMod;
+				if (cubePos.y < minPlaceY) {
+					cubePos.y = minPlaceY;
+				}
 			}
 			//UpdatePlacingPosition ();
 			UpdatePlacingPosition ();
@@ -235,8 +237,6 @@ public class Cube : MonoBehaviour {
 				maxlauncherY = maxHitPosY + this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
 				minlauncherY = minHitPosY - this.gameObject.GetComponent<Renderer> ().bounds.extents.y;
 
-				//TESTING
-				//tempHitMarker = (GameObject)Instantiate(hitPosMarker,hitPos,Quaternion.identity);
 
 				isKinematic = true;
 				UpdatelaunchVelocity ();
@@ -293,43 +293,19 @@ public class Cube : MonoBehaviour {
 			launcherPos = new Vector3 (hit.point.x, launcherY, 
 				hit.point.z);
 		}
-		/*
-		mousePos2D = Input.mousePosition;
-		mousePos2D.z = Camera.main.transform.position.y;
-		//mousePos2D.z = cubePos.y;
-		//mousePos2D.z = 1f;
-		mousePos3D = Camera.main.ScreenToWorldPoint (mousePos2D);
-		*/
-		//GameObject.Destroy (templauncher);
-		//mousePos3D.y = 0f;
-		//templauncher = (GameObject)Instantiate (launcher, launcherPos, Quaternion.Euler (0, 0, 0));
-		//cubePos = Camera.main.ScreenToWorldPoint (this.gameObject.transform.position);
+
 		velocity = launcherPos - hitPos;
 		if (velocity.magnitude > maxMagnitude) {
 			velocity = Vector3.ClampMagnitude(velocity, maxMagnitude);
 			launcherPos = velocity + hitPos;
-			//templauncher.transform.position = launcherPos;
 		}
 		LaunchLine.launchLine.SetLinePosition(0,hitPos);
 		LaunchLine.launchLine.SetLinePosition(1,launcherPos);
 		LaunchLine.launchLine.SetPointPosition (launcherPos);
-		//LaunchLine.launchLine.endColor = Color.HSVToRGB ((1 - (velocity.magnitude / maxMagnitude)) * 120.0f, 1.0f, 1.0f);
+
 		LaunchLine.launchLine.endColor = Color.Lerp (Color.green, Color.red, velocity.magnitude / maxMagnitude);
-		//do something about the y later
-		//velocity.y = 0f; 
-		//GameObject.Destroy (templauncher);
-		//print ("" + mousePos3D + ", " + velocity);
-		//since the camera has been rotated, we need to change the vector values
-		/*float z = velocity.z;
-		velocity.z = velocity.y;
-		velocity.y = z;*/
 	}
-
-	private void DestroyLaunchingObjects(){
-		GameObject.Destroy (templauncher);
-		GameObject.Destroy (tempHitMarker);
-	}
-
+		
 	public void SetToPlacing(){
 		isKinematic = true;
 		playState = PlayState.placing;
