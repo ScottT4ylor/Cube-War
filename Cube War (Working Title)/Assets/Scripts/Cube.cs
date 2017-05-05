@@ -141,6 +141,7 @@ public class Cube : MonoBehaviour {
                         this.gameObject.GetComponent<Rigidbody>().mass * velocityMulti, hitPos);
                     LaunchLine.launchLine.Enabled(false);
                     GameDriver.selectLightOff();
+					GameDriver.gameDriver.isCubeSelected = false;
                     StateMachine.isCubeLaunched = true;
                     if (GetComponent<UnitClass>().unitClass == className.Bomb) bombDelay = Time.time;
                     playState = PlayState.launch;
