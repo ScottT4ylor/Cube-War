@@ -206,7 +206,7 @@ public class ClassLookup : MonoBehaviour {
             case "Bomb":
                 cName = className.Bomb;
                 type = classType.classType1;
-                attack = 0;
+                attack = 8;
                 defense = 2;
                 cost = 4;
                 description = "";
