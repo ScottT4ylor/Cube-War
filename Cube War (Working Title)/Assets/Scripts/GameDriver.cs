@@ -45,6 +45,7 @@ public class GameDriver : MonoBehaviour {
     public GameObject musicPlayer;
 	public GameObject p1Side;
 	public GameObject p2Side;
+	public bool isCubeSelected = false;
 
 
 
@@ -435,6 +436,7 @@ public class GameDriver : MonoBehaviour {
         GameDriver.showHealerInterface();
         StateMachine.healerPhase();
         updateHealerInterface();
+		GameDriver.popup ("Select cubes to bring back.", 1000);
     }
 
     public void endHeal()
