@@ -107,8 +107,6 @@ public class StateMachine : MonoBehaviour {
                     if (getPhase() == GamePhase.setup && p2Setup == false) turnState = Turn.player1;
                     GameDriver.updateTurnInterface();
                     GameDriver.updateSetupInterface();
-					GameDriver.gameDriver.p1Side.SetActive (true);
-					GameDriver.gameDriver.p2Side.SetActive (false);
                     if (getPhase() == GamePhase.setup && p1Setup == false && p2Setup == false) GameDriver.endSetup();
                         break;
                 case Turn.player2:
