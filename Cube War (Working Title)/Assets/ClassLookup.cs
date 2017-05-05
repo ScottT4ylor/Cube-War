@@ -101,7 +101,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 2;
                 defense = 6;
                 cost = 0;
-                description = "";
+				description = "The Leaders of their respective forces; Kings are to be protected at all costs. When your King dies, you lose.";
                 //If it is knocked off of the board or defeated, it's owner loses the game. Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -112,8 +112,8 @@ public class ClassLookup : MonoBehaviour {
                 type = classType.classType1;
                 attack = 3;
                 defense = 1;
-                cost = 4;
-                description = ""; description = "";
+                cost = 3;
+                description = "A decent attacking unit. Good for throwing at your opponent repeatedly.";
                 //If it lands on your side of the field after the initial flick, it can be flicked a second time in the same turn.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -125,7 +125,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 2;
 				defense = 3;
 				cost = 4;
-                description = "";
+                description = "An excellent defender. Holds the line and can clear your side of the field.";
                 // No ability.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -137,7 +137,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 1;
 				defense = 2;
 				cost = 3;
-                description = "";
+                description = "An espionage expert. This piece can disappear if it lands on your opponent's side, and reappear later!";
                 //If it lands on opponent's side of the field at the end of your turn, you may remove from play. Use your flick action to place on board on a later turn.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -149,7 +149,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 1;
 				defense = 1;
 				cost = 2;
-                description = "";
+                description = "A basic utility unit that is cheap and effective.";
                 //No ability.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -161,7 +161,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 0;
 				defense = 1;
 				cost = 1;
-                description = "";
+                description = "Not intended for combat, but very expendable. These units are best used as a wall from enemy attacks.";
                 //May be flicked twice in the same turn. Limit: 4 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -173,7 +173,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 0;
 				defense = 6;
 				cost = 4;
-                description = "";
+                description = "This piece can be sacrificed in order too return destroyed pieces to your side of the field.";
                 //Can not be flicked. Can be sacrificed to return up to 6 cost worth of troops from the dead to your side of the field (depends on coin toss per attempted piece). Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -185,7 +185,7 @@ public class ClassLookup : MonoBehaviour {
 				attack = 0;
 				defense = 1;
 				cost = 2;
-                description = "";
+                description = "A spell to stop your opponent from utilizing any unit it is in combat with.";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -194,10 +194,10 @@ public class ClassLookup : MonoBehaviour {
 			case "Titan":
 				cName = className.Titan;
 				type = classType.classType1;
-				attack = 3;
+				attack = 6;
 				defense = 4;
 				cost = 7;
-                description = "";
+				description = "A colossal offensive unit. This expensive piece is to be feared.";
                 //No ability.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -209,7 +209,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 8;
                 defense = 2;
                 cost = 4;
-                description = "";
+				description = "KABOOOOOOOOOOOOOOOOOOOOOOOOOOM!!!";
                 //Use flick action to detonate, creating an area of effect collision. Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -236,7 +236,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 2;
                 defense = 20;
                 cost = 0;
-                description = "";
+				description = "The Leaders of their respective forces; Kings are to be protected at all costs. When your King dies, you lose.";
                 //If it is knocked off of the board or defeated, it's owner loses the game. Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -246,8 +246,8 @@ public class ClassLookup : MonoBehaviour {
                 type = classType.classType1;
                 attack = 3;
                 defense = 1;
-                cost = 4;
-                description = "";
+                cost = 3;
+				description = "Your basic attacking unit. Good for throwing at your opponent repeatedly.";
                 //If it lands on your side of the field after the initial flick, it can be flicked a second time in the same turn.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -258,7 +258,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 2;
                 defense = 3;
                 cost = 4;
-                description = "";
+				description = "An excellent defender. Holds the line and can clear your side of the field.";
                 // No ability.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -269,7 +269,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 1;
                 defense = 2;
                 cost = 3;
-                description = "";
+				description = "An espionage expert. This piece can disappear if it lands on your opponent's side, and reappear later!";
                 //If it lands on opponent's side of the field at the end of your turn, you may remove from play. Use your flick action to place on board on a later turn.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -280,7 +280,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 1;
                 defense = 1;
                 cost = 2;
-                description = "";
+				description = "A basic utility unit that is cheap and effective.";
                 //No ability.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -291,7 +291,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 0;
                 defense = 1;
                 cost = 1;
-                description = "";
+				description = "Not intended for combat, but very expendable. These units are best used as a wall from enemy attacks.";
                 //May be flicked twice in the same turn. Limit: 3 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -302,7 +302,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 0;
                 defense = 6;
                 cost = 4;
-                description = "";
+				description = "This piece can be sacrificed in order too return destroyed pieces to your side of the field.";
                 //Can not be flicked. Can be sacrificed to return up to 6 cost worth of troops from the dead to your side of the field (depends on coin toss per attempted piece). Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -313,7 +313,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 0;
                 defense = 1;
                 cost = 2;
-                description = "";
+				description = "A spell to stop your opponent from utilizing any unit it is in combat with.";
                 //Can only be placed on top of an opponent's cube instead of using a flicking action. Stops that cube from being used. Must be flicked off to remove effect.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -321,10 +321,10 @@ public class ClassLookup : MonoBehaviour {
             case "Titan":
                 cName = className.Titan;
                 type = classType.classType1;
-                attack = 3;
+                attack = 6;
                 defense = 4;
                 cost = 7;
-                description = "";
+                description = "A colossal offensive unit. This expensive piece is to be feared.";
                 //No ability.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
@@ -335,7 +335,7 @@ public class ClassLookup : MonoBehaviour {
                 attack = 0;
                 defense = 2;
                 cost = 4;
-                description = "";
+                description = "KABOOOOOOOOOOOOOOOOOOOOOOOOOOM!!!";
                 //Use flicking action to detonate, creating an area of effect collision. Limit: 1 per player per round.
                 texture[0] = p1Textures[cName];
                 texture[1] = p2Textures[cName];
