@@ -68,7 +68,7 @@ public class Cube : MonoBehaviour {
 		//StateMachine.battlePhase(); //For turning batttle on/off
 	}
 
-	void Update(){
+	void Update() {
 		switch (playState) {
 		case PlayState.idle:
 			if (changeToAiming) {
@@ -83,6 +83,7 @@ public class Cube : MonoBehaviour {
 				GameDriver.selectLightOff ();
 				GameDriver.gameDriver.isCubeSelected = false;
 				playState = PlayState.idle;
+                    GameDriver.selectLightOff();
 				break;
 			}
 			//alter hit position
@@ -129,6 +130,7 @@ public class Cube : MonoBehaviour {
 				}
 			}
 			UpdatelaunchVelocity ();
+
 
 			if (Input.GetMouseButtonDown(0)) {
 				isKinematic = false;
@@ -269,7 +271,7 @@ public class Cube : MonoBehaviour {
             {
                 if(hit.gameObject.GetComponent<Rigidbody>() != null)
                 {
-                    hit.gameObject.GetComponent<Rigidbody>().AddExplosionForce(GetComponent<UnitClass>().attack*250, this.gameObject.transform.position, GetComponent<UnitClass>().attack);
+                    hit.gameObject.GetComponent<Rigidbody>().AddExplosionForce(GetComponent<UnitClass>().attack*215, this.gameObject.transform.position, GetComponent<UnitClass>().attack);
                 }
             }
             GameDriver.checkCubeMovement();

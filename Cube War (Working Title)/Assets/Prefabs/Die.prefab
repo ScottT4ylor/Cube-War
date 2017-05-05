@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 54529293110827546}
   - component: {fileID: 114007992005776548}
   - component: {fileID: 114110244544113526}
+  - component: {fileID: 114955469432584214}
   m_Layer: 11
   m_Name: Die
   m_TagString: Cube
@@ -148,3 +149,15 @@ MonoBehaviour:
   pointCost: 0
   unitTexture:
   - {fileID: 0}
+--- !u!114 &114955469432584214
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1249326618011934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae791104ac746cb42b93f507346bbc7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  incomingForce: {x: 0, y: 0, z: 0}
